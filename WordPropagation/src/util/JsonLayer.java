@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,7 +36,7 @@ public class JsonLayer {
 		FileWriter fr1;
 		try {
 			s = new Scanner(p.toFile());
-			toRet = p.resolve("-mod");
+			toRet = Paths.get(p.toString()+"-mod");
 			fr1 = new FileWriter(toRet.toFile());
 			fr1.write("[");
 			while (s.hasNextLine()) {

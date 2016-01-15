@@ -11,8 +11,7 @@
     <property name="source" value="1.8"/>
     <path id="WordPropagation.classpath">
         <pathelement location="bin"/>
-        <pathelement location="lib/javax.json-api-1.0.jar"/>
-        <pathelement location="lib/javax.json-1.0.4.jar"/>
+        <pathelement location="lib/javax.json.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
