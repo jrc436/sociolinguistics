@@ -12,15 +12,16 @@ public class CountMain {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		JsonLayer jl = new JsonLayer(Paths.get("/Data/Reddit/RC_2012-01"));
+		JsonLayer jl = new JsonLayer(Paths.get(args[0]));
 		List<Map<String, String>> jsons = jl.getReadable();
 		WordMap counts = new WordMap();
 		for (Map<String, String> json : jsons) {
 			counts.addSentence(json.get("body"));
 		}
 		try {
-			FileWriter fw = new FileWriter("/home/jrc/sociolinguistics/testcounts");
+			FileWriter fw = new FileWriter(args[1]);
 			fw.write(counts.toString());
+			fw.close();
 		}
 		catch (IOException ie) {
 			ie.printStackTrace();

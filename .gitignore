@@ -1,5 +1,7 @@
 data/swbd.ccg
 
+WordPropagation/test/
+
 *.local
 *.cached
 *.lisp~

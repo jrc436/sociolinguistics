@@ -38,9 +38,22 @@ public class JsonLayer {
 			s = new Scanner(p.toFile());
 			toRet = Paths.get(p.toString()+"-mod");
 			fr1 = new FileWriter(toRet.toFile());
-			fr1.write("[");
+			fr1.write("["+System.getProperty("line.separator"));
+			List<String> lines = new ArrayList<String>();
 			while (s.hasNextLine()) {
-				fr1.write(s.nextLine()+","+System.getProperty("line.separator"));
+				String line = s.nextLine();
+				if (line.trim().isEmpty()) {
+					continue;
+				}
+				lines.add(line); 
+			}
+			for (int i = 0; i < lines.size(); i++) {
+				if (i == lines.size() -1) {
+					fr1.write(lines.get(i)+System.getProperty("line.separator"));
+				}
+				else {
+					fr1.write(lines.get(i)+","+System.getProperty("line.separator"));
+				}
 			}
 			fr1.write("]");
 			s.close();
