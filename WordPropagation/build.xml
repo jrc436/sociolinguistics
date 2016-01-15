@@ -51,6 +51,7 @@
     </target>
     <target name="CountMain">
         <java classname="wordcounter.CountMain" failonerror="true" fork="yes">
+            <arg line="/work/research/sociolinguistics/WordPropagation/jsontest /work/research/sociolinguistics/WordPropagation/jsonout"/>
             <classpath refid="WordPropagation.classpath"/>
         </java>
     </target>
