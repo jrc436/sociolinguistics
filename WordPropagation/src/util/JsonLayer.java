@@ -21,9 +21,17 @@ import javax.json.JsonValue;
 
 public class JsonLayer {
 	private JsonReader jr;
-	public JsonLayer(Path p) {
+	public JsonLayer(Path p, boolean needsProcess) {
 		try {
-			jr = Json.createReader(new FileReader(preProcess(p).toFile()));
+			if (needsProcess) {
+				System.out.println("Beginning pre-processing, file will be saved in: "+p.toString()+"-mod");
+				jr = Json.createReader(new FileReader(preProcess(p).toFile()));
+			}
+			else {
+				System.out.println("Creating JsonReader, skipping preprocessing");
+				jr = Json.createReader(new FileReader(p.toFile()));
+				System.out.println("Finished Creating reader");
+			}
 		}
 		catch (FileNotFoundException fe) {
 			System.err.println("No readable file at path: "+p.toString()+" was found");
@@ -70,7 +78,7 @@ public class JsonLayer {
 	public List<Map<String, String>> getReadable() {
 		List<Map<String, String>> allMessages = new ArrayList<Map<String, String>>();
 		JsonArray ja = jr.readArray();
-		 
+		System.out.println("Reading JsonArray finished");
 		Iterator<JsonValue> it = ja.iterator();
 		while (it.hasNext()) {
 			Map<String, String> message = new HashMap<String, String>();
@@ -88,6 +96,7 @@ public class JsonLayer {
 				System.exit(1);
 			}
 		}
+		System.out.println("Transformed into Map finished");
 		return allMessages;
 	}
 }
