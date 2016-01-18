@@ -23,30 +23,52 @@ public class JsonLayer {
 	private JsonReader jr;
 	public JsonLayer(Path p) {
 		try {
-			jr = Json.createReader(new FileReader(preProcess(p).toFile()));
+			jr = Json.createReader(new FileReader(p.toFile()));
 		}
 		catch (FileNotFoundException fe) {
 			System.err.println("No readable file at path: "+p.toString()+" was found");
 			System.exit(1);
 		} 
 	}
-	private static Path preProcess(Path p) {
+	public static void preProcess(Path inp, Path outFolder) {
 		Scanner s;
 		Path toRet = null;
 		FileWriter fr1;
 		try {
-			s = new Scanner(p.toFile());
-			toRet = Paths.get(p.toString()+"-mod");
-			fr1 = new FileWriter(toRet.toFile());
-			fr1.write("["+System.getProperty("line.separator"));
+			int fileNum = 0;
+			String numAppend = String.format("%03d", fileNum);
+			s = new Scanner(inp.toFile());
+			toRet = outFolder.resolve(inp.getFileName()+"-mod"+numAppend);
+			
 			List<String> lines = new ArrayList<String>();
 			while (s.hasNextLine()) {
 				String line = s.nextLine();
 				if (line.trim().isEmpty()) {
 					continue;
 				}
-				lines.add(line); 
+				lines.add(line);
+				if (lines.size() >= 10000) {
+					fr1 = new FileWriter(toRet.toFile());
+					fr1.write("["+System.getProperty("line.separator"));
+					for (int i = 0; i < lines.size(); i++) {
+						if (i == lines.size() -1) {
+							fr1.write(lines.get(i)+System.getProperty("line.separator"));
+						}
+						else {
+							fr1.write(lines.get(i)+","+System.getProperty("line.separator"));
+						}
+					}
+					fr1.write("]");
+					fr1.close();
+					lines.clear();
+					fileNum++;
+					numAppend = String.format("%2d", fileNum);
+					toRet = outFolder.resolve(inp.getFileName()+"-mod"+numAppend);
+				}
 			}
+			//final write
+			fr1 = new FileWriter(toRet.toFile());
+			fr1.write("["+System.getProperty("line.separator"));
 			for (int i = 0; i < lines.size(); i++) {
 				if (i == lines.size() -1) {
 					fr1.write(lines.get(i)+System.getProperty("line.separator"));
@@ -56,8 +78,8 @@ public class JsonLayer {
 				}
 			}
 			fr1.write("]");
-			s.close();
 			fr1.close();
+			s.close();
 		} 
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -65,8 +87,8 @@ public class JsonLayer {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		return toRet;
 	}
+
 	public List<Map<String, String>> getReadable() {
 		List<Map<String, String>> allMessages = new ArrayList<Map<String, String>>();
 		JsonArray ja = jr.readArray();
