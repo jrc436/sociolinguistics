@@ -1,6 +1,7 @@
 data/swbd.ccg
 
 WordPropagation/test/
+modred/
 
 *.local
 *.cached
