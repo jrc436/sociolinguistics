@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import util.StringCleaner;
@@ -14,15 +15,24 @@ public class Conflict {
 	private final String name;
 	private final FileWriter fw;
 	public Conflict(Path outFolder, String name, String...keywords) throws IOException {
-		for (int i = 0; i < keywords.length; i++) {
-			keywords[i] = StringCleaner.cleanPhrase(keywords[i]);
+		this(outFolder, name, Arrays.asList(keywords));
+	}
+	public Conflict(Path outFolder, String name, List<String> keywords) throws IOException {
+		this.keywords = new HashSet<String>();
+		for (int i = 0; i < keywords.size(); i++) {
+			String keyword = StringCleaner.cleanPhrase(keywords.get(i));
+			if (!keyword.isEmpty()) {
+				this.keywords.add(keyword);
+			}
 		}
-		this.keywords = new HashSet<String>(Arrays.asList(keywords));
 		this.name = name;
 		this.fw = new FileWriter(outFolder.resolve(name).toFile());
 	}
 	public boolean relevant(String commentText) {
 		String comment = StringCleaner.cleanPhrase(commentText);
+		if (commentText.isEmpty()) {
+			return false;
+		}
 		for (String key : keywords) {
 			if (comment.contains(key)) {
 				return true;

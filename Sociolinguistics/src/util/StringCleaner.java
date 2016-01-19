@@ -13,7 +13,7 @@ public class StringCleaner {
 				ret += cleanWord(word) + " ";
 			}
 		}
-		return ret.substring(0, ret.length()-1);
+		return ret.isEmpty() ? "" : ret.substring(0, ret.length()-1);
 	}
 	public static String cleanWord(String word) {
 		return superTrim(word).toLowerCase();
