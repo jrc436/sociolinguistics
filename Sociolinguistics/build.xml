@@ -3,13 +3,13 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="WordPropagation">
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Sociolinguistics">
     <property environment="env"/>
     <property name="ECLIPSE_HOME" value="../../../../opt/eclipse/"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
-    <path id="WordPropagation.classpath">
+    <path id="Sociolinguistics.classpath">
         <pathelement location="bin"/>
         <pathelement location="lib/javax.json.jar"/>
     </path>
@@ -17,7 +17,6 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
-                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -32,7 +31,7 @@
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
-            <classpath refid="WordPropagation.classpath"/>
+            <classpath refid="Sociolinguistics.classpath"/>
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
@@ -49,10 +48,16 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+    <target name="CommentOrganizer">
+        <java classname="armedconflicts.CommentOrganizer" failonerror="true" fork="yes">
+            <arg line="/work/research/sociolinguistics/test/inp"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
     <target name="CountMain">
         <java classname="wordcounter.CountMain" failonerror="true" fork="yes">
-            <arg line="/work/research/sociolinguistics/WordPropagation/jsontest /work/research/sociolinguistics/WordPropagation/jsonout"/>
-            <classpath refid="WordPropagation.classpath"/>
+            <arg line="/work/research/sociolinguistics/WordPropagation/test/inp /work/research/sociolinguistics/WordPropagation/test/out"/>
+            <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
 </project>

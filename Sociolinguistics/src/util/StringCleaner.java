@@ -8,7 +8,10 @@ public class StringCleaner {
 		String[] words = comment.split(" ");
 		String ret = "";
 		for (String word : words) {
-			ret += cleanWord(word) + " ";
+			String cleaned = cleanWord(word);
+			if (!cleaned.isEmpty()) {
+				ret += cleanWord(word) + " ";
+			}
 		}
 		return ret.substring(0, ret.length()-1);
 	}
