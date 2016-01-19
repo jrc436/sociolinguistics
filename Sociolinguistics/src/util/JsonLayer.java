@@ -1,46 +1,50 @@
 package util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.Queue;
 import java.util.Scanner;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.json.JsonValue;
 
 public class JsonLayer {
-	private JsonReader jr;
-	public JsonLayer(Path p, boolean needsProcess) {
-//		try {
-//<<<<<<< HEAD
-//			jr = Json.createReader(new FileReader(p.toFile()));
-//=======
-//			if (needsProcess) {
-//				System.out.println("Beginning pre-processing, file will be saved in: "+p.toString()+"-mod");
-//				jr = Json.createReader(new FileReader(preProcess(p).toFile()));
-//			}
-//			else {
-//				System.out.println("Creating JsonReader, skipping preprocessing");
-//				jr = Json.createReader(new FileReader(p.toFile()));
-//				System.out.println("Finished Creating reader");
-//			}
-//>>>>>>> 6a3677aae4180217453e506072832c07d5325349
-//		}
-//		catch (FileNotFoundException fe) {
-//			System.err.println("No readable file at path: "+p.toString()+" was found");
-//			System.exit(1);
-//		} 
+	private Queue<File> processedFiles;
+	public JsonLayer(Path processedFileDir) {
+		try {
+			processedFiles = new LinkedList<File>(Arrays.asList(processedFileDir.toFile().listFiles()));
+		}
+		catch (NullPointerException npe) {
+			System.err.println("Folder at path: "+processedFileDir.toString()+ " was not found!");
+		}
+		catch (Exception e) {
+			System.err.println("Error in reading: "+processedFileDir.toString());
+			System.err.println(e.getMessage());
+		}
+	}
+	public static String collectJsons(List<JsonReadable> transformation) {
+		String ret = "["+System.getProperty("line.separator");
+		for (int i = 0; i < transformation.size(); i++) {
+			if (i == transformation.size() -1) {
+				ret += transformation.get(i).toString()+System.getProperty("line.separator");
+			}
+			else {
+				ret += transformation.get(i).toString()+","+System.getProperty("line.separator");
+			}
+		}
+		ret += "]";
+		return ret;
 	}
 	public static void preProcess(Path inp, Path outFolder) {
 		Scanner s;
@@ -101,13 +105,29 @@ public class JsonLayer {
 		}
 	}
 
-	public List<Map<String, String>> getReadable() {
-		List<Map<String, String>> allMessages = new ArrayList<Map<String, String>>();
-		JsonArray ja = jr.readArray();
+	public List<JsonReadable> getNextReadable() {
+		List<JsonReadable> allMessages = new ArrayList<JsonReadable>();
+		FileReader fr = null;
+		File f = null;
+		synchronized(this) {
+			if (processedFiles.peek() == null) {
+				return null;
+			}
+			f = processedFiles.poll();
+		}
+		try {
+			fr = new FileReader(f);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.err.println("Skipping file that's supposed to be at: "+f.getAbsolutePath());
+			return allMessages;
+		}
+		JsonArray ja = Json.createReader(fr).readArray();
 		System.out.println("Reading JsonArray finished");
 		Iterator<JsonValue> it = ja.iterator();
 		while (it.hasNext()) {
-			Map<String, String> message = new HashMap<String, String>();
+			JsonReadable message = new JsonReadable();
 			JsonValue jv = it.next();
 			try {
 				JsonObject jo = (JsonObject) jv;

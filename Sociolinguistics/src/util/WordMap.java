@@ -24,11 +24,10 @@ public class WordMap extends HashMap<String, Integer>{
 	public void addSentence(String s) {
 		String[] words = s.split(" ");
 		for (String word : words) {
-			word = superTrim(word);
+			word = StringCleaner.cleanWord(word);
 			if (word.isEmpty()) {
 				continue;
 			}
-			word = word.toLowerCase();
 			if (this.containsKey(word)) {
 				this.put(word, this.get(word)+1);
 			}
@@ -37,19 +36,7 @@ public class WordMap extends HashMap<String, Integer>{
 			}
 		}
 	}
-	private static String superTrim(String word) {
-		word = word.trim();
-		while (!word.isEmpty() && illegalCharacterCheck(word.charAt(0))) {
-			word = word.substring(1);
-		}
-		while (!word.isEmpty() && illegalCharacterCheck(word.charAt(word.length()-1))) {
-			word = word.substring(0, word.length()-1);
-		}
-		return word;
-	}
-	private static boolean illegalCharacterCheck(char c) {
-		return (c == '"' || c == '\'' || c == '.' || c == ',' || c == '\\' || c == '/' || c == '?' || c == '!' || c == '~' || c == '#' || c=='(' || c==')');
-	}
+	
 	public String toString() {
 		String aggregate = "";
 		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(this.entrySet());
