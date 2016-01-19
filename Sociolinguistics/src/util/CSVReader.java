@@ -16,7 +16,7 @@ public class CSVReader {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		cells = new String[lines.get(0).split(",").length][lines.size()];
+		cells = new String[lines.size()][lines.get(0).split(",").length];
 		for (int i = 0; i < lines.size(); i++) {
 			String[] lineCells = lines.get(i).split(",");
 			for (int j = 0; j < lineCells.length; j++) {
@@ -32,9 +32,12 @@ public class CSVReader {
 				break;
 			}
 		}
-		String[] vec = new String[cells[0].length-1];
-		for (int i = 1; i < vec.length; i++) {
-			vec[i-1] = cells[titleVec][i];
+		if (titleVec == -1) {
+			throw new IllegalArgumentException("Title: "+title+" not found in the CSV");
+		}
+		String[] vec = new String[cells.length-1];
+		for (int i = 1; i < vec.length+1; i++) {
+			vec[i-1] = cells[i][titleVec];
 		}
 		return vec;
 	}

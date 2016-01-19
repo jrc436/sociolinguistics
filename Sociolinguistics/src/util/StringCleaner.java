@@ -2,7 +2,7 @@ package util;
 
 public class StringCleaner {
 	public static String sanitizeForFiles(String futureFilePath) {
-		return futureFilePath.replace(' ', '_').replace(")", "").replace('(', '-');
+		return futureFilePath.replace(" (", "-").replace(' ', '_').replace(")", "").replace('(', '-').replace('/', '-');
 	}
 	public static String cleanPhrase(String comment) {
 		String[] words = comment.split(" ");

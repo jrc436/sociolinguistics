@@ -25,15 +25,19 @@ import util.StringCleaner;
 
 class CommentWriteThread implements Runnable {
 	private final JsonLayer jl;
+	private final int threadNum;
 	private final List<Conflict> copyConflicts;
-	public CommentWriteThread(JsonLayer jl, List<Conflict> copyOfConflicts) {
+	public CommentWriteThread(int threadNum, JsonLayer jl, List<Conflict> copyOfConflicts) {
 		this.jl = jl;
 		copyConflicts = new ArrayList<Conflict>(copyOfConflicts);
+		this.threadNum = threadNum;
 	}
 	@Override
 	public void run() {
 		List<JsonReadable> comments = jl.getNextReadable();
 		while (comments != null) {
+			System.out.println("Thread"+threadNum+" has acquired another set of comments");
+			System.out.println("There are "+jl.numReadableRemaining()+" files remaining");
 			for (JsonReadable comment : comments) {
 				for (Conflict c : copyConflicts) {
 					if (c.relevant(comment.get("body"))) {
@@ -43,6 +47,7 @@ class CommentWriteThread implements Runnable {
 			}
 			comments = jl.getNextReadable();
 		}
+		System.out.println("Thread"+threadNum+ " will close now, as there are no more files to process");
 	}
 }
 public class CommentOrganizer {
@@ -55,8 +60,9 @@ public class CommentOrganizer {
 		JsonLayer jl = new JsonLayer(Paths.get(args[0]));
 		ExecutorService es = Executors.newCachedThreadPool();
 		for (int i = 0; i < 8; i++) {
-			es.execute(new CommentWriteThread(jl, new ArrayList<Conflict>(conflicts)));
+			es.execute(new CommentWriteThread(i, jl, new ArrayList<Conflict>(conflicts)));
 		}
+		es.shutdown();
 	}
 	private static List<Conflict> initializeConflicts(Path csvFile, Path outDir) {
 		CSVReader csv = new CSVReader(csvFile, '$');
@@ -65,7 +71,7 @@ public class CommentOrganizer {
 		String[] keywords = csv.getVectorByTitle("Alias/Keywords");
 		for (int i = 0; i < conflictNames.length; i++) {
 			try {
-				conflicts.add(new Conflict(outDir, StringCleaner.sanitizeForFiles(conflictNames[i]), keywords[i].split(",")));
+				conflicts.add(new Conflict(outDir, StringCleaner.sanitizeForFiles(conflictNames[i])+".txt", keywords[i].split(",")));
 			} catch (IOException e) {
 				System.err.println("Conflict: "+conflictNames[i]+" failed to initialize");
 				e.printStackTrace();

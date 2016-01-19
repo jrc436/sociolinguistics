@@ -104,7 +104,9 @@ public class JsonLayer {
 			e.printStackTrace();
 		}
 	}
-
+	public int numReadableRemaining() {
+		return processedFiles.size();
+	}
 	public List<JsonReadable> getNextReadable() {
 		List<JsonReadable> allMessages = new ArrayList<JsonReadable>();
 		FileReader fr = null;
@@ -124,7 +126,7 @@ public class JsonLayer {
 			return allMessages;
 		}
 		JsonArray ja = Json.createReader(fr).readArray();
-		System.out.println("Reading JsonArray finished");
+		//System.out.println("Reading JsonArray finished");
 		Iterator<JsonValue> it = ja.iterator();
 		while (it.hasNext()) {
 			JsonReadable message = new JsonReadable();
@@ -142,7 +144,7 @@ public class JsonLayer {
 				System.exit(1);
 			}
 		}
-		System.out.println("Transformed into Map finished");
+	//	System.out.println("Transformed into Map finished");
 		return allMessages;
 	}
 }
