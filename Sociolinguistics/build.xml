@@ -50,7 +50,7 @@
     </target>
     <target name="CommentOrganizer">
         <java classname="armedconflicts.CommentOrganizer" failonerror="true" fork="yes">
-            <arg line="/work/research/sociolinguistics/test/inp"/>
+            <arg line="/work/research/sociolinguistics/test/inp /work/research/sociolinguistics/test/out /work/research/sociolinguistics/armed-conflicts.csv"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
