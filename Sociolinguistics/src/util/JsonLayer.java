@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +34,34 @@ public class JsonLayer {
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	/**
+	 * small files
+	 */
+	public static void inPlaceProcess(Path inpDirectory) {
+		File[] listOfFiles = inpDirectory.toFile().listFiles();
+		for (File f : listOfFiles) {
+			try {
+				List<String> lines = Files.readAllLines(f.toPath());
+				FileWriter fw = new FileWriter(f);
+				fw.write("["+System.getProperty("line.separator"));
+				for (int i = 0; i < lines.size(); i++) {
+					if (i == lines.size()-1) {
+						fw.write(lines.get(i)+System.getProperty("line.separator"));
+					}
+					else {
+						fw.write(lines.get(i)+","+System.getProperty("line.separator"));
+					}
+				}
+				fw.write("]");
+				fw.close();
+			} catch (IOException e) {
+				System.err.println("Error reading "+f.toPath());
+				System.err.println(e.getMessage());
+				continue;
+			}
+		}
+	}
 	public static String collectJsons(List<JsonReadable> transformation) {
 		String ret = "["+System.getProperty("line.separator");
 		for (int i = 0; i < transformation.size(); i++) {
@@ -46,6 +75,11 @@ public class JsonLayer {
 		ret += "]";
 		return ret;
 	}
+	/**
+	 * big files
+	 * @param inp
+	 * @param outFolder
+	 */
 	public static void preProcess(Path inp, Path outFolder) {
 		Scanner s;
 		Path toRet = null;
@@ -107,16 +141,9 @@ public class JsonLayer {
 	public int numReadableRemaining() {
 		return processedFiles.size();
 	}
-	public List<JsonReadable> getNextReadable() {
+	private List<JsonReadable> getReadable(File f) {
 		List<JsonReadable> allMessages = new ArrayList<JsonReadable>();
 		FileReader fr = null;
-		File f = null;
-		synchronized(this) {
-			if (processedFiles.peek() == null) {
-				return null;
-			}
-			f = processedFiles.poll();
-		}
 		try {
 			fr = new FileReader(f);
 		} catch (FileNotFoundException e1) {
@@ -146,5 +173,27 @@ public class JsonLayer {
 		}
 	//	System.out.println("Transformed into Map finished");
 		return allMessages;
+	}
+	public List<JsonReadable> getReadableByName(String f) {
+		File r = null;
+		synchronized (this) {
+			for (File s : processedFiles) {
+				if (s.getName().equals(f)) {
+					r = s;
+					break;
+				}
+			}		
+		}
+		return r == null ? null : getReadable(r);
+	}
+	public List<JsonReadable> getNextReadable() {	
+		File f = null;
+		synchronized(this) {
+			if (processedFiles.peek() == null) {
+				return null;
+			}
+			f = processedFiles.poll();
+		}
+		return getReadable(f);	
 	}
 }

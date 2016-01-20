@@ -24,7 +24,16 @@ public class CSVReader {
 			}	
 		}
 	}
-	public String[] getVectorByTitle(String title) {
+	public String[][] getCleanedCells() {
+		String[][] newCells = new String[cells.length][cells[0].length];
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[0].length; j++) {
+				newCells[i][j] = StringCleaner.sanitizeForFiles(cells[i][j]);
+			}
+		}
+		return newCells;
+	}
+	public String[] getColumnByTitle(String title) {
 		int titleVec = -1;
 		for (int i = 0; i < cells[0].length; i++) {
 			if (cells[0][i].contains(title)) {

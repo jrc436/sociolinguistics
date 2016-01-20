@@ -67,8 +67,8 @@ public class CommentOrganizer {
 	private static List<Conflict> initializeConflicts(Path csvFile, Path outDir) {
 		CSVReader csv = new CSVReader(csvFile, '$');
 		List<Conflict> conflicts = new ArrayList<Conflict>();
-		String[] conflictNames = csv.getVectorByTitle("Conflict/Country Name");
-		String[] keywords = csv.getVectorByTitle("Alias/Keywords");
+		String[] conflictNames = csv.getColumnByTitle("Conflict/Country Name");
+		String[] keywords = csv.getColumnByTitle("Alias/Keywords");
 		for (int i = 0; i < conflictNames.length; i++) {
 			try {
 				conflicts.add(new Conflict(outDir, StringCleaner.sanitizeForFiles(conflictNames[i])+".txt", keywords[i].split(",")));
