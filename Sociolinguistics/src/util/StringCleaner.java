@@ -1,8 +1,19 @@
 package util;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
+
 public class StringCleaner {
 	public static String sanitizeForFiles(String futureFilePath) {
-		return futureFilePath.replace(" (", "-").replace(' ', '_').replace(")", "").replace('(', '-').replace('/', '-');
+		try { 
+			return ""+NumberFormat.getNumberInstance(Locale.US).parse(futureFilePath); 
+		}
+		catch (NumberFormatException nfe) {	
+			return futureFilePath.replace(" (", "-").replace(' ', '_').replace(")", "").replace('(', '-').replace('/', '-').replace(',', ':');
+		} catch (ParseException e) {
+			return futureFilePath.replace(" (", "-").replace(' ', '_').replace(")", "").replace('(', '-').replace('/', '-').replace(',', ':');
+		}
 	}
 	public static String cleanPhrase(String comment) {
 		String[] words = comment.split(" ");
