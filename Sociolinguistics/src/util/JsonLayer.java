@@ -34,32 +34,38 @@ public class JsonLayer {
 			System.err.println(e.getMessage());
 		}
 	}
-	
+	public static void processIfNeeded(File f, String mod) {
+		try {
+			List<String> lines = Files.readAllLines(f.toPath());
+			if (lines.isEmpty()) {
+				System.err.println(f.toPath()+ " is empty, can't process");
+				return;
+			}
+			FileWriter fw = new FileWriter(f.toPath().toString()+mod);
+			fw.write("["+System.getProperty("line.separator"));
+			for (int i = 0; i < lines.size(); i++) {
+				if (i == lines.size()-1) {
+					fw.write(lines.get(i)+System.getProperty("line.separator"));
+				}
+				else {
+					fw.write(lines.get(i)+","+System.getProperty("line.separator"));
+				}
+			}
+			fw.write("]");
+			fw.close();
+		} catch (IOException e) {
+			System.err.println("Error reading "+f.toPath());
+			System.err.println(e.getMessage());
+			return;
+		}
+	}	
 	/**
 	 * small files
 	 */
-	public static void inPlaceProcess(Path inpDirectory) {
+	public static void processInPlace(Path inpDirectory, String mod) {
 		File[] listOfFiles = inpDirectory.toFile().listFiles();
 		for (File f : listOfFiles) {
-			try {
-				List<String> lines = Files.readAllLines(f.toPath());
-				FileWriter fw = new FileWriter(f);
-				fw.write("["+System.getProperty("line.separator"));
-				for (int i = 0; i < lines.size(); i++) {
-					if (i == lines.size()-1) {
-						fw.write(lines.get(i)+System.getProperty("line.separator"));
-					}
-					else {
-						fw.write(lines.get(i)+","+System.getProperty("line.separator"));
-					}
-				}
-				fw.write("]");
-				fw.close();
-			} catch (IOException e) {
-				System.err.println("Error reading "+f.toPath());
-				System.err.println(e.getMessage());
-				continue;
-			}
+			processIfNeeded(f);
 		}
 	}
 	public static String collectJsons(List<JsonReadable> transformation) {

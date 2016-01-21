@@ -1,7 +1,9 @@
 data/swbd.ccg
 
+conflictcomments/
 test/
 modred/
+*count.bash
 
 *.local
 *.cached
