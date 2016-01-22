@@ -54,7 +54,7 @@ public class CountMain {
 		File folder = new File(args[0]);
 		File[] listOfFiles = folder.listFiles();
 		for (File bigRed : listOfFiles) {
-			JsonLayer.preProcess(bigRed.toPath(), Paths.get(args[1]));
+			JsonLayer.processAndSplit(bigRed.toPath(), Paths.get(args[1]));
 		}
 //=======
 //		// TODO Auto-generated method stub

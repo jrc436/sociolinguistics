@@ -17,6 +17,9 @@ public class Conflict {
 	public Conflict(Path outFolder, String name, String...keywords) throws IOException {
 		this(outFolder, name, Arrays.asList(keywords));
 	}
+	public String toString() {
+		return name+"="+keywords.toString();
+	}
 	public Conflict(Path outFolder, String name, List<String> keywords) throws IOException {
 		this.keywords = new HashSet<String>();
 		for (int i = 0; i < keywords.size(); i++) {

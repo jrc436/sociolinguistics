@@ -1,6 +1,7 @@
 package util;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -23,18 +25,68 @@ import javax.json.JsonValue;
 public class JsonLayer {
 	private Queue<File> processedFiles;
 	public JsonLayer(Path processedFileDir) {
+		this(processedFileDir, new FileFilter() {
+			@Override
+			public boolean accept(File f) {
+				return true; 
+			}});
+	}
+	public JsonLayer(Path processedFileDir, String matchRegex) {
+		this(processedFileDir, new FileFilter() {
+			@Override
+			public boolean accept(File f) {
+				return Pattern.matches(matchRegex, f.getName()); 
+			}});
+	}
+	private JsonLayer(Path processedFileDir, FileFilter f) {
 		try {
-			processedFiles = new LinkedList<File>(Arrays.asList(processedFileDir.toFile().listFiles()));
+			processedFiles = new LinkedList<File>(Arrays.asList(processedFileDir.toFile().listFiles(f)));
 		}
 		catch (NullPointerException npe) {
 			System.err.println("Folder at path: "+processedFileDir.toString()+ " was not found!");
+			System.exit(1);
 		}
 		catch (Exception e) {
 			System.err.println("Error in reading: "+processedFileDir.toString());
 			System.err.println(e.getMessage());
+			System.exit(1);
 		}
 	}
-	public static void processIfNeeded(File f, String mod) {
+	public static void undoDamage(Path inpDirectory) {
+		File[] listOfFiles = inpDirectory.toFile().listFiles();
+		for (File f : listOfFiles) {
+			undoFileDamage(f);
+		}
+	}
+	private static void undoFileDamage(File f) {
+		try {
+			List<String> lines = Files.readAllLines(f.toPath());
+			if (lines.isEmpty()) {
+				System.err.println(f.toPath()+ " is empty, can't process");
+				return;
+			}
+			FileWriter fw = new FileWriter(f.toPath().toString());
+			fw.write("["+System.getProperty("line.separator"));
+			for (int i = 0; i < lines.size(); i++) {
+				if (lines.get(i).contains("],") || lines.get(i).contains("[,")) {
+					continue;
+				}
+				if (i == lines.size()-1) {
+					fw.write(lines.get(i).substring(0, lines.get(i).length()-3)+System.getProperty("line.separator"));
+				}
+				else {
+					fw.write(lines.get(i).substring(0, lines.get(i).length()-3)+","+System.getProperty("line.separator"));
+				}
+			}
+			fw.write("]");
+			fw.close();
+		} catch (IOException e) {
+			System.err.println("Error reading "+f.toPath());
+			System.err.println(e.getMessage());
+			return;
+		}
+	}
+	private static void processFile(File f, String mod) {
 		try {
 			List<String> lines = Files.readAllLines(f.toPath());
 			if (lines.isEmpty()) {
@@ -65,7 +117,7 @@ public class JsonLayer {
 	public static void processInPlace(Path inpDirectory, String mod) {
 		File[] listOfFiles = inpDirectory.toFile().listFiles();
 		for (File f : listOfFiles) {
-			processIfNeeded(f);
+			processFile(f, mod);
 		}
 	}
 	public static String collectJsons(List<JsonReadable> transformation) {
@@ -86,7 +138,7 @@ public class JsonLayer {
 	 * @param inp
 	 * @param outFolder
 	 */
-	public static void preProcess(Path inp, Path outFolder) {
+	public static void processAndSplit(Path inp, Path outFolder) {
 		Scanner s;
 		Path toRet = null;
 		FileWriter fr1;
