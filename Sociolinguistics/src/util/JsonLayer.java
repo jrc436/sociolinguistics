@@ -68,14 +68,14 @@ public class JsonLayer {
 			FileWriter fw = new FileWriter(f.toPath().toString());
 			fw.write("["+System.getProperty("line.separator"));
 			for (int i = 0; i < lines.size(); i++) {
-				if (lines.get(i).contains("],") || lines.get(i).contains("[,")) {
+				if (lines.get(i).contains("]") || lines.get(i).contains("[")) {
 					continue;
 				}
-				if (i == lines.size()-1) {
-					fw.write(lines.get(i).substring(0, lines.get(i).length()-3)+System.getProperty("line.separator"));
+				if (i == lines.size()-2) {
+					fw.write(lines.get(i).substring(0, lines.get(i).length()-1)+System.getProperty("line.separator"));
 				}
 				else {
-					fw.write(lines.get(i).substring(0, lines.get(i).length()-3)+","+System.getProperty("line.separator"));
+					fw.write(lines.get(i).substring(0, lines.get(i).length()-3)+"},"+System.getProperty("line.separator"));
 				}
 			}
 			fw.write("]");
@@ -210,24 +210,32 @@ public class JsonLayer {
 			System.err.println("Skipping file that's supposed to be at: "+f.getAbsolutePath());
 			return allMessages;
 		}
-		JsonArray ja = Json.createReader(fr).readArray();
-		//System.out.println("Reading JsonArray finished");
-		Iterator<JsonValue> it = ja.iterator();
-		while (it.hasNext()) {
-			JsonReadable message = new JsonReadable();
-			JsonValue jv = it.next();
-			try {
-				JsonObject jo = (JsonObject) jv;
-				for (String key : jo.keySet()) {
-					message.put(key, jo.get(key).toString());
+		JsonArray ja = null;
+		try {
+			ja = Json.createReader(fr).readArray();
+			//System.out.println("Reading JsonArray finished");
+			Iterator<JsonValue> it = ja.iterator();
+			while (it.hasNext()) {
+				JsonReadable message = new JsonReadable();
+				JsonValue jv = it.next();
+				try {
+					JsonObject jo = (JsonObject) jv;
+					for (String key : jo.keySet()) {
+						message.put(key, jo.get(key).toString());
+					}
+					allMessages.add(message);
 				}
-				allMessages.add(message);
+				catch (Exception e) {
+					System.err.println(e);
+					System.err.println(jv.getClass());
+					System.exit(1);
+				}
 			}
-			catch (Exception e) {
-				System.err.println(e);
-				System.err.println(jv.getClass());
-				System.exit(1);
-			}
+		}
+		catch (javax.json.stream.JsonParsingException jpe) {
+			System.err.println(f.toPath());
+			System.err.println(jpe.getMessage());
+			System.exit(1);
 		}
 	//	System.out.println("Transformed into Map finished");
 		return allMessages;
