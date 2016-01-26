@@ -29,7 +29,7 @@ public class SentimentLayer {
 		line = line.trim();
 		if (line.length() > 0) {
 			Annotation annotation = tokenizer.process(line);
-			pipeline.annotate(annotation);
+			pipeline.annotate(annotation);			
 			for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
 				String sent = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
 				if (sent.equals("Very negative")) {
