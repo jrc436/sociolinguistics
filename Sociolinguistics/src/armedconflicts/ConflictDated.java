@@ -16,9 +16,10 @@ public class ConflictDated {
 		CSVReader csv = new CSVReader(Paths.get(pathToCSV), commaRep);
 		String[] names = csv.getColumnByTitle("Conflict");
 		Map<String, ConflictDated> conflicts = new HashMap<String, ConflictDated>();
-		for (String name : names) {
-			String n = StringCleaner.sanitizeForFiles(name);
+		for (int i = 0; i < names.length; i++) {
+			String n = StringCleaner.sanitizeForFiles(names[i]);
 			conflicts.put(n, new ConflictDated());
+			names[i] = n;
 		}
 		
 		for (int i = 2012; i < 2015; i++) {
@@ -27,10 +28,10 @@ public class ConflictDated {
 				for (int j = 0; j < conflicts.size(); j++) {
 					//conflicts should be in the same order as data and names
 					if (data[j].equals("NULL")) {
-						conflicts.get(j).appendData(c, i, -1);
+						conflicts.get(names[j]).appendData(c, i, -1);
 					}
 					else {
-						conflicts.get(j).appendData(c, i, Integer.parseInt(data[j]));
+						conflicts.get(names[j]).appendData(c, i, Integer.parseInt(StringCleaner.sanitizeForFiles(data[j])));
 					}
 				}
 			}

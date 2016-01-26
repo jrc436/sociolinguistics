@@ -49,8 +49,6 @@ public class CommentParser {
 	public static void main(String[] args) throws IOException {
 		initHelp();
 		
-		SentimentPipeline.main(args);
-		
 		boolean needsProcess = false;
 		String match = null;
 		if (args.length < 4) {
@@ -124,7 +122,9 @@ public class CommentParser {
 					for (int f = 0; f < 13; f++) {
 						line += cells[i+1][f]+",";
 					}
-					long timestamp = Long.parseLong(j.get("created_utc"));
+					String dat = j.get("created_utc");
+					//for whatever reason, created_utc has quotes!
+					long timestamp = Long.parseLong(dat.substring(1, dat.length()-1));
 					Date d = new Date(timestamp * 1000);
 					c.setTime(d);
 					int year = c.get(Calendar.YEAR);
@@ -134,7 +134,7 @@ public class CommentParser {
 					line += con.getDataForYear(ConflictExternality.IDP, year)+",";
 					line += Integer.parseInt(j.get("score"))+",";
 					line += Integer.parseInt(j.get("controversiality"))+",";
-					line += sl.getOutput(j.get("body"));
+					line += sl.getOutput(j.get("body"))+",";
 					line += j.get("author")+",";
 					line += j.get("subreddit");				
 					newCSVLines.add(line);
