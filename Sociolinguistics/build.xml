@@ -12,6 +12,13 @@
     <path id="Sociolinguistics.classpath">
         <pathelement location="bin"/>
         <pathelement location="lib/javax.json.jar"/>
+        <pathelement location="lib/stanford.corenlp.jar"/>
+        <pathelement location="lib/ejml.jar"/>
+        <pathelement location="lib/jollyday.jar"/>
+        <pathelement location="lib/xom.jar"/>
+        <pathelement location="lib/slf4j-simple.jar"/>
+        <pathelement location="lib/slf4j-api.jar"/>
+        <pathelement location="lib/stanford.corenlp.models.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -54,9 +61,19 @@
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
+    <target name="SentimentTest">
+        <java classname="armedconflicts.SentimentTest" failonerror="true" fork="yes">
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
     <target name="CountMain">
         <java classname="wordcounter.CountMain" failonerror="true" fork="yes">
             <arg line="/work/research/sociolinguistics/WordPropagation/test/inp /work/research/sociolinguistics/WordPropagation/test/out"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="CommentParser">
+        <java classname="armedconflicts.CommentParser" failonerror="true" fork="yes">
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>

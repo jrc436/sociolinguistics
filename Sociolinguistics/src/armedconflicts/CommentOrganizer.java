@@ -26,10 +26,10 @@ import util.StringCleaner;
 class CommentWriteThread implements Runnable {
 	private final JsonLayer jl;
 	private final int threadNum;
-	private final List<Conflict> copyConflicts;
-	public CommentWriteThread(int threadNum, JsonLayer jl, List<Conflict> copyOfConflicts) {
+	private final List<ConflictKeyWord> copyConflicts;
+	public CommentWriteThread(int threadNum, JsonLayer jl, List<ConflictKeyWord> copyOfConflicts) {
 		this.jl = jl;
-		copyConflicts = new ArrayList<Conflict>(copyOfConflicts);
+		copyConflicts = new ArrayList<ConflictKeyWord>(copyOfConflicts);
 		this.threadNum = threadNum;
 	}
 	@Override
@@ -39,7 +39,7 @@ class CommentWriteThread implements Runnable {
 			System.out.println("Thread"+threadNum+" has acquired another set of comments");
 			System.out.println("There are "+jl.numReadableRemaining()+" files remaining");
 			for (JsonReadable comment : comments) {
-				for (Conflict c : copyConflicts) {
+				for (ConflictKeyWord c : copyConflicts) {
 					if (c.relevant(comment.get("body"))) {
 						c.writeComment(comment.toString());
 					}
@@ -56,22 +56,22 @@ public class CommentOrganizer {
 		//args[1] will be the output directory
 		//args[2] will be the path to the csvfile
 		
-		List<Conflict> conflicts = initializeConflicts(Paths.get(args[2]), Paths.get(args[1]));
+		List<ConflictKeyWord> conflicts = initializeConflicts(Paths.get(args[2]), Paths.get(args[1]));
 		JsonLayer jl = new JsonLayer(Paths.get(args[0]));
 		ExecutorService es = Executors.newCachedThreadPool();
 		for (int i = 0; i < 8; i++) {
-			es.execute(new CommentWriteThread(i, jl, new ArrayList<Conflict>(conflicts)));
+			es.execute(new CommentWriteThread(i, jl, new ArrayList<ConflictKeyWord>(conflicts)));
 		}
 		es.shutdown();
 	}
-	private static List<Conflict> initializeConflicts(Path csvFile, Path outDir) {
+	private static List<ConflictKeyWord> initializeConflicts(Path csvFile, Path outDir) {
 		CSVReader csv = new CSVReader(csvFile, '$');
-		List<Conflict> conflicts = new ArrayList<Conflict>();
+		List<ConflictKeyWord> conflicts = new ArrayList<ConflictKeyWord>();
 		String[] conflictNames = csv.getColumnByTitle("Conflict/Country Name");
 		String[] keywords = csv.getColumnByTitle("Alias/Keywords");
 		for (int i = 0; i < conflictNames.length; i++) {
 			try {
-				conflicts.add(new Conflict(outDir, StringCleaner.sanitizeForFiles(conflictNames[i])+".txt", keywords[i].split(",")));
+				conflicts.add(new ConflictKeyWord(outDir, StringCleaner.sanitizeForFiles(conflictNames[i])+".txt", keywords[i].split(",")));
 			} catch (IOException e) {
 				System.err.println("Conflict: "+conflictNames[i]+" failed to initialize");
 				e.printStackTrace();

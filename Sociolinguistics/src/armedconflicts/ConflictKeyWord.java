@@ -10,17 +10,17 @@ import java.util.Set;
 
 import util.StringCleaner;
 
-public class Conflict {
+public class ConflictKeyWord {
 	private final Set<String> keywords;
 	private final String name;
 	private final FileWriter fw;
-	public Conflict(Path outFolder, String name, String...keywords) throws IOException {
+	public ConflictKeyWord(Path outFolder, String name, String...keywords) throws IOException {
 		this(outFolder, name, Arrays.asList(keywords));
 	}
 	public String toString() {
 		return name+"="+keywords.toString();
 	}
-	public Conflict(Path outFolder, String name, List<String> keywords) throws IOException {
+	public ConflictKeyWord(Path outFolder, String name, List<String> keywords) throws IOException {
 		this.keywords = new HashSet<String>();
 		for (int i = 0; i < keywords.size(); i++) {
 			String keyword = StringCleaner.cleanPhrase(keywords.get(i));
