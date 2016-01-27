@@ -3,7 +3,8 @@ data/swbd.ccg
 conflictcomments/
 test/
 modred/
-*count.bash
+count.bash
+parse.bash
 
 *.local
 *.cached
