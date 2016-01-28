@@ -3,11 +3,10 @@ data/swbd.ccg
 conflictcomments/
 test/
 modred/
-count.bash
-parse.bash
 test.csv
 log.txt
 
+*.bash
 *.local
 *.cached
 *.lisp~
