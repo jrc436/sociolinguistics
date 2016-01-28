@@ -5,6 +5,8 @@ test/
 modred/
 count.bash
 parse.bash
+test.csv
+log.txt
 
 *.local
 *.cached

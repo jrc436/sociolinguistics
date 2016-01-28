@@ -39,7 +39,15 @@ public class ConflictDated {
 		return conflicts;
 	}
 	public int getDataForYear(ConflictExternality c, int year) {
-		return data.get(c)[year-2012];
+		try {
+			return data.get(c)[year-2012];
+		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			System.err.println("No data found for year: "+year);
+			System.err.println(data.get(c));
+			System.exit(1);
+		}
+		return -1;
 	}
 	private void appendData(ConflictExternality c, Integer year, Integer value) {
 		if (!data.containsKey(c)) {

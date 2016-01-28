@@ -242,14 +242,12 @@ public class JsonLayer {
 	}
 	public List<JsonReadable> getReadableByName(String f) {
 		File r = null;
-		synchronized (this) {
-			for (File s : processedFiles) {
-				if (s.getName().equals(f)) {
-					r = s;
-					break;
-				}
-			}		
-		}
+		for (File s : processedFiles) {
+			if (s.getName().contains(f)) {
+				r = s;
+				break;
+			}
+		}		
 		return r == null ? null : getReadable(r);
 	}
 	public List<JsonReadable> getNextReadable() {	

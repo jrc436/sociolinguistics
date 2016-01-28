@@ -1,14 +1,9 @@
 package wordcounter;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
 
 import util.JsonLayer;
-import util.WordMap;
 
 public class CountMain {
 

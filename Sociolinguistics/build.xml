@@ -24,6 +24,7 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
+                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -74,6 +75,15 @@
     </target>
     <target name="CommentParser">
         <java classname="armedconflicts.CommentParser" failonerror="true" fork="yes">
+            <jvmarg line="-Xmx3g"/>
+            <arg line="/work/research/sociolinguistics/test/conflictcomments/ /work/research/sociolinguistics/csvfiles/rdata.csv /work/research/sociolinguistics/csvfiles/test.csv /work/research/sociolinguistics/csvfiles/timedata.csv false"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="SentiTest">
+        <java classname="armedconflicts.SentiTest" failonerror="true" fork="yes">
+            <jvmarg line="-Xmx3g"/>
+            <arg line="/work/research/sociolinguistics/test/inp/ /work/research/sociolinguistics/csvfiles/rdata.csv /work/research/sociolinguistics/csvfiles/test.csv /work/research/sociolinguistics/csvfiles/timedata.csv false"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
