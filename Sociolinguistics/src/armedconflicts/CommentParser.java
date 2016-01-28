@@ -119,6 +119,7 @@ public class CommentParser {
 		String[] conflictNames = csv.getColumnByTitle("Conflict");
 		for (int i = 0; i < conflictNames.length; i++) {
 			String fileConflict = StringCleaner.sanitizeForFiles(conflictNames[i]);
+			System.out.println("Starting Thread: "+i+" with conflict: "+fileConflict);
 			es.execute(new Worker(sl, conflictdates, jl, cells, fw, i, fileConflict));			
 		}
 		es.shutdown();
@@ -137,7 +138,7 @@ class Worker implements Runnable {
 	public Worker(SentimentLayer sl, Map<String, ConflictDated> conflictdates, JsonLayer j, String[][] cells, FileWriter fw, int conflictNum, String fileConflict) {
 		this.conflictdates = conflictdates.get(fileConflict);
 		this.sl = sl;
-		this.jl = j.getReadableByName(fileConflict+ ".txt");
+		this.jl = j.getReadableByName(fileConflict);
 		c = Calendar.getInstance();
 		this.fw = fw;
 		prefix = "";
@@ -145,11 +146,11 @@ class Worker implements Runnable {
 			prefix += cells[conflictNum + 1][f] + ",";
 		}
 		if (jl == null) {
-			System.err.println("Could not find any readable file at path: "+ fileConflict + ".txt");
+			System.err.println("Could not find any readable file containing name: "+ fileConflict);
 			jl = new ArrayList<JsonReadable>();
 		}
 		if (jl.size() == 0) {
-			System.err.println("No Jsons found at file path: "+ fileConflict + ".txt");
+			System.err.println("No Jsons found at file path: "+ fileConflict);
 		}
 	}
 

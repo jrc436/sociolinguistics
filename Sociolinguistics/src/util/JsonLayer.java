@@ -244,7 +244,7 @@ public class JsonLayer {
 		File r = null;
 		synchronized (this) {
 			for (File s : processedFiles) {
-				if (s.getName().equals(f)) {
+				if (s.getName().contains(f)) {
 					r = s;
 					break;
 				}
