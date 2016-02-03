@@ -6,6 +6,7 @@ modred/
 test.csv
 log.txt
 
+*.RData
 *.bash
 *.local
 *.cached
