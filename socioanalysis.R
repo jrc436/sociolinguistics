@@ -3,57 +3,71 @@ library(LMERConvenienceFunctions)
 library(MuMIn)
 library(arm)
 library(lmerTest)
-sociodata <- read.csv(file="/work/research/sociolinguistics/csvfiles/negsocio.csv")
-sociodata2 <- read.csv(file="/work/research/sociolinguistics/csvfiles/negsocioIntens.csv")
 
+#POS
+sociodatapos <- read.csv(file="/work/research/sociolinguistics/csvfiles/finalRPos.csv")
 lev = c("Archived", "Low", "Medium", "High")
-newdat <- sociodata
-newdat["Intensity"] = ordered(newdat$Intensity, levels=lev) 
+newdatpos <- sociodatapos
+newdatpos["Intensity"] = ordered(newdatpos$Intensity, levels=lev) 
 pvars <- c("Casualities", "Age", "Refugees", "IDP", "SameYearIDP", "SameYearRefugees", "SameYearFatalities", "Controversy")
-newdat[pvars] <- lapply(newdat[pvars],scale)
-newdat["Region"] = factor(newdat$Region)
+newdatpos[pvars] <- lapply(newdatpos[pvars],scale)
+newdatpos["Region"] = factor(newdatpos$Region)
 
-newdat2 = newdat
-newdat2["Intensity"] = sociodata2$Intensity
-newpvars <- c("Intensity", "Casualities", "Age", "Refugees", "IDP", "SameYearIDP", "SameYearRefugees", "SameYearFatalities", "Controversy")
-newdat2[newpvars] <- lapply(newdat2[newpvars],scale)
+posint <- glmer(binscore ~ Intensity  + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
 
-model_externalities <- lmer(logscore ~ Casualities + IDP + Refugees + (1|Author) + (1|Subreddit), data=newdat)
-model_type <- lmer(logscore ~ Foreign + Separatist + (1|Author) + (1|Subreddit), data=newdat)
-model_intensity <- lmer(logscore ~ Intensity  + (1|Author) + (1|Subreddit), data=newdat)
-model_intensity_num <- lmer(logscore ~ Intensity  + (1|Author) + (1|Subreddit), data=newdat2)
-model_same_year <- lmer(logscore ~ SameYearFatalities + SameYearIDP + SameYearRefugees + (1|Author) + (1|Subreddit), data=newdat)
-model_age <- lmer(logscore ~ Age + (1|Author) + (1|Subreddit), data=newdat)
-model_region <- lmer(logscore ~ Region + (1|Author) + (1|Subreddit), data=newdat)
-model_externalities <- glmer(binscore ~ Casualities + IDP + (1|Author) + (1|Subreddit), data=newdat, family=binomial)
+posfat <- glmer(binscore ~ Casualities  + (1|Author) + (1|Subreddit), family=binomial, data=newdatpos)
+posidp <- glmer(binscore ~ IDP  + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
+posref <- glmer(binscore ~ Refugees  + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
 
-model_externalities <- glmer(binscore ~ Refugees  + (1|Author) + (1|Subreddit), family=binomial, data=newdat)
-model_type <- glmer(binscore ~ Separatist  + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
-model_intensity <- glmer(binscore ~ Intensity  + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
-#model_intensity_num <- glmer(binscore ~ Intensity  + (1|Author) + (1|Subreddit), data=newdat2,  family=binomial)
-model_same_year <- glmer(binscore ~ SameYearFatalities + SameYearIDP + SameYearRefugees + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
-model_age <- glmer(binscore ~ Age + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
-model_region <- glmer(binscore ~ Region + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
-model_combo <- glmer(binscore ~ Age * Intensity + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
+possep <- glmer(binscore ~ Separatist  + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
+poscrim <- glmer(binscore ~ Criminal  + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
+poseth <- glmer(binscore ~ Ethnic  + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
+posterror <- glmer(binscore ~ Terrorism  + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
+posterri <- glmer(binscore ~ Territorial  + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
+posforeign <- glmer(binscore ~ Foreign  + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
 
+possyfat  <- glmer(binscore ~ SameYearFatalities + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
+possyref <- glmer(binscore ~ SameYearRefugees + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
+possyidp <- glmer(binscore ~ SameYearIDP + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
 
-model_contro <- lmer(Controversy ~ Casualities + (1|Author) + (1|Subreddit), data=newdat)
-#cutoffs: <-2, <1, 1, >1, >10
+posage <- glmer(binscore ~ Age + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
 
+posregion <- glmer(binscore ~ Region + (1|Author) + (1|Subreddit), data=newdatpos,  family=binomial)
 
-sociodata <- read.csv(file="/work/research/sociolinguistics/csvfiles/possocio.csv")
+#posfull1 <- glmer(binscore ~ Territorial + Age + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
+#posfull2 <- glmer(binscore ~ Territorial + Age + Region + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
+#posfull3 <- glmer(binscore ~ Territorial + Age + Region + Terrorism + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
 
-lev = c("Archived", "Low", "Medium", "High")
-newdat <- sociodata
-newdat["Intensity"] = ordered(newdat$Intensity, levels=lev) 
+#NEG 
+
+sociodataneg <- read.csv(file="/work/research/sociolinguistics/csvfiles/finalRneg.csv")
+newdatneg <- sociodataneg
+newdatneg["Intensity"] = ordered(newdatneg$Intensity, levels=lev) 
 pvars <- c("Casualities", "Age", "Refugees", "IDP", "SameYearIDP", "SameYearRefugees", "SameYearFatalities", "Controversy")
-newdat[pvars] <- lapply(newdat[pvars],scale)
-newdat["Region"] = factor(newdat$Region)
+newdatneg[pvars] <- lapply(newdatneg[pvars],scale)
+newdatneg["Region"] = factor(newdatneg$Region)
 
-model_externalities <- glmer(binscore ~ Casualities + IDP + (1|Author) + (1|Subreddit), data=newdat, family=binomial)
-model_type <- glmer(binscore ~ Foreign + Criminal + Terrorism + Ethnic + Separatist + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
-model_intensity <- glmer(binscore ~ Intensity  + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
-model_intensity_num <- glmer(binscore ~ Intensity  + (1|Author) + (1|Subreddit), data=newdat2,  family=binomial)
-model_same_year <- glmer(binscore ~ SameYearFatalities + SameYearIDP + SameYearRefugees + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
-model_age <- glmer(binscore ~ Age + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
-model_region <- glmer(binscore ~ Region + (1|Author) + (1|Subreddit), data=newdat,  family=binomial)
+negint <- glmer(binscore ~ Intensity  + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+
+negfat <- glmer(binscore ~ Casualities  + (1|Author) + (1|Subreddit), family=binomial, data=newdatneg)
+negidp <- glmer(binscore ~ IDP  + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+negref <- glmer(binscore ~ Refugees  + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+
+negsep <- glmer(binscore ~ Separatist  + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+negcrim <- glmer(binscore ~ Criminal  + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+negeth <- glmer(binscore ~ Ethnic  + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+negterror <- glmer(binscore ~ Terrorism  + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+negterri <- glmer(binscore ~ Territorial  + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+negforeign <- glmer(binscore ~ Foreign  + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+
+negsyfat  <- glmer(binscore ~ SameYearFatalities + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+negsyref <- glmer(binscore ~ SameYearRefugees + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+negsyidp <- glmer(binscore ~ SameYearIDP + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+
+negage <- glmer(binscore ~ Age + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+
+negregion <- glmer(binscore ~ Region + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
+
+negfull1 <- glmer(binscore ~ Territorial + Age + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
+negfull2 <- glmer(binscore ~ Territorial + Age + Region + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
+negfull3 <- glmer(binscore ~ Territorial + Age + Region + Terrorism + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)

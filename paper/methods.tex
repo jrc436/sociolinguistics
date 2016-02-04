@@ -2,36 +2,43 @@
 \subsection{Data Preparation}
 We had to solve several problems in order to answer our research questions. First, how do we determine if a comment is about a specific conflict? Next, how do we determine whether that comment is positive or negative? Lastly, how do we determine whether the community found that comment acceptable or not?
 
-To determine if a comment was about a given conflict, we compiled a list of keywords. The goal of this list was to be broad enough to capture any given comment while also ensuring that comments would be a positive identification of the topic. It is of course impossible to avoid both false positives and false negatives. It is a near guarantee that some comments tagged would not actually pertain to the given conflict. Our answer to this is to use enough data to filter out most of the noise.
+To determine if a comment was about a given conflict, we compiled a list of keywords. The goal of this list was to be broad enough to capture any given comment while also ensuring that comments would be a positive identification of the topic. It is of course impossible to avoid both false positives and false negatives. It is a near guarantee that some comments tagged would not actually pertain to the given conflict. Our answer to this is to use enough data to filter out most of the noise. The biggest source of comments was /r/worldnews, with many of the others coming from similar subreddits, implying that most of the comments were likely about the intended topic. The comments came from over a thousand subreddits; some of these could be falsely identified to be relevant, while some of them could be off topic. 
 
-We relied on the Sentiment Analysis library included with StanfordNLP to describe comments as positive or negative. The comments we included were overwhelmingly negative. This could be due to the corpus itself (Reddit has something of a reputation for negativity), or it could be due to the topics discussed and a lack of sensitivity for the measure. 
+As discussed earlier, we ran sentiment analysis on the comments we collected. Somewhat interestingly, there were many more negative comments than positive comments. Its possible that this is due to the subject matter; in general, pity and sadness might be more common responses to tragedy than optimism and hope. It could also be due to the nature of the corpus itself: young people on pseudononymous Internet communities are perhaps more negative than normal. Nonetheless, we separated the negative and positive comments and pruned the neutral ones.
 
-Lastly, we must define what it means to be acceptable. In Reddit, this is luckily quite easy, as every comment made is curated by the community of users. This means that comments deemed acceptable and good by the community are given a positive \textit{score}, while comments that are deemed unacceptable are given a negative score. 
+Lastly, we must define what it means to be acceptable. In Reddit, this is quite simply looking at whether a comment has been upvoted or downvoted more. All comments start with a score of one; the idea is that you always approve of your own comment. As comments with a score of one thus contain no useful information about how the community perceived them, they were excluded. Due to Reddit hiding downvoted comments and elevating upvoted comments, we decided that the actual value of the rating is not that important. Posts that were both upvoted and downvoted (deemed controversial by Reddit) were vanishingly small, making up less than 2\% of the filtered comments. Thus, people clearly tend to downvote comments that were already downvoted and upvote comments that were already upvoted (or to take no action at all). Therefore, a binary value of approval seemed more appropriate than any other choice.
 
-While our results are intended to be interpreted as the acceptability of the sentiment, the alternative interpretation due to the skew in the data is simply the probability of making an acceptable comment on that conflict. If most comments are negative, then it is unclear whether the sentiment is providing a useful metric or not. However, while the interpretation is slightly different, we do not consider it to be different enough to drastically change our analysis.
+These two filters resulted in 781 positive comments and 14289 negative comments. The substantial difference in sentiment made splitting the analysis a must. Comparing these two models could help us determine if there are different circumstances when being positive is more acceptable. Due to the overwhelming number of negative comments (over 95\%), it is difficult to interpret the negative sentiment as much more than the norm. If this is the case, then our results, instead of reflecting when negative sentiment would be acceptable, would reflect when posters are more likely to post something that is unacceptable. We'll discuss what that might mean later.
 
 \subsection{Model}
-We use a Linear Mixed Effects Model (GLMM) to attempt to explain which sentiments were acceptable as determined by the conflict.
+We use a Logistic Linear Mixed Effects Model (GLMM) to attempt to explain which sentiments were acceptable as determined by the conflict.
 
 \subsubsection{Response}
-There are essentially three ways a Reddit comment can be responded to. One is to be \textit{accepted}, meaning that the comment received upvotes and has a positive score, possibly to the point of being elevated which allows even more people to see the comment. Another is to be \textit{rejected}, meaning that the comment received downvotes and has a negative score, possibly even to the point of being hidden. Lastly, the comment could be ignored. 
-
-Due to the difficulty of interpreting why a comment was ignored, we excluded these comments. Since Reddit attempts to hide rejected comments and elevate accepted ones, score is not a very good linear response value. Therefore, we transformed the score into a binomial variable, representing either accepted or rejected.
-
-We considered examining an additional model that focused on the \textit{controversy}, which is a score that occurs when users disagree whether a comment should be accepted or rejected. However, in general, comments with any controversy at all were vanishingly rare.
+Every comment is coded as either unacceptable (1) or acceptable (0). This means that for some feature of a conflict that a comment is about, positive $\beta$ implies that comment is more likely to be disapproved of. Conversely, negative $\beta$ implies that comment is less likely to be disapproved of. 
 
 \subsubsection{Fixed Effects}
 \begin{itemize}
-\item{\textbf{Externalities.} These include the total number of fatalities that have occurred as a result of the conflict, the current Internally Displaced Persons (IDP) from the conflict, and the current number of Refugees from the conflict.}
-\item{\textbf{Current Externalities.} These are calculated by examining the number of Fatalities, IDP, and New Refugees that occurred the same year that the comment was posted. This is to ask whether the recent trauma would outweigh the total trauma in the discussants.}
-\item{\textbf{Conflict Type.} Using the Armed Conflict Database, we labeled conflicts by their defining features. These include Terrorism, Crime, Ethnic, Separatist, and Foreign. The first four features are from the Armed Conflict Database, which labels the main motivations of the violence. The last feature we labeled on whether one of the primary antagonists in the conflict was a foreign power. This would not count UN peacekeepers, but would count conflicts such as the wars in Iraq and Afghanistan.}
-\item{\textbf{Region.} The Armed Conflict Database identifies seven regions: Caribbean and the Americas, East Asia and Australasia, Europe, Middle East and North Africa, Russia and Eurasia, South Asia, and Sub-Saharan Africa. This was obviously of potential interest due to how stereotypes of locations may influence perception of the conflicts}
-\item{\textbf{Intensity.} While Intensity is obviously related to the Current Externalities, the Intensity is a label applied by the Armed Conflict Database to several conflicts. The possibilities are High, Medium, Low, and Archived, which reflect current levels of violence.}
-\item{\textbf{Age.} While the oldest conflict in the Armed Conflict Database is approximately fifty years old, conflicts that have been going on for longer may be talked about differently. Further, there could be interesting interactions between the Age and the current status of the conflict.}   
+\item{\textbf{Refugees.} The total number of refugees from the conflict.}
+\item{\textbf{Fatalities.} The total number of fatalities from the conflict.}
+\item{\textbf{IDP.} The total IDP from the conflict.}
+\item{\textbf{Intensity.} The current intensity of the conflict, according to the Armed Conflict Database. The possible values are Low, Medium, High, or Archived (no current violence)}
+\item{\textbf{Same Year Refugees. The number of new refugees from that conflict the year the comment was made.}}
+\item{\textbf{Same Year IDP. The number of Internally Displaced Persons the year the comment was made.}}
+\item{\textbf{Same Year Fatalities. The number of fatalities that occurred the year the comment was made. }}
+\item{\textbf{Age.} The number of years since the violence started until today.}
+\item{\textbf{Foreign.} Whether the conflict involved a foreign actor as a main antagonist. For instance, this would include the War in Iraq, but it would not include interventions by UN Peacekeepers. This was self-coded.}
+\item{\textbf{Separatist.} Whether the conflict was characterized by groups wishing to secede, according to the Armed Conflict Database.}
+\item{\textbf{Territorial.} Whether the conflict was characterized by two countries fighting over territory, according to the Armed Conflict Database.}
+\item{\textbf{Terrorism.} Whether the conflict was characterized by terrorist activity, according to the Armed Conflict Database.}
+\item{\textbf{Ethnic.} Whether the conflict was characterized by ethnic or sectarian violence, according to the Armed Conflict Database.}
+\item{\textbf{Criminal.} Whether the conflict was characterized by criminal activity, according to the Armed Conflict Database.}
+\item{\textbf{Region.} These include the total number of fatalities that have occurred as a result of the conflict, the current Internally Displaced Persons (IDP) from the conflict, and the current number of Refugees from the conflict.}
 \end{itemize} 
 
 \subsubsection{Random Effects}
+
+Intercepts grouped by...
 \begin{itemize}
 \item{\textbf{Author.} As Reddit is pseudononymous, some authors may have a reputation for making consistently good or bad posts.}
-\item{\textbf{Subreddit.} As Reddit is divided into many thousands of subreddits, there is little guarantee that what is acceptable in one subreddit would be acceptable in another.}
+\item{\textbf{Subreddit.} What is acceptable in one subreddit may be unacceptable in another.}
 \end{itemize}

@@ -1,8 +1,18 @@
 \section{Research Questions}
+Our research questions aim to discover how people in the West, specifically, perceive armed conflicts. The way people perceive armed conflicts is at least partially a reflection of Western news cycles, and the way they talk about them is a reflection of their perception. However, which features of the conflicts cause these perceptions in the first place? Are they the same features that have been linked to news reporting?
+
+Reddit, being a large, mostly Western community with somewhat homogenous viewpoints (compared to other data sources like Twitter) gives an interesting outlet to answer such questions. Over a large dataset, we will focus on asking simple questions with clear answers and then using those answers to integrate with what's already been studied about social phenomena such as news cycles and network effects of news distribution. 
+
+Thus, there are two main features of the comments we find interesting. The first is the \textit{sentiment}. Using the sentiment analyzer bundled with StanfordNLP\cite{stanfordnlp}, we rated over 25,000 comments as Very Negative, Negative, Neutral, Positive, or Very Positive. The second is the \textit{acceptability}. The acceptability references how the community perceives the comment, and thus that sentiment. 
+
+From our exploratory data analysis, sentiment did not appear to be correlated with acceptability. We decided this meant that it was better to ask questions of negative sentiment and positive sentiment individually. We wanted to examine several factors that are related to what would affect reports discussing the conflict, with the thought that they might also influence how people discuss them.
 
 \begin{enumerate}
-\item{ How acceptable is it to talk negatively or positively about conflicts in various regions?} 
-\item { How acceptable is it to talk negatively or positively about conflicts of various origin?} 
-\item { How much do the externalities of these conflicts, such as the number of fatalities or refugees, play a role? }
+\item{\textbf{Severity.} This includes the total number of people who were killed, made refugees, or internally displaced as a result of the conflict} 
+\item {\textbf{Location.} There are six major regions that the Armed Conflict Database groups conflicts into.} 
+\item {\textbf{Recent Severity.} This includes the number of people who were killed, made refugees, or internally displaced the same year the comment was made. In other words, do recent fatalities salience cause them to be treated differently than former fatalities?}
+\item {\textbf{Age.} The number of years ago the conflict started.}
+\item {\textbf{Nature.} What characterizes the conflict? Why did it start?}
+\item {\textbf{Expert Perception.} The Armed Conflict Database rates conflicts for their current level of intensity. While this is obviously correlated with deaths, refugees, and IDP ($p < 0.0001$), the average person may be more likely to get their ideas of severity from experts, rather than numbers} 
 \end{enumerate}
 
