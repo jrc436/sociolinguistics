@@ -13,13 +13,13 @@ Posts that were deemed controversial by Reddit were vanishingly rare, making up 
 Our two filters resulted in 781 positive comments and 14289 negative comments. The substantial difference in sentiment furthered our desire to split the analysis. Comparing these two models could help us determine if there are different circumstances when expressing different types of sentiment is more acceptable. Due to the overwhelming number of negative comments (over 95\%), it is difficult to interpret the negative sentiment as much more than the norm. If this is the case, then our results, instead of reflecting when negative sentiment would be acceptable, would reflect when posters are more likely to post something that is unacceptable. We'll discuss what that might mean later.
 
 \subsection{Model}
-We use a Logistic Linear Mixed Effects Model (GLMM) to attempt to explain which sentiments were acceptable as determined by the conflict.
+We use a Logistic Linear Mixed Effects Model (GLMM) to attempt to explain which sentiments were acceptable as determined by the conflict. We fitted only one variable in each model in order to see each variable's explanatory power. There was also missing data, as the exact number of refugees, IDP, and fatalities were not always available for every single year. Further, there is substantial co-linearity in the data, which will be discussed later.
 
 \subsubsection{Response}
-Every comment is coded as either unacceptable (1) or acceptable (0). This means that for some feature of a conflict that a comment is about, positive $\beta$ implies that comment is more likely to be disapproved of. Conversely, negative $\beta$ implies that comment is less likely to be disapproved of. 
+Every comment is coded as either unacceptable (1) or acceptable (0). This means that for some feature of a conflict that a comment is about, positive $\beta$ implies that comment is more likely to be disapproved of. To reiterate, an acceptable comment has a score above one, while an unacceptable comment has a score below one. Conversely, negative $\beta$ implies that comment is less likely to be disapproved of. 
 
 \subsubsection{Fixed Effects}
-A summary of our fixed effects is given by our research questions.
+Our fixed effects are taken directly from our research questions. Please see Table~\ref{posfix} and Table~\ref{negfix} for the full list.
 
 \subsubsection{Random Effects}
 We grouped intercepts by Author and by Subreddit. As Reddit is pseudononymous, some authors may have a reputation for making consistently good or bad posts, and different communities may have different standards for acceptability.

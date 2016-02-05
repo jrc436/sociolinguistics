@@ -1,16 +1,66 @@
 \section{Results}
+As we have twenty models and are thus making twenty comparisons, we will use the Bonferoni correction to avoid false positives \cite{bonferoni}. This means we'll use $p=0.0025$ as a threshold for significance.
+
 \subsection{Positive Comments}
-The goal of analyzing the positive comments is to determine when it is acceptable to have positive sentiment. Unfortunately, the positive comments were too few in number to get effective results. This could change upon the addition of more comments.
+For positive comments made, we see a reliable effect due to fatalities, separatist conflicts, and terrorist conflicts. As a reminder, more fatalities increases the likelihood of a comment being considered unacceptable in this case, while Terrorist and Separatist conflicts decrease that likelihood. See Table~\ref{posfix}.
+
+\begin{table}
+\centering
+\begin{tabular}{l|llll}
+& Estimate & Std. Error & z value & Pr$(<|z|)$  \\ \hline
+Intensity.L & 0.3561 & 0.6668 & 0.534 & 0.593 \\ 
+Fatalities & 0.1091 &  $<0.001$ & 118 & $<0.00001$* \\ 
+IDP & 0.3545 & 0.2568 & 1.38 & 0.167 \\ ne
+Refugees & 0.1361 & 0.3371 & 0.404 & $0.686$ \\ 
+Separatist & -0.5505 & $<0.001$ & -632 & $<0.00001$* \\ 
+Criminal & 0.5866 & 0.5738 & 1.022 & 0.307 \\ 
+Ethnic & -2.4295 & 3.2196 & -0.755 & 0.45 \\ 
+Terrorism & -0.8033 & $<0.001$ & -861 &  $<0.00001$* \\ 
+Territorial & -1.133 & 1.279 & -0.885 & 0.376 \\ 
+Foreign & 1.0048 & 0.5995 & 1.676 & 0.0938. \\ 
+Marginal Fatalities & 0.3844 & 0.2611 & 1.472 & 0.141 \\ 
+Marginal Refugees & 0.2577 & 0.3425 & 0.752 & 0.452 \\ 
+Marginal IDP & 0.3223 & 0.2868 & 1.124 & 0.261 \\ 
+Age & -0.2801 & 0.3285 & -0.853 & 0.394 \\ 
+Region-EastAsia/Australia & -2.486 & 2.998 & -0.829 & 0.406894 \\ 
+Region-Europe  & -0.4437 &  0.827 & -0.536 & 0.591615 \\ 
+Region-MiddleEast/NorthAfrica & -0.2767 & 0.8544 & -0.324 & 0.74601 \\ 
+Region-Russia/Eurasia & -1.191 & 1.643 & -0.725 & 0.468473 \\ 
+Region-SouthAsia & -2173 & >99999 & 0.00 & 0.999955 \\ 
+Region-SubsaharanAfrica & 2.097 & 2.300 & 0.912 & 0.361987 \\ 
+\end{tabular}
+\caption{The positive sentiment models. Region was fitted as a factor. Intensity was fitted as an ordinal where only the linear is reported. Significant variables are marked with an asterisk.}
+\label{posfix}
+\end{table}
 
 \subsection{Negative Comments}
-The goal of analyzing the negative comments is to determine when it is acceptable to have negative sentiment. Obviously, negative sentiment when it comes to armed conflicts is a fairly broad idea. Negative sentiment could potentially include anything from hateful to depressed. Nonetheless, the score unambiguously reflects the community's level of acceptance of that negativity. 
+For negative comments made, we see reliable effects in the case of Territorial conflicts, age, and for the regions of Europe and East Asia / Australasia. The regions and age all make the comments less likely to be downvoted, and the conflict being territorial makes the comment more likely to be downvoted. See Table~\ref{negfix}.
 
-Due to the number of variables, several models were created separately to avoid rank deficiency. Intensity (the code by the Armed Conflict Database) had a significant positive linear effect ($p < 0.05$), implying that the higher the intensity, the more likely negative comments were to be disapproved of. Age was also significant, showing a negative effect (older conflicts were less likely to be disapproved of), but the interaction among them was not.
-
-No variables based on externalities that occurred the same year as the conflict were significant.
-
-No variables based on current total externalities were significant.
-
-There was a significant positive effect on Foreign involvement, implying comments were more likely to be disapproved of if there were foreign actors at play. There was also a significant positive effect if the armed conflict was largely Criminal in nature, but there was a very significant negative effect if the conflict was Separatist in nature (implying that it's unlikely that comments expressing negative sentiment were disapproved of).
-
-For region, there was a very significant negative effect on both Europe and East Asia.
+\begin{table}
+\centering
+\begin{tabular}{l|llll}
+& Estimate & Std. Error & z value & Pr$(<|z|)$  \\ \hline
+Intensity.L & 0.15252 & 0.06973 & 2.187 & 0.0287 \\ 
+Fatalities & 0.01045 &  0.02465 & 0.424 & $0.672$ \\ 
+IDP & 0.01904 & 0.03315 & 0.574 & 0.566 \\ 
+Refugees & -0.06791 & 0.03972 & -1.71 & $0.0873$ \\ 
+Separatist & -0.10355 & 0.05655 & -1.831 & 0.0671 \\ 
+Criminal & 0.09881 & 0.05588 & 1.768 & 0.077 \\ 
+Ethnic & -0.25600 & 0.16045 & -1.595 & 0.111 \\ 
+Terrorism & 0.12486 & 0.05634 & 2.216 &  $0.0267$ \\ 
+Territorial & 0.45897 & 0.07979 & 5.753 & $<0.00001$* \\ 
+Foreign & 0.09581 & 0.06056 & 1.582 & 0.114 \\ 
+Marginal Fatalities & 0.009692 & 0.030874 & 0.314 & 0.754 \\ 
+Marginal Refugees & -0.06146 & 0.04131 & -1.488 & 0.137 \\ 
+Marginal IDP & -0.05012 & 0.03845 & -1.303 & 0.192 \\ 
+Age & -0.11456 & 0.02767 & -4.14 & $<0.0001$* \\ 
+Region-EastAsia/Australasia & -0.52475 & 0.15148 & -3.250 & 0.00116* \\ 
+Region-Europe  & -0.4437 &  0.827 & -0.536 & $<0.00001$* \\ 
+Region-MiddleEast/NorthAfrica & 0.13825 & 0.07504 & 1.842 & 0.06542 \\ 
+Region-Russia/Eurasia & -0.18945 & 0.08913 & -2.125 & 0.03355 \\ 
+Region-SouthAsia &  & >99999 & 0.00 & 0.999955 \\ 
+Region-SubsaharanAfrica & 0.17248 & 0.15783 & 1.093 & 0.27448 \\ 
+\end{tabular}
+\caption{The negative sentiment models. Region was fitted as a factor. Intensity was fitted as an ordinal where only the linear is reported. Significant variables are marked with an asterisk}
+\label{negfix}
+\end{table}

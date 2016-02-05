@@ -1,7 +1,6 @@
 library(lme4)
 library(LMERConvenienceFunctions)
 library(MuMIn)
-library(arm)
 library(lmerTest)
 
 #POS
@@ -68,6 +67,6 @@ negage <- glmer(binscore ~ Age + (1|Author) + (1|Subreddit), data=newdatneg,  fa
 
 negregion <- glmer(binscore ~ Region + (1|Author) + (1|Subreddit), data=newdatneg,  family=binomial)
 
-negfull1 <- glmer(binscore ~ Territorial + Age + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
-negfull2 <- glmer(binscore ~ Territorial + Age + Region + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
-negfull3 <- glmer(binscore ~ Territorial + Age + Region + Terrorism + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
+#negfull1 <- glmer(binscore ~ Territorial + Age + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
+#negfull2 <- glmer(binscore ~ Territorial + Age + Region + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
+#negfull3 <- glmer(binscore ~ Territorial + Age + Region  + (1|Author) + (1|Subreddit), data=newdatneg, family=binomial)
