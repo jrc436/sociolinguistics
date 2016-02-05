@@ -17,15 +17,21 @@
 
 
 \documentclass[runningheads,a4paper]{llncs}
-
 \usepackage{amssymb}
 \setcounter{tocdepth}{3}
 \usepackage{graphicx}
-
+\usepackage{multirow}
 \usepackage{url}
 \urldef{\mailsa}\path|{jrcole,ying.xu,reitter}@psu.edu|    
 \newcommand{\keywords}[1]{\par\addvspace\baselineskip
 \noindent\keywordname\enspace\ignorespaces#1}
+
+\setlength{\floatsep}{3pt}
+\setlength{\textfloatsep}{3pt}
+\setlength{\intextsep}{3pt}
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{0.75\baselineskip}{0.75\baselineskip}
+\titlespacing*{\subsection}{0pt}{0.5\baselineskip}{0.5\baselineskip}
 
 \begin{document}
 
@@ -73,7 +79,7 @@ University Park, Pennsylvania, USA\\
 
 \begin{abstract}
 Armed conflicts around the world produce displacement, injury, and death. 
-This study examines how anonymous and quasi-anonymous internet commenters discuss such conflicts.  Specifically, we ask how permissible it is to express positive or negative sentiments about these conflicts as a function of variables including region, conflict nature, and severity. Data from the Armed Conflicts Database is aggregated to identify a number of potential factors that may influence views on acceptable sentiments.  A large-scale sample of the Reddit comment forum was coded for positive and negative sentiments using sentiment analysis techniques. Permissibility is judged using the Reddit voting features. Regressions reveal that positive sentiments are found not permissible depending on the number of fatalities, and that negative sentiments are found permissible for certain regions, more permissible for older conflicts, and more permissible for territorial conflicts.  A number of alternative, non-correlated predictors is presented.
+This study examines how anonymous and pseudonymous Internet commenters discuss such conflicts.  Specifically, we ask how permissible it is to express positive or negative sentiments about these conflicts as a function of variables including region, conflict nature, and severity. Data from the Armed Conflicts Database is aggregated to identify a number of potential factors that may influence views on acceptable sentiments.  A large-scale sample of the Reddit comment forum was coded for positive and negative sentiments using sentiment analysis techniques. Permissibility is judged using the Reddit voting features. Regressions reveal that positive sentiments are found not permissible for higher numbers of fatalities, and that negative sentiments are found permissible for certain regions, more permissible for older conflicts, and less permissible for territorial conflicts. A number of alternative, non-correlated predictors are presented.
 
 % These results can help disentangle factors such as a conflict’s location from its intensity, which could help explain how people view the multitude of conflicts around the world.
 \keywords{Behavioral and Social Sciences; Corpus Linguistics; GLMM; Armed Conflicts; Public Opinion}
@@ -82,13 +88,13 @@ This study examines how anonymous and quasi-anonymous internet commenters discus
 \input{introduction}
 \input{lit}
 \input{background}
+\input{data}
 \input{rq}
-%\input{reddit}
 \input{methods}
 \input{results}
 \input{discussion}
-\input{futurework}
 \input{conclusion}
+\input{futurework}
 
 \bibliographystyle{splncs03}
 \bibliography{review,nlp,reddit}

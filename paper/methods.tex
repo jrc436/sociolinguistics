@@ -1,25 +1,42 @@
 \section{Methods}
 \subsection{Data Preparation}
-We first gathered a list of comments by checking if they contained any keywords associated with that conflict. The goal of this list was to be broad enough to capture any given comment while also ensuring that comments would be a positive identification of the topic. It is a near guarantee that some comments that were collected would not actually pertain to the given conflict. However, with enough data, we hoped to filter out the noise. Our answer to this is to use enough data to filter out most of the noise. The biggest source of comments was /r/worldnews, with many of the others coming from similar subreddits, implying that most of the comments were likely about the intended topic. The comments came from over a thousand subreddits; some of these could be falsely identified to be relevant, while some of them could be off topic. 
+Interestingly, the sentiment analysis provided nearly twenty times more negative comments than positive comments. It is possible that this is due to the subject matter; in general, pity and sadness might be more common responses to tragedy than optimism and hope. It is also possible that some positive comments actually reflected misanthropic views about violence. Due to the difficulty of interpreting neutral sentiment comments, they were excluded.
 
-As discussed earlier, we ran sentiment analysis on the comments we collected. Interestingly, there were many more negative comments than positive comments. It is possible that this is due to the subject matter; in general, pity and sadness might be more common responses to tragedy than optimism and hope. It could also be due to the nature of the corpus itself: young people on pseudononymous Internet communities could be more negative than average. Nonetheless, we separated the negative and positive comments and pruned the neutral ones.
+Due to Reddit's manipulation of the probability of any given user seeing a post, and because controversy is so rare in our data set, we did not consider the actual number of upvotes or downvotes a comment received to be useful information. We thus coded anything upvoted at all as acceptable, and anything downvoted at all as unacceptable. We excluded comments that received no votes.
 
-Lastly, we must define what it means to be acceptable. In Reddit, this is  simply whether a comment has been upvoted or downvoted more. All comments start with a score of one; the idea is that you always approve of your own comment. As comments with a score of one thus contain no useful information about how the community perceived them, they were excluded. 
+Our two filters resulted in 781 positive comments and 14289 negative comments. If the Positive Sentiment Model is substantially different than the Negative Sentiment Model, that suggests sentiment, perhaps through interaction with other variables, does influence acceptability. It is possible negative comments can be interpreted as the norm, instead of as a special case. If this is true, then that model, instead of reflecting when negative sentiment would be unacceptable, would reflect in general when posters are more likely to post something that is unacceptable. 
 
-As Reddit manipulates how probable it is for people to see a post, we did not consider the actual number of upvotes or downvotes received to be useful information. We thus coded anything upvoted past one as not unacceptable, and anything downvoted below one as unacceptable.
-
-Posts that were deemed controversial by Reddit were vanishingly rare, making up less than 2\% of the filtered comments. Thus, people clearly tend to downvote comments that were already downvoted and upvote comments that were already upvoted (or to take no action at all). Therefore, a binary value of approval seemed more appropriate than any other choice.
-
-Our two filters resulted in 781 positive comments and 14289 negative comments. The substantial difference in sentiment furthered our desire to split the analysis. Comparing these two models could help us determine if there are different circumstances when expressing different types of sentiment is more acceptable. Due to the overwhelming number of negative comments (over 95\%), it is difficult to interpret the negative sentiment as much more than the norm. If this is the case, then our results, instead of reflecting when negative sentiment would be acceptable, would reflect when posters are more likely to post something that is unacceptable. We'll discuss what that might mean later.
+\begin{table}
+\centering
+\begin{tabular}{l|rrrr}
+& Estimate                    & Std. Error & z value & Pr$(<|z|)$  \\ \hline
+Intensity                   & 0.3561 & 0.6668 & 0.5340 & 0.59300 \\ 
+Fatalities                    & 0.1091 &  $<0.001$ & 118.0000 & $<0.00001$* \\ 
+IDP                           & 0.3545 & 0.2568 & 1.3800 & 0.16700 \\ 
+Refugees                      & 0.1361 & 0.3371 & 0.4040 & 0.68600 \\ 
+Separatism                    & -0.5505 & $<0.001$ & -632.0000 & $<0.00001$* \\ 
+Criminal Violence             & 0.5866 & 0.5738 & 1.0220 & 0.30700 \\ 
+Ethnic Violence               & -2.4295 & 3.2196 & -0.7550 & 0.45000 \\ Terrorism                     & -0.8033 & $<0.001$ & -861.0000 &  $<0.00001$* \\ 
+Territorial Dispute           & -1.1330 & 1.2790 & -0.8850 & 0.37600 \\ 
+Foreign Antagonism            & 1.0048 & 0.5995 & 1.6760 & 0.09380 \\ 
+Marginal Fatalities           & 0.3844 & 0.2611 & 1.4720 & 0.14100 \\ 
+Marginal Refugees             & 0.2577 & 0.3425 & 0.7520 & 0.45200 \\ 
+Marginal IDP                  & 0.3223 & 0.2868 & 1.1240 & 0.261000 \\ 
+Age                           & -0.2801 & 0.3285 & -0.8530 & 0.39400 \\ 
+Region-EastAsia/Australasia     & -2.4860 & 2.9980 & -0.8290 & 0.40689 \\ 
+Region-Europe                 & -0.4437 &  0.8270 & -0.5360 & 0.59162 \\ 
+Region-MiddleEast/NorthAfrica & -0.2767 & 0.8544 & -0.3240 & 0.74601 \\ 
+Region-Russia/Eurasia         & -1.1910 & 1.6430 & -0.7250 & 0.46847 \\ 
+Region-SouthAsia              & -2173.0000 & $>99999.0000$ & 0.0000 & 0.99996 \\ 
+Region-SubsaharanAfrica       & 2.0970 & 2.3000 & 0.9120 & 0.36199  
+\end{tabular}
+\caption{The \textbf{positive} sentiment models. Region was fitted as a factor. Intensity was fitted as an ordinal variable where only the linear effect is reported. Significant variables are marked with an asterisk.}
+\label{posfix}
+\end{table}
 
 \subsection{Model}
-We use a Logistic Linear Mixed Effects Model (GLMM) to attempt to explain which sentiments were acceptable as determined by the conflict. We fitted only one variable in each model in order to see each variable's explanatory power. There was also missing data, as the exact number of refugees, IDP, and fatalities were not always available for every single year. Further, there is substantial co-linearity in the data, which will be discussed later.
+We use a Logistic Linear Mixed Effects Model (GLMM) to attempt to explain which sentiments were acceptable as determined by the conflict. Due to missing data for certain features (such as the marginal Refugees for any given year) and a high number of predictors, we decided to fit individual models for each predictor. This allows us to also see precisely how well each variable explains the variance. However, as we are making more than one comparison, we have to adjust our test of significance to avoid false positives. We use the Bonferoni correction \cite{bonferoni}, resulting in a significance threshold of $p=0.0025$.
 
-\subsubsection{Response}
-Every comment is coded as either unacceptable (1) or acceptable (0). This means that for some feature of a conflict that a comment is about, positive $\beta$ implies that comment is more likely to be disapproved of. To reiterate, an acceptable comment has a score above one, while an unacceptable comment has a score below one. Conversely, negative $\beta$ implies that comment is less likely to be disapproved of. 
+As every comment is coded as either unacceptable (1) or acceptable (0), positive $\beta$ relates to downvotes and negative $\beta$ relates to upvotes, which correspond with disapproval and approval effectively.
 
-\subsubsection{Fixed Effects}
-Our fixed effects are taken directly from our research questions. Please see Table~\ref{posfix} and Table~\ref{negfix} for the full list.
-
-\subsubsection{Random Effects}
 We grouped intercepts by Author and by Subreddit. As Reddit is pseudononymous, some authors may have a reputation for making consistently good or bad posts, and different communities may have different standards for acceptability.
