@@ -11,7 +11,7 @@ public class WordMap extends HashMap<String, Integer>{
 	 * 
 	 */
 	private static final long serialVersionUID = 6844547921098526441L;
-	public void combine(WordMap other) {
+	public synchronized void combine(WordMap other) {
 		for (String word : other.keySet()) {
 			if (this.containsKey(word)) {
 				this.put(word, this.get(word)+1);
@@ -21,7 +21,7 @@ public class WordMap extends HashMap<String, Integer>{
 			}
 		}
 	}
-	public void addSentence(String s) {
+	public synchronized void addSentence(String s) {
 		String[] words = s.split(" ");
 		for (String word : words) {
 			word = StringCleaner.cleanWord(word);

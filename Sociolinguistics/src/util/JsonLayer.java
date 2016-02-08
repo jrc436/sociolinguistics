@@ -52,40 +52,40 @@ public class JsonLayer {
 			System.exit(1);
 		}
 	}
-	public static void undoDamage(Path inpDirectory) {
-		File[] listOfFiles = inpDirectory.toFile().listFiles();
-		for (File f : listOfFiles) {
-			undoFileDamage(f);
-		}
-	}
-	private static void undoFileDamage(File f) {
-		try {
-			List<String> lines = Files.readAllLines(f.toPath());
-			if (lines.isEmpty()) {
-				System.err.println(f.toPath()+ " is empty, can't process");
-				return;
-			}
-			FileWriter fw = new FileWriter(f.toPath().toString());
-			fw.write("["+System.getProperty("line.separator"));
-			for (int i = 0; i < lines.size(); i++) {
-				if (lines.get(i).contains("]") || lines.get(i).contains("[")) {
-					continue;
-				}
-				if (i == lines.size()-2) {
-					fw.write(lines.get(i).substring(0, lines.get(i).length()-1)+System.getProperty("line.separator"));
-				}
-				else {
-					fw.write(lines.get(i).substring(0, lines.get(i).length()-3)+"},"+System.getProperty("line.separator"));
-				}
-			}
-			fw.write("]");
-			fw.close();
-		} catch (IOException e) {
-			System.err.println("Error reading "+f.toPath());
-			System.err.println(e.getMessage());
-			return;
-		}
-	}
+//	public static void undoDamage(Path inpDirectory) {
+//		File[] listOfFiles = inpDirectory.toFile().listFiles();
+//		for (File f : listOfFiles) {
+//			undoFileDamage(f);
+//		}
+//	}
+//	private static void undoFileDamage(File f) {
+//		try {
+//			List<String> lines = Files.readAllLines(f.toPath());
+//			if (lines.isEmpty()) {
+//				System.err.println(f.toPath()+ " is empty, can't process");
+//				return;
+//			}
+//			FileWriter fw = new FileWriter(f.toPath().toString());
+//			fw.write("["+System.getProperty("line.separator"));
+//			for (int i = 0; i < lines.size(); i++) {
+//				if (lines.get(i).contains("]") || lines.get(i).contains("[")) {
+//					continue;
+//				}
+//				if (i == lines.size()-2) {
+//					fw.write(lines.get(i).substring(0, lines.get(i).length()-1)+System.getProperty("line.separator"));
+//				}
+//				else {
+//					fw.write(lines.get(i).substring(0, lines.get(i).length()-3)+"},"+System.getProperty("line.separator"));
+//				}
+//			}
+//			fw.write("]");
+//			fw.close();
+//		} catch (IOException e) {
+//			System.err.println("Error reading "+f.toPath());
+//			System.err.println(e.getMessage());
+//			return;
+//		}
+//	}
 	private static void processFile(File f, String mod) {
 		try {
 			List<String> lines = Files.readAllLines(f.toPath());
@@ -138,57 +138,61 @@ public class JsonLayer {
 	 * @param inp
 	 * @param outFolder
 	 */
-	public static void processAndSplit(Path inp, Path outFolder) {
+	public static void processAndSplit(Path inpFolder, Path outFolder) {
 		Scanner s;
-		Path toRet = null;
+		Path writePath = null;
 		FileWriter fr1;
-		try {
-			int fileNum = 0;
-			String numAppend = String.format("%03d", fileNum);
-			s = new Scanner(inp.toFile());
-			toRet = outFolder.resolve(inp.getFileName()+"-mod"+numAppend);
-			
-			List<String> lines = new ArrayList<String>();
-			while (s.hasNextLine()) {
-				String line = s.nextLine();
-				if (line.trim().isEmpty()) {
-					continue;
-				}
-				lines.add(line);
-				if (lines.size() >= 10000) {
-					fr1 = new FileWriter(toRet.toFile());
-					fr1.write("["+System.getProperty("line.separator"));
-					for (int i = 0; i < lines.size(); i++) {
-						if (i == lines.size() -1) {
-							fr1.write(lines.get(i)+System.getProperty("line.separator"));
-						}
-						else {
-							fr1.write(lines.get(i)+","+System.getProperty("line.separator"));
-						}
+		File[] files = inpFolder.toFile().listFiles();
+		try {		
+			for (File inp : files) {
+				int fileNum = 0;
+				String numAppend = String.format("%03d", fileNum);
+				s = new Scanner(inp);
+				
+				writePath = outFolder.resolve(inp.getName()+numAppend+".mod");
+				
+				List<String> lines = new ArrayList<String>();
+				while (s.hasNextLine()) {
+					String line = s.nextLine();
+					if (line.trim().isEmpty()) {
+						continue;
 					}
-					fr1.write("]");
-					fr1.close();
-					lines.clear();
-					fileNum++;
-					numAppend = String.format("%2d", fileNum);
-					toRet = outFolder.resolve(inp.getFileName()+"-mod"+numAppend);
+					lines.add(line);
+					if (lines.size() >= 10000) {
+						fr1 = new FileWriter(writePath.toFile());
+						fr1.write("["+System.getProperty("line.separator"));
+						for (int i = 0; i < lines.size(); i++) {
+							if (i == lines.size() -1) {
+								fr1.write(lines.get(i)+System.getProperty("line.separator"));
+							}
+							else {
+								fr1.write(lines.get(i)+","+System.getProperty("line.separator"));
+							}
+						}
+						fr1.write("]");
+						fr1.close();
+						lines.clear();
+						fileNum++;
+						numAppend = String.format("%03d", fileNum);
+						writePath = outFolder.resolve(inp.getName()+numAppend+".mod");
+					}
 				}
-			}
-			//final write
-			fr1 = new FileWriter(toRet.toFile());
-			fr1.write("["+System.getProperty("line.separator"));
-			for (int i = 0; i < lines.size(); i++) {
-				if (i == lines.size() -1) {
-					fr1.write(lines.get(i)+System.getProperty("line.separator"));
+				//final write
+				fr1 = new FileWriter(writePath.toFile());
+				fr1.write("["+System.getProperty("line.separator"));
+				for (int i = 0; i < lines.size(); i++) {
+					if (i == lines.size() -1) {
+						fr1.write(lines.get(i)+System.getProperty("line.separator"));
+					}
+					else {
+						fr1.write(lines.get(i)+","+System.getProperty("line.separator"));
+					}
 				}
-				else {
-					fr1.write(lines.get(i)+","+System.getProperty("line.separator"));
-				}
-			}
-			fr1.write("]");
-			fr1.close();
-			s.close();
-		} 
+				fr1.write("]");
+				fr1.close();
+				s.close();
+			} 
+		}
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
