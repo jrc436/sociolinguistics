@@ -66,7 +66,7 @@ public class CommentParser {
 		else if (args.length == 5) {
 			match = args[4];
 		}
-		int numRuns = ResourceAllocator.getSuggestedNumThreads(1500000000);
+		int numRuns = ResourceAllocator.getSuggestedNumThreads(5);
 		
 		CSVReader csv = new CSVReader(Paths.get(args[1]), commaRep);		
 		

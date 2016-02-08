@@ -24,6 +24,7 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
+                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -68,7 +69,7 @@
     </target>
     <target name="CountMain">
         <java classname="wordcounter.CountMain" failonerror="true" fork="yes">
-            <arg line="/work/research/sociolinguistics/WordPropagation/test/inp /work/research/sociolinguistics/WordPropagation/test/out"/>
+            <arg line="/work/research/sociolinguistics/test/processed/ /work/research/sociolinguistics/test/counts.test"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
@@ -83,6 +84,13 @@
         <java classname="armedconflicts.SentiTest" failonerror="true" fork="yes">
             <jvmarg line="-Xmx3g"/>
             <arg line="/work/research/sociolinguistics/test/inp/ /work/research/sociolinguistics/csvfiles/rdata.csv /work/research/sociolinguistics/csvfiles/test.csv /work/research/sociolinguistics/csvfiles/timedata.csv false"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="JsonFormatter">
+        <java classname="util.JsonFormatter" failonerror="true" fork="yes">
+            <jvmarg line="-Xmx2g"/>
+            <arg line="/work/research/sociolinguistics/test/unprocessed/ /work/research/sociolinguistics/test/processed/"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>

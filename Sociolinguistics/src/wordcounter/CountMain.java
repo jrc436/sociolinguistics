@@ -38,7 +38,7 @@ public class CountMain {
 			System.exit(1);
 		}
 		
-		int numRuns = ResourceAllocator.getSuggestedNumThreads(1000000000);
+		int numRuns = ResourceAllocator.getSuggestedNumThreads(3);
 		ExecutorService es = Executors.newCachedThreadPool();
 		for (int i = 0; i < numRuns; i++) {
 			es.execute(new Worker(i, messages, jl, counts));	
