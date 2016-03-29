@@ -2,9 +2,9 @@
 \subsection{Data Preparation}
 Interestingly, the sentiment analysis provided nearly twenty times more negative comments than positive comments. It is possible that this is due to the subject matter; in general, pity and sadness might be more common responses to tragedy than optimism and hope. It is also possible that some positive comments actually reflected misanthropic views about violence. Due to the difficulty of interpreting neutral sentiment comments, they were excluded.
 
-Due to Reddit's manipulation of the probability of any given user seeing a post, and because controversy is so rare in our data set, we did not consider the actual number of upvotes or downvotes a comment received to be useful information. We thus coded anything upvoted at all as acceptable, and anything downvoted at all as unacceptable. We excluded comments that received no votes.
+As Reddit manipulates how likely it is for a user to see a comment, we did not consider the actual number of upvotes or downvotes a comment received to be useful information. We thus coded anything upvoted at all as acceptable, and anything downvoted at all as unacceptable. We excluded comments that received no votes.
 
-Our two filters resulted in 781 positive comments and 14289 negative comments. If the Positive Sentiment Model is substantially different than the Negative Sentiment Model, that suggests sentiment, perhaps through interaction with other variables, does influence acceptability. It is possible negative comments can be interpreted as the norm, instead of as a special case. If this is true, then that model, instead of reflecting when negative sentiment would be unacceptable, would reflect in general when posters are more likely to post something that is unacceptable. 
+Our two filters resulted in 781 positive comments and 14289 negative comments. If the Positive Sentiment Model is substantially different than the Negative Sentiment Model, that suggests sentiment, perhaps through interaction with other variables, does influence acceptability. It is possible negative comments can be interpreted as the norm; in that case, that model would reflect when posters are more likely to submit something that is unacceptable in general. 
 
 \begin{table}
 \centering
