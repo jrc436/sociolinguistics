@@ -27,8 +27,8 @@ Region-EastAsia/Australasia     & -2.4860 & 2.9980 & -0.8290 & 0.40689 \\
 Region-Europe                 & -0.4437 &  0.8270 & -0.5360 & 0.59162 \\ 
 Region-MiddleEast/NorthAfrica & -0.2767 & 0.8544 & -0.3240 & 0.74601 \\ 
 Region-Russia/Eurasia         & -1.1910 & 1.6430 & -0.7250 & 0.46847 \\ 
-Region-SouthAsia              & -2173.0000 & $>99999.0000$ & 0.0000 & 0.99996 \\ 
-Region-SubsaharanAfrica       & 2.0970 & 2.3000 & 0.9120 & 0.36199  
+Region-SouthAsia              & -2173.0000 & $>100.0000$ & 0.0000 & 0.99996 \\ 
+Region-Sub-SaharanAfrica       & 2.0970 & 2.3000 & 0.9120 & 0.36199  
 \end{tabular}
 \caption{The \textbf{positive} sentiment models. Region was fitted as a factor. Intensity was fitted as an ordinal variable where only the linear effect is reported. Significant variables are marked with an asterisk.}
 \label{posfix}
@@ -39,4 +39,4 @@ We use a Logistic Linear Mixed Effects Model (GLMM) to attempt to explain which 
 
 As every comment is coded as either unacceptable (1) or acceptable (0), positive $\beta$ relates to downvotes and negative $\beta$ relates to upvotes, which correspond with disapproval and approval effectively.
 
-We grouped intercepts by Author and by Subreddit. As Reddit is pseudononymous, some authors may have a reputation for making consistently good or bad posts, and different communities may have different standards for acceptability.
+Random intercepts grouped by Author and by Subreddit were fitted to account for partial interdependence. As Reddit is pseudononymous, some authors may have a reputation for making consistently good or bad posts, and different communities may have different standards for acceptability.
