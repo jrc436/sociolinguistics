@@ -4,11 +4,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Callable;
 
 import util.JsonLayer;
 import util.JsonReadable;
@@ -40,28 +44,45 @@ public class CountMain {
 		
 		int numRuns = ResourceAllocator.getSuggestedNumThreads(3);
 		ExecutorService es = Executors.newCachedThreadPool();
+		List<Worker> tasks = new ArrayList<Worker>();
 		for (int i = 0; i < numRuns; i++) {
-			es.execute(new Worker(i, messages, jl, counts));	
+			tasks.add(new Worker(i, messages, jl, counts));
+//			es.execute(new Worker(i, messages, jl, counts));	
 		}
-		es.shutdown();
+//		es.shutdown();
 		try {
-			es.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
-		} catch (InterruptedException e) {
+			es.invokeAll(tasks);
+//			es.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+		} catch (InterruptedException e) {			
 			System.err.println("Program was interrupted, attempting to write...");
 		}
 		finally {
+			messages.add("Invocation complete. Writing!");
+			//List<String> lines = counts.getStringLines();
+			Set<Entry<String, Integer>> entries = counts.getEntrySet();
+			messages.add("Entry set complete.");
 			try {
-				fw.write(counts.toString());
+				int count = 0;
+				for (Entry<String, Integer> entry : entries) {
+					String line = entry.getKey() + ":" + entry.getValue();
+					fw.write(line+System.getProperty("line.separator"));
+					fw.flush();
+					if (count % 1000 == 0) {
+						messages.add(count+ " words have been accounted for");	
+					}
+					count++;
+				}
 				fw.close();
+				messages.add("All lines written");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             
 		}
+		messages.add("Exiting.");
 	}
 }
-class Worker implements Runnable {
+class Worker implements Runnable,Callable<String> {
 	private final int threadNum;
 	private final BlockingQueue<String> log;
 	private final JsonLayer jl;
@@ -71,6 +92,10 @@ class Worker implements Runnable {
 		this.log = log;
 		this.jl = jl;
 		this.joinedMap = full;
+	}
+	public String call() {
+		run();
+		return "";
 	}
 	@Override
 	public void run() {

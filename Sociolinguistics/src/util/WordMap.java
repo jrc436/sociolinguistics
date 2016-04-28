@@ -2,14 +2,13 @@ package util;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Set;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
-public class WordMap extends HashMap<String, Integer>{
-	/**
-	 * 
-	 */
+public class WordMap extends HashMap<String, Integer> {
 	private static final long serialVersionUID = 6844547921098526441L;
 	public synchronized void combine(WordMap other) {
 		for (String word : other.keySet()) {
@@ -36,15 +35,36 @@ public class WordMap extends HashMap<String, Integer>{
 			}
 		}
 	}
-	
+
+	public List<String> getStringLines() {
+		List<String> lines = new ArrayList<String>();
+		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(this.entrySet());
+		for (Entry<String, Integer> entry : list) {
+			lines.add(entryString(entry));
+		}
+		return lines;
+	}
+	public String unsortedString() {
+		String aggregate = "";
+		for (Entry<String, Integer> entry : this.entrySet()) {
+			aggregate += entryString(entry) + System.getProperty("line.separator");
+		}
+		return aggregate;
+	}
+	public Set<Entry<String, Integer>> getEntrySet() {
+		return this.entrySet();
+	}	
 	public String toString() {
 		String aggregate = "";
 		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(this.entrySet());
 		Collections.sort(list, new wordMapSorter(false));
 		for (Entry<String, Integer> entry : list) {
-			aggregate += entry.getKey()+" : "+entry.getValue() + System.getProperty("line.separator");
+			aggregate += entryString(entry) + System.getProperty("line.separator");
 		}
 		return aggregate;
+	}
+	private String entryString(Entry<String, Integer> entry) {
+		 return entry.getKey()+" : "+entry.getValue();
 	}
 	class wordMapSorter implements Comparator<Entry<String, Integer>> {
 		private final boolean ascending;
