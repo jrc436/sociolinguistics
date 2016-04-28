@@ -11,19 +11,29 @@
     <property name="source" value="1.8"/>
     <path id="Sociolinguistics.classpath">
         <pathelement location="bin"/>
-        <pathelement location="lib/javax.json.jar"/>
-        <pathelement location="lib/stanford.corenlp.jar"/>
         <pathelement location="lib/ejml.jar"/>
+        <pathelement location="lib/ejml.src.zip"/>
+        <pathelement location="lib/javax.json.jar"/>
+        <pathelement location="lib/javax.json.src.jar"/>
+        <pathelement location="lib/joda-time.jar"/>
+        <pathelement location="lib/joda-time.src.jar"/>
         <pathelement location="lib/jollyday.jar"/>
-        <pathelement location="lib/xom.jar"/>
-        <pathelement location="lib/slf4j-simple.jar"/>
+        <pathelement location="lib/jollyday.src.jar"/>
+        <pathelement location="lib/protobuf.jar"/>
         <pathelement location="lib/slf4j-api.jar"/>
+        <pathelement location="lib/slf4j-simple.jar"/>
+        <pathelement location="lib/stanford.corenlp.jar"/>
+        <pathelement location="lib/stanford.corenlp.javadoc.jar"/>
         <pathelement location="lib/stanford.corenlp.models.jar"/>
+        <pathelement location="lib/stanford.corenlp.src.jar"/>
+        <pathelement location="lib/xom.jar"/>
+        <pathelement location="lib/xom.src.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
+                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -55,41 +65,9 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="CommentOrganizer">
-        <java classname="armedconflicts.CommentOrganizer" failonerror="true" fork="yes">
-            <arg line="/work/research/sociolinguistics/test/inp /work/research/sociolinguistics/test/out /work/research/sociolinguistics/armed-conflicts.csv"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="SentimentTest">
-        <java classname="armedconflicts.SentimentTest" failonerror="true" fork="yes">
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="CountMain">
-        <java classname="wordcounter.CountMain" failonerror="true" fork="yes">
-            <arg line="/work/research/sociolinguistics/test/processed/ /work/research/sociolinguistics/test/counts.test"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="CommentParser">
-        <java classname="armedconflicts.CommentParser" failonerror="true" fork="yes">
-            <jvmarg line="-Xmx3g"/>
-            <arg line="/work/research/sociolinguistics/test/conflictcomments/ /work/research/sociolinguistics/csvfiles/rdata.csv /work/research/sociolinguistics/csvfiles/test.csv /work/research/sociolinguistics/csvfiles/timedata.csv false"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="JsonFormatter">
-        <java classname="util.JsonFormatter" failonerror="true" fork="yes">
-            <jvmarg line="-Xmx2g"/>
-            <arg line="/work/research/sociolinguistics/test/unprocessed/ /work/research/sociolinguistics/test/processed/"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="SentiTest">
-        <java classname="armedconflicts.SentiTest" failonerror="true" fork="yes">
-            <jvmarg line="-Xmx3g"/>
-            <arg line="/work/research/sociolinguistics/test/inp/ /work/research/sociolinguistics/csvfiles/rdata.csv /work/research/sociolinguistics/csvfiles/test.csv /work/research/sociolinguistics/csvfiles/timedata.csv false"/>
+    <target name="Filter">
+        <java classname="wordtracer.Filter" failonerror="true" fork="yes">
+            <arg line="/work/research/sociolinguistics/test.file /work/research/sociolinguistics/test.output"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
