@@ -1,16 +1,17 @@
 package util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
-public class WordMap extends HashMap<String, Integer>{
-	/**
-	 * 
-	 */
+public class WordMap extends HashMap<String, Integer> {
 	private static final long serialVersionUID = 6844547921098526441L;
+	public static final String splitter = ":";
 	public synchronized void combine(WordMap other) {
 		for (String word : other.keySet()) {
 			if (this.containsKey(word)) {
@@ -37,18 +38,58 @@ public class WordMap extends HashMap<String, Integer>{
 		}
 	}
 	
-	public synchronized void addFromStr(String s) {
-		
+	public void cleanNonWords() {
+		List<String> mark = new ArrayList<String>();
+		for (String word : this.keySet()) {
+			if (!isWord(word)) {
+				mark.add(word);
+			}
+		}
+		for (String w : mark) {
+			this.remove(w);
+		}
+	}
+	private static final Pattern wordDef = Pattern.compile("^[a-zA-Z]+$");
+	public static boolean isWord(String s) {
+		return wordDef.matcher(s).matches();
+	}
+
+	public synchronized void addFromString(String s) {
+		int splitdex = s.lastIndexOf(splitter); 
+		String str = s.substring(0, splitdex);
+		int number = Integer.parseInt(s.substring(splitdex + 1));
+		this.put(str, number);
 	}
 	
+	public List<String> getStringLines() {
+		List<String> lines = new ArrayList<String>();
+		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(this.entrySet());
+		for (Entry<String, Integer> entry : list) {
+			lines.add(entryString(entry));
+		}
+		return lines;
+	}
+	public String unsortedString() {
+		String aggregate = "";
+		for (Entry<String, Integer> entry : this.entrySet()) {
+			aggregate += entryString(entry) + System.getProperty("line.separator");
+		}
+		return aggregate;
+	}
+	public Set<Entry<String, Integer>> getEntrySet() {
+		return this.entrySet();
+	}	
 	public String toString() {
 		String aggregate = "";
-        List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(this.entrySet());
-        Collections.sort(list, new wordMapSorter(false));
-        for (Entry<String, Integer> entry : list) {
-                aggregate += entry.getKey()+" : "+entry.getValue() + System.getProperty("line.separator");
-        }
-        return aggregate;
+		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(this.entrySet());
+		Collections.sort(list, new wordMapSorter(false));
+		for (Entry<String, Integer> entry : list) {
+			aggregate += entryString(entry) + System.getProperty("line.separator");
+		}
+		return aggregate;
+	}
+	private String entryString(Entry<String, Integer> entry) {
+		 return entry.getKey()+splitter+entry.getValue();
 	}
 	class wordMapSorter implements Comparator<Entry<String, Integer>> {
 		private final boolean ascending;
