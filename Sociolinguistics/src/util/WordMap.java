@@ -37,14 +37,18 @@ public class WordMap extends HashMap<String, Integer>{
 		}
 	}
 	
+	public synchronized void addFromStr(String s) {
+		
+	}
+	
 	public String toString() {
 		String aggregate = "";
-		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(this.entrySet());
-		Collections.sort(list, new wordMapSorter(false));
-		for (Entry<String, Integer> entry : list) {
-			aggregate += entry.getKey()+" : "+entry.getValue() + System.getProperty("line.separator");
-		}
-		return aggregate;
+        List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(this.entrySet());
+        Collections.sort(list, new wordMapSorter(false));
+        for (Entry<String, Integer> entry : list) {
+                aggregate += entry.getKey()+" : "+entry.getValue() + System.getProperty("line.separator");
+        }
+        return aggregate;
 	}
 	class wordMapSorter implements Comparator<Entry<String, Integer>> {
 		private final boolean ascending;

@@ -14,10 +14,9 @@ public class SentimentLayer {
 
 	public SentimentLayer() {
 		Properties pipelineProps = new Properties();
-		Properties tokenizerProps = null;
 		pipelineProps.setProperty("annotators", "parse, sentiment");
 		pipelineProps.setProperty("enforceRequirements", "false");
-		tokenizerProps = new Properties();
+		Properties tokenizerProps = new Properties();
 		tokenizerProps.setProperty("annotators", "tokenize, ssplit");
 		tokenizerProps.setProperty("ssplit.eolonly", "true");
 

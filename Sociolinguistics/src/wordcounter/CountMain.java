@@ -18,7 +18,7 @@ import util.WordMap;
 
 public class CountMain {
 	public static void main(String[] args) {
-        String errMessage = "Required parameters: Input Folder (JSON) and Output File (Counts)";
+        String errMessage = "Required parameters: Input Folder (JSON) and Output File (Count-Format)";
         if (args.length != 2) {
                 System.out.println(errMessage);
                 System.exit(1);
