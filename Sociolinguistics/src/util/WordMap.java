@@ -55,10 +55,15 @@ public class WordMap extends HashMap<String, Integer> {
 	}
 
 	public synchronized void addFromString(String s) {
-		int splitdex = s.lastIndexOf(splitter); 
-		String str = s.substring(0, splitdex);
-		int number = Integer.parseInt(s.substring(splitdex + 1));
-		this.put(str, number);
+		try {
+			int splitdex = s.lastIndexOf(splitter); 
+			String str = s.substring(0, splitdex);
+			int number = Integer.parseInt(s.substring(splitdex + 1));
+			this.put(str, number);
+		}
+		catch (Exception e) {
+			System.out.println("Trouble adding to WordMap:"+s);
+		}
 	}
 	
 	public List<String> getStringLines() {

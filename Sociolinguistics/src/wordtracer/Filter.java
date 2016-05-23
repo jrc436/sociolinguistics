@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -32,14 +33,17 @@ public class Filter {
 		while (scan.hasNextLine()) {
 			wm.addFromString(scan.nextLine());
 		}
-		wm.cleanNonWords();
-		Set<Entry<String, Integer>> entries = wm.getEntrySet();
+		//wm.cleanNonWords();
+		//Set<Entry<String, Integer>> entries = wm.getEntrySet();
+		System.out.println("Reading Complete");
+		List<String> lines = wm.getStringLines();
+		System.out.println("Sorting Complete");
 		try {
-			for (Entry<String, Integer> entry : entries) {
-				String line = entry.getKey() + WordMap.splitter + entry.getValue();
+			for (String line : lines) {
 				fw.write(line+System.getProperty("line.separator"));
 				fw.flush();
 			}
+			System.out.println("Writing Complete");
 			fr.close();
 			scan.close();
 			fw.close();
