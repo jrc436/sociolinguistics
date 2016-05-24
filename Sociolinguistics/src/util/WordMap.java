@@ -1,5 +1,7 @@
 package util;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,7 +9,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 public class WordMap extends HashMap<String, Integer> {
 	private static final long serialVersionUID = 6844547921098526441L;
@@ -37,22 +38,6 @@ public class WordMap extends HashMap<String, Integer> {
 			}
 		}
 	}
-	
-	public void cleanNonWords() {
-		List<String> mark = new ArrayList<String>();
-		for (String word : this.keySet()) {
-			if (!isWord(word)) {
-				mark.add(word);
-			}
-		}
-		for (String w : mark) {
-			this.remove(w);
-		}
-	}
-	private static final Pattern wordDef = Pattern.compile("^[a-zA-Z]+$");
-	public static boolean isWord(String s) {
-		return wordDef.matcher(s).matches();
-	}
 
 	public synchronized void addFromString(String s) {
 		try {
@@ -81,9 +66,16 @@ public class WordMap extends HashMap<String, Integer> {
 		}
 		return aggregate;
 	}
-	public Set<Entry<String, Integer>> getEntrySet() {
-		return this.entrySet();
-	}	
+	public void writeUnsortedToFile(FileWriter fw) throws IOException {
+		Set<Entry<String, Integer>> entries = this.entrySet();
+		for (Entry<String, Integer> entry : entries) {
+			fw.write(entryString(entry)+System.getProperty("line.separator"));
+		}
+	}
+//	public Set<Entry<String, Integer>> getEntrySet() {
+//		return this.entrySet();
+//	}
+	
 	public String toString() {
 		String aggregate = "";
 		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(this.entrySet());

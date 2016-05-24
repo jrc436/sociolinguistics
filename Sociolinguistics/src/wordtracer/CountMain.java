@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -58,19 +56,21 @@ public class CountMain {
 		finally {
 			messages.add("Invocation complete. Writing!");
 			//List<String> lines = counts.getStringLines();
-			Set<Entry<String, Integer>> entries = counts.getEntrySet();
+			
+		//	Set<Entry<String, Integer>> entries = counts.getEntrySet();
 			messages.add("Entry set complete.");
 			try {
-				int count = 0;
-				for (Entry<String, Integer> entry : entries) {
-					String line = entry.getKey() + WordMap.splitter + entry.getValue();
-					fw.write(line+System.getProperty("line.separator"));
-					fw.flush();
-					if (count % 1000 == 0) {
-						messages.add(count+ " words have been accounted for");	
-					}
-					count++;
-				}
+				counts.writeUnsortedToFile(fw);
+//				int count = 0;
+//				for (Entry<String, Integer> entry : entries) {
+//					String line = entry.getKey() + WordMap.splitter + entry.getValue();
+//					fw.write(line+System.getProperty("line.separator"));
+//					fw.flush();
+//					if (count % 1000 == 0) {
+//						messages.add(count+ " words have been accounted for");	
+//					}
+//					count++;
+//				}
 				fw.close();
 				messages.add("All lines written");
 			} catch (IOException e) {
