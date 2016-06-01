@@ -57,9 +57,9 @@ public abstract class Filter {
 							//okay, time to write to the final fileout
 							curFileWriter = fw;
 						}
-						cat.get(i).filterCritical(s, curFileWriter);		
+						cat.get(i).filterCritical(s, curFileWriter);
+						s = new Scanner(new FileInputStream(tmpFile));
 					}
-					s = new Scanner(new FileInputStream(tmpFile));
 				}
 				catch (IOException ie) {
 					System.err.println("Error in chaining filters. This is a bug that shouldn't ever happen.");

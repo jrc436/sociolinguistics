@@ -12,7 +12,8 @@ import java.util.Set;
 
 public class WordMap extends HashMap<String, Integer> {
 	private static final long serialVersionUID = 6844547921098526441L;
-	public static final String splitter = ":";
+	//the splitter should be something very unlikely to be in the string
+	public static final String splitter = "::-:--:";
 	public synchronized void combine(WordMap other) {
 		for (String word : other.keySet()) {
 			if (this.containsKey(word)) {
@@ -43,12 +44,15 @@ public class WordMap extends HashMap<String, Integer> {
 		try {
 			int splitdex = s.lastIndexOf(splitter); 
 			String str = s.substring(0, splitdex);
-			int number = Integer.parseInt(s.substring(splitdex + 1));
+			int number = Integer.parseInt(s.substring(splitdex + splitter.length()));
 			this.put(str, number);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Trouble adding to WordMap:"+s);
+			System.exit(1);
 		}
+		//System.out.println("Successful add");
 	}
 	
 	public List<String> getStringLines() {

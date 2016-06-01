@@ -14,9 +14,22 @@ public abstract class WordMapFilter extends Filter {
 	@Override
 	protected void filterCritical(Scanner s, FileWriter fw) {
 		WordMap wm = new WordMap();
+		int badcount = 0;
+		int goodcount = 0;
 		while (s.hasNextLine()) {
-			wm.addFromString(s.nextLine());
+			//System.out.println(s.nextLine());
+			String ln = s.nextLine();
+			if (ln.contains(WordMap.splitter)) {
+				goodcount++;
+				wm.addFromString(ln);
+			}
+			else {
+				badcount++;
+			}
 		}
+		System.out.println("Good: "+goodcount);
+		System.out.println("Bad: "+badcount);
+		System.exit(1);
 		applyFilter(wm, createFilter(wm));
 		try {
 			wm.writeUnsortedToFile(fw);
@@ -24,6 +37,8 @@ public abstract class WordMapFilter extends Filter {
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println("Filter: "+this.getClass()+" has failed to write.");
+			System.exit(1);
 		}
 	}
 	private static void applyFilter(WordMap wm, IWordMapFilter filt) {
