@@ -1,4 +1,4 @@
-package armedconflicts;
+package util;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,19 +8,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import util.StringCleaner;
-
-public class ConflictKeyWord {
+public class KeywordOrganizer {
 	private final Set<String> keywords;
 	private final String name;
 	private final FileWriter fw;
-	public ConflictKeyWord(Path outFolder, String name, String...keywords) throws IOException {
+	public KeywordOrganizer(Path outFolder, String name, String...keywords) throws IOException {
 		this(outFolder, name, Arrays.asList(keywords));
 	}
 	public String toString() {
 		return name+"="+keywords.toString();
 	}
-	public ConflictKeyWord(Path outFolder, String name, List<String> keywords) throws IOException {
+	public KeywordOrganizer(Path outFolder, String name, List<String> keywords) throws IOException {
 		this.keywords = new HashSet<String>();
 		for (int i = 0; i < keywords.size(); i++) {
 			String keyword = StringCleaner.cleanPhrase(keywords.get(i));

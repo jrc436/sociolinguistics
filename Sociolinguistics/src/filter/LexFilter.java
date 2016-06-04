@@ -1,13 +1,14 @@
-package wordtracer;
+package filter;
 
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import util.WordMap;
+import wordmap.Combinable;
+import wordmap.WordMap;
 
 public class LexFilter extends WordMapFilter {
 	private static final Pattern wordDef = Pattern.compile("^[a-zA-Z]+$");
-	public static boolean isWord(Map.Entry<String, Integer> s) {
+	private static boolean isWord(Map.Entry<String, Combinable> s) {
 		return wordDef.matcher(s.getKey()).matches();
 	}
 	@Override

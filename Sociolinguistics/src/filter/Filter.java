@@ -1,4 +1,4 @@
-package wordtracer;
+package filter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,8 +50,8 @@ public abstract class Filter {
 					for (int i = 0; i < cat.size(); i++) {
 						if (i != cat.size()-1) {
 							//ok need to write to an intermediary fileout
-							tmpFile = File.createTempFile("filter"+i, ".tmp");
-							curFileWriter = new FileWriter(tmpFile);
+							tmpFile = new File("filter"+i + ".tmp");
+							curFileWriter = new FileWriter("filter"+i+".tmp");
 						}
 						else {
 							//okay, time to write to the final fileout
@@ -98,10 +98,10 @@ public abstract class Filter {
 			return null;
 		}
 		static Filter instantiate(String name) {
-			Filter f = getEnumFromName(name).instantiate();
-			if (f != null) {
-				return f;
-			}
+			FilterEnum fe = getEnumFromName(name);
+			if (fe != null) {
+				return fe.instantiate();
+			}		
 			try {
 				Class<?> cls = Class.forName(name);
 				if (cls.isAssignableFrom(Filter.class)) {

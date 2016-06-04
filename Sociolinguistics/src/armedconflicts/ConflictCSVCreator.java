@@ -21,7 +21,7 @@ import util.ResourceAllocator;
 import util.SentimentLayer;
 import util.StringCleaner;
 
-public class CommentParser {
+public class ConflictCSVCreator {
 	private static final List<String> helpMsg = new ArrayList<String>();
 	private static final String comDirName = "arg0";
 	private static final String rdataCSV = "arg1";
