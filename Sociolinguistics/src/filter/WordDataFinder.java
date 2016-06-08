@@ -52,7 +52,7 @@ public class WordDataFinder {
 		FileWriter fw = null;
 		try {
 			fw = new FileWriter(args[1]);
-			log = new Thread(new Logger(messages, "log.txt"));
+			log = new Thread(new Logger(messages, "log-wdf.txt"));
 			log.setDaemon(true);
 			log.start();
 		} catch (IOException e) {
@@ -60,7 +60,7 @@ public class WordDataFinder {
 			System.exit(1);
 		}
 		
-		int numRuns = ResourceAllocator.getSuggestedNumThreads(3);
+		int numRuns = ResourceAllocator.getSuggestedNumThreads(25);
 		ExecutorService es = Executors.newCachedThreadPool();
 		List<Worker> tasks = new ArrayList<Worker>();
 		for (int i = 0; i < numRuns; i++) {

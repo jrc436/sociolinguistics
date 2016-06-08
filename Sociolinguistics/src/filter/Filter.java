@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
 
 public abstract class Filter {
-	public void filter(String fileIn, String fileOut) {
+	public void filter(String fileIn, String fileOut, BlockingQueue<String> messages) {
 		FileInputStream fr = null;
 		FileWriter fw = null;
+		messages.offer("Beginning filter process. End file will be available at: "+fileOut);
 		try {
 			fr = new FileInputStream(fileIn);
 			fw = new FileWriter(fileOut);
@@ -22,9 +24,10 @@ public abstract class Filter {
 			System.exit(1);
 		}
 		Scanner scan = new Scanner(fr);
-		filterCritical(scan, fw);
+		filterCritical(scan, fw, messages);
+		messages.offer("Filter ending");
 	}
-	protected abstract void filterCritical(Scanner s, FileWriter fw);
+	protected abstract void filterCritical(Scanner s, FileWriter fw, BlockingQueue<String> log);
 	private static Filter getFilterByName(String name) {
 		return FilterEnum.instantiate(name);
 	}
@@ -41,7 +44,7 @@ public abstract class Filter {
 		}
 		return new Filter() {
 			@Override
-			public void filterCritical(Scanner s, FileWriter fw) {
+			public void filterCritical(Scanner s, FileWriter fw, BlockingQueue<String> log) {
 				//String curFileIn = fileIn;
 				//String curFileOut = fileOut;
 				FileWriter curFileWriter = null;
@@ -50,14 +53,18 @@ public abstract class Filter {
 					for (int i = 0; i < cat.size(); i++) {
 						if (i != cat.size()-1) {
 							//ok need to write to an intermediary fileout
-							tmpFile = new File("filter"+i + ".tmp");
-							curFileWriter = new FileWriter("filter"+i+".tmp");
+							String fpath = "filter"+i+".tmp";
+							tmpFile = new File(fpath);
+							curFileWriter = new FileWriter(tmpFile);
+							log.offer("Starting filter: "+i+" intermediate file will be available at: "+fpath);	
 						}
 						else {
 							//okay, time to write to the final fileout
 							curFileWriter = fw;
+							log.offer("Starting final pass filter.");
 						}
-						cat.get(i).filterCritical(s, curFileWriter);
+						cat.get(i).filterCritical(s, curFileWriter, log);
+						log.offer("Filter: "+i+" is completed.");
 						s = new Scanner(new FileInputStream(tmpFile));
 					}
 				}
