@@ -2,9 +2,9 @@ package filter;
 
 import java.util.Map.Entry;
 
-import wordmap.Combinable;
-import wordmap.CountCombine;
-import wordmap.WordMap;
+import util.wordmap.Combinable;
+import util.wordmap.CountCombine;
+import util.wordmap.WordMap;
 
 public class FreqFilter extends WordMapFilter {
 	//private static final double lowerboundFreq = 0.0001;

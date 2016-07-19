@@ -3,8 +3,8 @@ package filter;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import wordmap.Combinable;
-import wordmap.WordMap;
+import util.wordmap.Combinable;
+import util.wordmap.WordMap;
 
 public class LexFilter extends WordMapFilter {
 	private static final Pattern wordDef = Pattern.compile("^[a-zA-Z]+$");

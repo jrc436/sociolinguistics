@@ -2,7 +2,7 @@ package filter;
 
 import java.util.Map;
 
-import wordmap.Combinable;
+import util.wordmap.Combinable;
 
 @FunctionalInterface
 public interface IWordMapFilter {

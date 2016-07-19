@@ -71,16 +71,16 @@
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
-    <target name="WordDataFinder">
-        <java classname="filter.WordDataFinder" failonerror="true" fork="yes">
-            <arg line="/work/data/test/data/ /work/data/test/wordmap.txt wordmap.EarlyDateCombine wordmap.CountCombine"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
     <target name="FilterMain">
         <java classname="filter.FilterMain" failonerror="true" fork="yes">
             <jvmarg line="-Xmx12g"/>
             <arg line="/work/data/test/wordmap.txt /work/data/test/filtermap.txt filter.DateFilter Lexical Frequency"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="WordDataMain">
+        <java classname="worddata.WordDataMain" failonerror="true" fork="yes">
+            <arg line="/work/data/test/data/ /work/data/test/wordmap.txt wordmap.EarlyDateCombine wordmap.CountCombine"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>

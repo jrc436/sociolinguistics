@@ -5,9 +5,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Map.Entry;
 
-import wordmap.Combinable;
-import wordmap.EarlyDateCombine;
-import wordmap.WordMap;
+import util.wordmap.Combinable;
+import util.wordmap.EarlyDateCombine;
+import util.wordmap.WordMap;
 
 public class DateFilter extends WordMapFilter {
 	private static final Instant earliestDate = LocalDate.of(2013, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant();

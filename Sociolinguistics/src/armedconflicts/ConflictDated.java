@@ -4,9 +4,10 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import util.CSVReader;
-import util.StringCleaner;
+import filter.StringCleaner;
+import util.csv.CSVReader;
 
+@Deprecated
 public class ConflictDated {
 	private final HashMap<ConflictExternality, Integer[]> data;
 	public ConflictDated() {
