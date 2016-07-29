@@ -1,6 +1,7 @@
 package util.csv;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 
 import util.json.JsonList;
@@ -49,6 +50,25 @@ public class JsonCSV extends JsonList implements DataType {
 	@Override
 	public String getFileExt() {
 		return ".csv";
+	}
+	@Override
+	public Iterator<String> getStringIter() {
+		Iterator<String> keys = this.sortedKeys.iterator();
+		final JsonCSV outer = this;
+		Iterator<String> iter = new Iterator<String>() {
+			public boolean hasNext() {
+				return keys.hasNext();
+			}
+			public String next() {
+				String key = keys.next();
+				String line = "";
+				for (JsonReadable jr : outer) {
+					line += jr.get(key) + ",";
+				}
+				return line.substring(0, line.length()-1);
+			}
+		};
+		return iter;
 	}
 
 	@Override

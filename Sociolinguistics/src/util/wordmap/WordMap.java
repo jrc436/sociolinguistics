@@ -3,12 +3,14 @@ package util.wordmap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import filter.StringCleaner;
 import util.data.Comment;
 import util.data.CommentFormat;
 import util.sys.DataType;
+import util.sys.FileWritable;
 
 public class WordMap extends HashMap<String, Combinable> implements DataType {
 	private static final long serialVersionUID = 6844547921098526441L;
@@ -175,6 +177,10 @@ public class WordMap extends HashMap<String, Combinable> implements DataType {
 	@Override
 	public boolean isFull(int gbAllocated) {
 		return this.size() > 10000*gbAllocated;
+	}
+	@Override
+	public Iterator<String> getStringIter() {
+		return FileWritable.<WordMap.Entry<String, Combinable>, Set<Entry<String, Combinable>>>iterBuilder(this.entrySet(), this::entryString);
 	}
 
 }

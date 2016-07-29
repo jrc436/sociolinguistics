@@ -2,7 +2,9 @@ package util.listdata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import util.data.Comment;
 import util.data.CommentFormat;
@@ -132,6 +134,33 @@ public class KeywordList extends HashMap<String, List<Comment>> implements DataT
 	@Override
 	public boolean isFull(int gbAllocated) {
 		return this.size() > 10000*gbAllocated;
+	}
+	@Override
+	public Iterator<String> getStringIter() {
+		Iterator<String> keys = this.keySet().iterator();
+		final KeywordList outer = this;
+		Iterator<String> iter = new Iterator<String>() {
+			private Iterator<Comment> vals;
+			
+			public boolean hasNext() {
+				return keys.hasNext() || (vals != null && vals.hasNext());
+			}
+			public String next() {
+				if (vals == null) {
+					String key = keys.next();
+					vals = outer.get(key).iterator();
+					return getKeyMarker(key);
+				}
+				else if (vals.hasNext()) { //we're going to return, so yeah!
+					return vals.next().toString();
+				}
+				else {
+					vals = null;
+				}
+				throw new NoSuchElementException();
+			}
+		};
+		return iter;
 	}
 
 }

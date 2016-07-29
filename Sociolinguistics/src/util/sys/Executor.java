@@ -143,22 +143,22 @@ public class Executor<J extends FileProcessor<K, V>, K extends DataType, V exten
 			//this.gbAlloc = gbAlloc;
 			this.threadAggregate = proc.getInitialThreadValue();
 		}
-		private boolean shouldReduce() {
-			return this.threadAggregate.isFull(gbPerThread/2);
-		}
-		private void reInitializeThread() {
-			proc.reduce(threadAggregate);
-			this.threadAggregate = proc.getInitialThreadValue();
-		}
+//		private boolean shouldReduce() {
+//			return this.threadAggregate.isFull(gbPerThread/2);
+//		}
+//		private void reInitializeThread() {
+//			proc.reduce(threadAggregate);
+//			this.threadAggregate = proc.getInitialThreadValue();
+//		}
 		@Override
 		public void run() {
 			this.logMessage("Thread"+getNum()+" is beginning its run");
 			while (true) {
 				this.logMessage("Thread"+getNum()+" is waiting to acquire another file. "+proc.numReadableRemaining()+ " files remain.");
-				if (shouldReduce()) {
-					this.logMessage("Thread"+getNum()+" has exceeded its recommended size and is reducing early.");
-					reInitializeThread();
-				}
+//				if (shouldReduce()) {
+//					this.logMessage("Thread"+getNum()+" has exceeded its recommended size and is reducing early.");
+//					reInitializeThread();
+//				}
 				K data = proc.getNextData();						
 				if (data == null) {
 					this.logMessage("Thread"+getNum()+" has failed to acquire more data. It's ending its run.");

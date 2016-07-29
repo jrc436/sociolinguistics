@@ -2,6 +2,8 @@ package util.json;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import util.sys.DataType;
 
@@ -79,6 +81,32 @@ public class JsonKeyMap extends HashMap<String, JsonList> implements DataType {
 			full.addAll(this.get(s));
 		}
 		return JsonLayer.collectJsons(full);
+	}
+	
+	@Override
+	public Iterator<String> getStringIter() {
+		Iterator<String> keys = this.keySet().iterator();
+		final JsonKeyMap outer = this;
+		Iterator<String> iter = new Iterator<String>() {
+			private Iterator<JsonReadable> vals;
+			
+			public boolean hasNext() {
+				return keys.hasNext() || (vals != null && vals.hasNext());
+			}
+			public String next() {
+				if (vals == null) {
+					vals = outer.get(keys.next()).iterator();
+				}
+				if (vals.hasNext()) {
+					return vals.next().toString();
+				}
+				else {
+					vals = null;
+				}
+				throw new NoSuchElementException();
+			}
+		};
+		return iter;
 	}
 
 	@Override

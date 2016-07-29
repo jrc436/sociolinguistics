@@ -33,7 +33,6 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
-                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -81,6 +80,19 @@
     <target name="WordDataMain">
         <java classname="worddata.WordDataMain" failonerror="true" fork="yes">
             <arg line="/work/data/test/data/ /work/data/test/wordmap.txt wordmap.EarlyDateCombine wordmap.CountCombine"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="KeywordOrganizerMain">
+        <java classname="keywords.KeywordOrganizerMain" failonerror="true" fork="yes">
+            <jvmarg line="-Xmx12g"/>
+            <arg line="/work/data/test/data /work/data/test/organized-comments2/ hi END reddit"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="WordMapCreator">
+        <java classname="worddata.WordDataMain" failonerror="true" fork="yes">
+            <arg line="/work/data/test/data/ /work/data/test/wordmapd99/ reddit util.wordmap.EarlyDateCombine util.wordmap.CountCombine END"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>

@@ -1,8 +1,10 @@
 package util.json;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import util.sys.DataType;
+import util.sys.FileWritable;
 
 public class JsonList extends ArrayList<JsonReadable> implements DataType {
 	public JsonList() {
@@ -36,11 +38,6 @@ public class JsonList extends ArrayList<JsonReadable> implements DataType {
 	@Override
 	public DataType deepCopy() {
 		return new JsonList(this);
-//		JsonList jc = new JsonList();
-//		for (JsonReadable jr : this) {
-//			jc.add(jr);
-//		}
-//		return jc;
 	}
 
 	@Override
@@ -60,6 +57,10 @@ public class JsonList extends ArrayList<JsonReadable> implements DataType {
 	public boolean hasNArgs() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	@Override
+	public Iterator<String> getStringIter() {
+		return FileWritable.<JsonReadable,JsonList>iterBuilder(this);
 	}
 
 }

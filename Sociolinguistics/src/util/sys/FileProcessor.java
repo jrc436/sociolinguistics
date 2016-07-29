@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -101,15 +102,18 @@ public abstract class FileProcessor<E extends DataType, V extends DataType> impl
 	 */
 	public File write() {
 		System.err.println("Beginning write");
-		ArrayList<String> all = processAggregate.getDataWriteLines();
-		//String[] all = allc.toArray(new String[allc.size()]);
 		int fileNum = 0;
 		String base = outputDir.getFileName().toString();
 		int runningChars = 0;
 		List<String> lines = new ArrayList<String>();
-		for (int i = 0; i < all.size(); i++) {
-			lines.add(all.get(i));
-			runningChars += all.get(i).length();
+		Iterator<String> iter = processAggregate.getStringIter();
+		while (iter.hasNext()) {
+			String line = iter.next();
+			if (line == null) {
+				break;
+			}
+			lines.add(line);
+			runningChars += line.length();
 			if (runningChars > maxCharPerFile) {
 				System.err.println("Preparing to write to a file");
 				String fileName = base+"-"+fileNum+getFileExt();
