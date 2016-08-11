@@ -1,9 +1,14 @@
 package util.wordmap;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import filter.StringCleaner;
@@ -40,6 +45,38 @@ public class WordMap extends HashMap<String, Combinable> implements DataType {
 				System.exit(1);
 			}
 		}
+	}
+	public static WordMap createFromDirectory(String fp) {
+		File[] wmFiles = Paths.get(fp).toFile().listFiles();
+		WordMap agg = null;
+		for (File f : wmFiles) {
+			WordMap wm = createFromFile(f);
+			if (agg == null) {
+				agg = wm;
+			}
+			else {
+				agg.combine(wm);
+			}
+		}
+		return agg;
+	}
+	public static WordMap createFromFile(File f) {
+		List<String> lines = null;;
+		try {
+			lines = Files.readAllLines(f.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		String thisCreateLine = lines.remove(0);
+		return create(lines, thisCreateLine);
+	}
+	public static WordMap create(List<String> lines, String createLine) {
+		WordMap wm = new WordMap(createLine);
+		for (String s : lines) {
+			wm.addFromString(s);
+		}
+		return wm;
 	}
 	public WordMap(String headerLine) {
 //		String[] parts = headerLine.split(headSplit);

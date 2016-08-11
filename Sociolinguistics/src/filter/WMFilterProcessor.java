@@ -64,22 +64,23 @@ public class WMFilterProcessor extends FileProcessor<WordMap, WordMap> {
 		if ( f == null) {
 			return null;
 		}
-		List<String> lines = null;;
-		try {
-			lines = Files.readAllLines(f.toPath());
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
-		String thisCreateLine = lines.remove(0);
-		if (!thisCreateLine.equals(createLine)) {
-			System.err.println(thisCreateLine+" does not match process createLine: "+createLine);
-		}
-		WordMap wm = new WordMap(createLine);
-		for (String s : lines) {
-			wm.addFromString(s);
-		}
-		return wm;
+		return WordMap.createFromFile(f);
+//		List<String> lines = null;;
+//		try {
+//			lines = Files.readAllLines(f.toPath());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			System.exit(1);
+//		}
+//		String thisCreateLine = lines.remove(0);
+//		if (!thisCreateLine.equals(createLine)) {
+//			System.err.println(thisCreateLine+" does not match process createLine: "+createLine);
+//		}
+//		WordMap wm = new WordMap(createLine);
+//		for (String s : lines) {
+//			wm.addFromString(s);
+//		}
+//		return wm;
 	}
 
 	@Override

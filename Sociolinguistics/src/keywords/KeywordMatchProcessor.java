@@ -11,8 +11,8 @@ import util.json.JsonReadable;
 import util.listdata.KeywordList;
 
 public class KeywordMatchProcessor extends JsonLayer<KeywordList> {
-	public KeywordMatchProcessor(String inpDir, String outDir, String[] wmArgs, String[] keywords) {
-		super(inpDir, outDir, new KeywordList(keywords, CommentFormat.fromString(wmArgs[0])), wmArgs[0]);
+	public KeywordMatchProcessor(String inpDir, String outDir, String[] cf, String[] keywords) {
+		super(inpDir, outDir, new KeywordList(keywords, CommentFormat.fromString(cf[0])), cf[0]);
 	}
 	public KeywordMatchProcessor() {
 		super();
@@ -28,13 +28,15 @@ public class KeywordMatchProcessor extends JsonLayer<KeywordList> {
 			}
 		}
 	}
+	//keywordlist provides the keywords
 	@Override
 	public boolean hasNArgs() {
 		return false;
 	}
+	//needs the comment format
 	@Override
 	public int getNumFixedArgs() {
-		return 1; //gets commentformat from the wm
+		return 1;
 	}
 	@Override
 	public String getConstructionErrorMsg() {
