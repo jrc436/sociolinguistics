@@ -146,17 +146,14 @@ public class KeywordList extends HashMap<String, List<Comment>> implements DataT
 				return keys.hasNext() || (vals != null && vals.hasNext());
 			}
 			public String next() {
-				if (vals == null) {
+				if ((vals == null || !vals.hasNext()) && keys.hasNext()) {
 					String key = keys.next();
 					vals = outer.get(key).iterator();
 					return getKeyMarker(key);
 				}
-				else if (vals.hasNext()) { //we're going to return, so yeah!
+				else if (vals != null && vals.hasNext()) { //we're going to return, so yeah!
 					return vals.next().toString();
-				}
-				else {
-					vals = null;
-				}
+				} //neither keys nor vals have a next
 				throw new NoSuchElementException();
 			}
 		};
