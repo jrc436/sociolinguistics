@@ -49,10 +49,10 @@ public class JsonList extends ArrayList<JsonReadable> implements DataType {
 	public String getFooterLine() {
 		return "]";
 	}
-	@Override
-	public boolean isFull(int gbAllocated) {
-		return this.size() > 100000*gbAllocated;
-	}
+//	@Override
+//	public boolean isFull(int gbAllocated) {
+//		return this.size() > 100000*gbAllocated;
+//	}
 	@Override
 	public boolean hasNArgs() {
 		// TODO Auto-generated method stub

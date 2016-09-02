@@ -1,5 +1,6 @@
 package util.csv;
 
+@Deprecated
 public enum CsvType {
 	simple, //just a list of keywords
 	wordmap,

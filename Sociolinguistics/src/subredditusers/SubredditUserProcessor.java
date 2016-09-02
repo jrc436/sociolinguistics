@@ -1,29 +1,26 @@
-package keywords;
+package subredditusers;
 
-import filter.StringCleaner;
 import util.data.Comment;
 import util.data.CommentFormat;
 import util.json.JsonLayer;
 import util.json.JsonList;
 import util.json.JsonReadable;
-import util.listdata.KeywordList;
+import util.listdata.UserList;
 
-public class KeywordMatchProcessor extends JsonLayer<KeywordList> {
-	public KeywordMatchProcessor(String inpDir, String outDir, String[] cf, String[] keywords) {
-		super(inpDir, outDir, new KeywordList(keywords, CommentFormat.fromString(cf[0])), cf[0]);
+public class SubredditUserProcessor extends JsonLayer<UserList> {
+	public SubredditUserProcessor(String inpDir, String outDir, String[] cf) {
+		super(inpDir, outDir, new UserList(CommentFormat.fromString(cf[0])), cf[0]);
 	}
-	public KeywordMatchProcessor() {
+	public SubredditUserProcessor() {
 		super();
 	}
-	//map is building a wordmap from keywords to comments that match them
+
 	@Override
-	public void map(JsonList newData, KeywordList threadAggregate) {
+	public void map(JsonList newData, UserList threadAggregate) {
 		for (JsonReadable jr : newData) {
 			Comment c = getAsComment(jr);
-			String comment = StringCleaner.cleanPhrase(c.getText());
-			for (String keyword : threadAggregate.getRelevantKeywords(comment)) {
-				threadAggregate.add(keyword, c);
-			}
+			String sr = c.getField("subreddit");
+			threadAggregate.addComment(sr, c);
 		}
 	}
 	//keywordlist provides the keywords
@@ -40,9 +37,8 @@ public class KeywordMatchProcessor extends JsonLayer<KeywordList> {
 	public String getConstructionErrorMsg() {
 		return super.getConstructionErrorMsg()+"; The comment format should be specified.";
 	}
-
 	@Override
-	public void reduce(KeywordList threadAggregate) {
+	public void reduce(UserList threadAggregate) {
 		synchronized(processAggregate) {
 			for (String key : threadAggregate.keySet()) {
 				if (processAggregate.containsKey(key)) {

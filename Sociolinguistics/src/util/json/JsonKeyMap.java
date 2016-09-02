@@ -127,10 +127,10 @@ public class JsonKeyMap extends HashMap<String, JsonList> implements DataType {
 		}
 		return jkm;
 	}
-	@Override
-	public boolean isFull(int gbAllocated) {
-		return this.size() > 100*gbAllocated;
-	}
+//	@Override
+//	public boolean isFull(int gbAllocated) {
+//		return this.size() > 100*gbAllocated;
+//	}
 	@Override
 	public boolean hasNArgs() {
 		// TODO Auto-generated method stub

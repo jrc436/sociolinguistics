@@ -10,6 +10,6 @@ public interface DataType extends CmdLineInit, FileWritable {
 	 * @return
 	 * false, or a metric for determining when a thread should forcibly call reduce
 	 */
-	public boolean isFull(int gbAllocated);
+	//public boolean isFull(int gbAllocated);
 	//public DataType fromFile(File f);
 }

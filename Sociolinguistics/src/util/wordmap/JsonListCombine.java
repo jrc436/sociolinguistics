@@ -6,6 +6,7 @@ import java.util.List;
 import util.data.Comment;
 import util.json.JsonReadable;
 
+//too slow to be very useful, unfortunately !
 @Deprecated 
 public class JsonListCombine extends Combinable {
 	private static final String separator = "$uvu$";

@@ -211,10 +211,10 @@ public class WordMap extends HashMap<String, Combinable> implements DataType {
 		}
 		return wm;
 	}
-	@Override
-	public boolean isFull(int gbAllocated) {
-		return this.size() > 10000*gbAllocated;
-	}
+//	@Override
+//	public boolean isFull(int gbAllocated) {
+//		return this.size() > 10000*gbAllocated;
+//	}
 	@Override
 	public Iterator<String> getStringIter() {
 		return FileWritable.<WordMap.Entry<String, Combinable>, Set<Entry<String, Combinable>>>iterBuilder(this.entrySet(), this::entryString);
