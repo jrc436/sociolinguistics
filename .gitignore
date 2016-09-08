@@ -1,5 +1,7 @@
 filtermap.txt
 
+*.sh
+
 data/swbd.ccg
 
 old-wordcounts/
