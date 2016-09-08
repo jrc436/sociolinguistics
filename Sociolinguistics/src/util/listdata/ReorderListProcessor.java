@@ -32,28 +32,34 @@ public class ReorderListProcessor {
 		fp.get(0).readFile();
 		System.err.println(fp.get(0).toString());
 		//fp.get(0).writeFile();
-		int lastKeyLine = 0;
-		int lastWorkingKeyLine = lastKeyLine;
-		for (int i = 0; i < fp.get(0).lines.size(); i++) {
-			if (DataCollection.isKeyLine(fp.get(0).lines.get(i))) {
-				lastKeyLine = i;
+		String lastKeyLine = "";
+//		int lastWorkingKeyLine = lastKeyLine;
+		for (String s : fp.get(0).lines) { 
+			if (DataCollection.isKeyLine(s)) {
+				lastKeyLine = s;
 			}
 		}
 		for (int i = 1; i < fp.size(); i++) {
 			System.err.println("Fixing:" + fp.get(i).toString()+", using: "+fp.get(i-1));
 			fp.get(i).readFile();
-			lastKeyLine = fixLists(fp.get(i-1).lines, fp.get(i).lines, lastKeyLine);
-			if (lastKeyLine == -1) {
-				fp.remove(i);
-				i--;
-			}
-			else {
-				lastWorkingKeyLine = lastKeyLine;
-			}
-			lastKeyLine = lastWorkingKeyLine;
-			//fp.get(i).writeFile();
+			lastKeyLine = altFix(fp.get(i).lines, lastKeyLine);
 		}
+//		for (int i = 1; i < fp.size(); i++) {
+//			System.err.println("Fixing:" + fp.get(i).toString()+", using: "+fp.get(i-1));
+//			fp.get(i).readFile();
+//			lastKeyLine = fixLists(fp.get(i-1).lines, fp.get(i).lines, lastKeyLine);
+//			if (lastKeyLine == -1) {
+//				fp.remove(i);
+//				i--;
+//			}
+//			else {
+//				lastWorkingKeyLine = lastKeyLine;
+//			}
+//			lastKeyLine = lastWorkingKeyLine;
+//			//fp.get(i).writeFile();
+//		}
 		for (int i = 0; i < fp.size(); i++) {
+			System.err.println("Ensure correct: Reassigning File: "+fp.get(i).fileNum+" to file: "+i);
 			fp.get(i).fileNum = i;
 		}
 		outputDirectory.mkdirs();
@@ -61,13 +67,35 @@ public class ReorderListProcessor {
 		for (FileParts f : fp) {
 			f.writeFile();
 		}
-		//fp.get(0).writeFile();
-		//for (int i = 1; i < fp.size(); i++) {
-		//	fp.get(i).readFile();
-		//	fixLists(fp.get(i-1).lines, fp.get(i).lines);
-		//	fp.get(i).writeFile();
-		//}
-		//copyAll(fp);
+	}
+	private static String altFix(List<String> second, String lastKeyLine) {
+		if (!DataCollection.isKeyLine(lastKeyLine)) {
+			throw new IllegalArgumentException("The 'first' list has still not been fixed, so this call is invalid");
+		}
+		String lastKeyLine2 = lastKeyLine;
+		for (String s : second) {
+			if (DataCollection.isKeyLine(s)) {
+				lastKeyLine2 = s;
+			}
+		}
+		if (!DataCollection.isKeyLine(second.get(0))) {
+			second.add(0, lastKeyLine);
+		}
+		return lastKeyLine2;
+//		return lastKeyLine2;
+//		while (true) {
+//			if (firstKeyLine >= second.size()) {
+//				break;
+//			}
+//			if (DataCollection.isKeyLine(second.get(firstKeyLine))) {
+//				lastKeyLine2 = firstKeyLine;
+//			}
+//			if (lastKeyLine2 == -1) {
+//				firstKeyLine++;
+//			}
+//		}
+		//in altfix, we just want every piece of the list to know what keyword it's associated with
+		
 	}
 	private static int fixLists(List<String> first, List<String> second, int lastKeyLine1) {
 		if (!DataCollection.isKeyLine(first.get(0))) {
