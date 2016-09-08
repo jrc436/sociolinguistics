@@ -31,18 +31,29 @@ public class ReorderListProcessor {
 		Collections.sort(fp, FileParts.getFileNumComparator());
 		fp.get(0).readFile();
 		System.err.println(fp.get(0).toString());
+		outputDirectory.mkdirs();
+		addRepaths(outputDirectory, fp, rebase);
 		//fp.get(0).writeFile();
 		String lastKeyLine = "";
+		
 //		int lastWorkingKeyLine = lastKeyLine;
 		for (String s : fp.get(0).lines) { 
 			if (DataCollection.isKeyLine(s)) {
 				lastKeyLine = s;
 			}
 		}
-		for (int i = 1; i < fp.size(); i++) {
-			System.err.println("Fixing:" + fp.get(i).toString()+", using: "+fp.get(i-1));
-			fp.get(i).readFile();
-			lastKeyLine = altFix(fp.get(i).lines, lastKeyLine);
+		String lastNewKeyLine = lastKeyLine;
+		String fileResponsible = fp.get(0).toString();
+		for (FileParts f : fp) {
+			System.err.println("Fixing:" + f.toString()+", using: "+fileResponsible);
+			f.readFile();
+			lastKeyLine = altFix(f.lines, lastKeyLine);
+			if (!lastNewKeyLine.equals(lastKeyLine)) {
+				fileResponsible = f.toString();
+			}
+			lastNewKeyLine = lastKeyLine;
+			f.writeFile();
+			f.clean();
 		}
 //		for (int i = 1; i < fp.size(); i++) {
 //			System.err.println("Fixing:" + fp.get(i).toString()+", using: "+fp.get(i-1));
@@ -58,15 +69,14 @@ public class ReorderListProcessor {
 //			lastKeyLine = lastWorkingKeyLine;
 //			//fp.get(i).writeFile();
 //		}
-		for (int i = 0; i < fp.size(); i++) {
-			System.err.println("Ensure correct: Reassigning File: "+fp.get(i).fileNum+" to file: "+i);
-			fp.get(i).fileNum = i;
-		}
-		outputDirectory.mkdirs();
-		addRepaths(outputDirectory, fp, rebase);
-		for (FileParts f : fp) {
-			f.writeFile();
-		}
+//		for (int i = 0; i < fp.size(); i++) {
+//			System.err.println("Ensure correct: Reassigning File: "+fp.get(i).fileNum+" to file: "+i);
+//			fp.get(i).fileNum = i;
+//		}
+		
+//		for (FileParts f : fp) {
+//			f.writeFile();
+//		}
 	}
 	private static String altFix(List<String> second, String lastKeyLine) {
 		if (!DataCollection.isKeyLine(lastKeyLine)) {
@@ -283,8 +293,8 @@ public class ReorderListProcessor {
 				System.exit(1);
 			}
 		}
-		public List<String> getLines() {
-			return lines;
+		public void clean() {
+			this.lines = null;
 		}
 		public void writeFile() {
 			try {
