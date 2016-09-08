@@ -2,11 +2,11 @@ package subredditusers;
 
 import java.io.File;
 
-import util.csv.ConfusionCSV;
+import util.csv.SConfusionCSV;
 import util.listdata.UserList;
 import util.sys.FileProcessor;
 
-public class SubredditAlignmentProcessor extends FileProcessor<UserList, ConfusionCSV<String>>{
+public class SubredditAlignmentProcessor extends FileProcessor<UserList, SConfusionCSV>{
 
 	@Override
 	public int getNumFixedArgs() {
@@ -33,7 +33,7 @@ public class SubredditAlignmentProcessor extends FileProcessor<UserList, Confusi
 	}
 
 	@Override
-	public void map(UserList newData, ConfusionCSV<String> threadAggregate) {
+	public void map(UserList newData, SConfusionCSV threadAggregate) {
 		for (String subreddit : newData.keySet()) {
 			for (String othersubreddit : newData.keySet()) {
 				for (String user : newData.get(subreddit)) {
@@ -47,7 +47,7 @@ public class SubredditAlignmentProcessor extends FileProcessor<UserList, Confusi
 	}
 
 	@Override
-	public void reduce(ConfusionCSV<String> threadAggregate) {
+	public void reduce(SConfusionCSV threadAggregate) {
 		synchronized(processAggregate) {
 			processAggregate.absorb(threadAggregate);
 		}
