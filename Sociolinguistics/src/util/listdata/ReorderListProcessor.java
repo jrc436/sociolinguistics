@@ -30,25 +30,33 @@ public class ReorderListProcessor {
 		//addRepaths(outputDirectory, fp, rebase);
 		Collections.sort(fp, FileParts.getFileNumComparator());
 		fp.get(0).readFile();
+		System.err.println(fp.get(0).toString());
 		//fp.get(0).writeFile();
 		int lastKeyLine = 0;
+		int lastWorkingKeyLine = lastKeyLine;
 		for (int i = 0; i < fp.get(0).lines.size(); i++) {
 			if (DataCollection.isKeyLine(fp.get(0).lines.get(i))) {
 				lastKeyLine = i;
 			}
 		}
 		for (int i = 1; i < fp.size(); i++) {
+			System.err.println("Fixing:" + fp.get(i).toString()+", using: "+fp.get(i-1));
 			fp.get(i).readFile();
 			lastKeyLine = fixLists(fp.get(i-1).lines, fp.get(i).lines, lastKeyLine);
 			if (lastKeyLine == -1) {
 				fp.remove(i);
 				i--;
 			}
+			else {
+				lastWorkingKeyLine = lastKeyLine;
+			}
+			lastKeyLine = lastWorkingKeyLine;
 			//fp.get(i).writeFile();
 		}
 		for (int i = 0; i < fp.size(); i++) {
 			fp.get(i).fileNum = i;
 		}
+		outputDirectory.mkdirs();
 		addRepaths(outputDirectory, fp, rebase);
 		for (FileParts f : fp) {
 			f.writeFile();
@@ -78,14 +86,19 @@ public class ReorderListProcessor {
 				firstKeyLine++;
 			}
 		}
-		//if there are more of this type of element in first than in second, append to first
-		//otherwise, append the ones from first to second
-		if (first.size() - lastKeyLine1 > firstKeyLine) {
+		//first.size - lastKeyLine1 is the number of elements of keyword X appearing in the first list
+		//firstKeyLine SHOULD be where the first key appears. It's possible that NO KEY appears
+		//For reasons of sanity, we'll never destroy the earlier file.
+		//this will copy to the first file if the second file has no keyword and the first file has only one OR
+		//if the first file has more entries than the second file about this keyword
+		if (first.size() - lastKeyLine1 > firstKeyLine || (lastKeyLine2 == -1 && lastKeyLine1 == 0)) {
 			for (int i = 0; i < firstKeyLine; i++) {
 				//append all of the ones before the keyline to the first one
 				first.add(second.remove(0));
 			}
 		}
+		//this will copy from the first file to the second file if the first file has fewer entries than the second file, and it
+		//wouldn't cause the first file to be erased. If the second file has no other keyword entries, it will be erased
 		else {
 			for (int i = lastKeyLine1; i < first.size(); i++) {
 				second.add(i - lastKeyLine1, first.remove(lastKeyLine1));
@@ -179,7 +192,7 @@ public class ReorderListProcessor {
 		for (int i = s; i < extParse.length; i++) {
 			ext += extParse[i] + ".";
 		}
-		ext = ext.substring(0, extParse.length-1);
+		ext = ext.substring(0, ext.length()-1);
 		return new FileParts(baseName, ext, num, f);
 	}
 	static class FileParts {
