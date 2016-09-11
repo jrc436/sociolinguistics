@@ -7,6 +7,12 @@ import util.listdata.UserList;
 import util.sys.FileProcessor;
 
 public class SubredditAlignmentProcessor extends FileProcessor<UserList, SConfusionCSV>{
+	public SubredditAlignmentProcessor(String inpDir, String outDir, String[] bool) {
+		super(inpDir, outDir, new SConfusionCSV(bool));
+	}
+	public SubredditAlignmentProcessor() {
+		super();
+	}
 
 	public SubredditAlignmentProcessor() {
 		super();
