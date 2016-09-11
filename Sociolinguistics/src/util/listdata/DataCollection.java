@@ -101,7 +101,7 @@ public abstract class DataCollection<E> extends HashMap<String, Collection<E>> i
 		return init + origLine + out;
 	}
 	public static boolean isKeyLine(String line) {
-		return line.substring(0, init.length()).equals(init) && line.substring(line.length()-out.length()).equals(out);
+		return line.length() >= init.length() + out.length() && line.substring(0, init.length()).equals(init) && line.substring(line.length()-out.length()).equals(out);
 	}
 	private static String returnFromMarker(String line) {
 		return line.substring(init.length(), line.length()-out.length());

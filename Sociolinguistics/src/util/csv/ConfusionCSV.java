@@ -8,7 +8,9 @@ import util.collections.Pair;
 import util.sys.DataType;
 
 public class ConfusionCSV<K> extends DoubleKeyMap<K, K, Integer> implements DataType {
-
+	public ConfusionCSV() {
+		super();
+	}
 	public ConfusionCSV(String[] symm) {
 		super(Boolean.parseBoolean(symm[0]));
 	}
