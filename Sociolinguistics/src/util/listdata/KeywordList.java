@@ -1,5 +1,8 @@
 package util.listdata;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,6 +34,21 @@ public class KeywordList extends DataCollection<Comment> {
 	@Override
 	public boolean hasNArgs() {
 		return true;
+	}
+	public static KeywordList createFromFile(File f, CommentFormat cf) {
+		List<String> lines = null;;
+		try {
+			lines = Files.readAllLines(f.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		String thisCreateLine = lines.get(0);
+		if (!isKeyLine(thisCreateLine)) {
+			System.err.println("These lists have still not been 'fixed', please run ReorderListProcessor");
+			System.exit(1);
+		}
+		return new KeywordList(lines, cf);
 	}
 
 	@Override
