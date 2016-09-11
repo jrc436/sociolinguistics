@@ -1,4 +1,4 @@
-package subredditusers;
+package subredditanalysis.users;
 
 import util.json.JsonList;
 import util.listdata.UserList;

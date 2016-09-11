@@ -6,21 +6,27 @@ import java.util.List;
 
 import util.data.Comment;
 import util.data.CommentFormat;
+import util.json.JsonReadable;
 import util.sys.DataType;
 
 public class KeywordList extends DataCollection<Comment> {
 	private static final long serialVersionUID = 6441745759936713041L;
+	private final CommentFormat cf;
 	public KeywordList() { // dummy constructor
 		super();
+		this.cf = null;
 	}
 	public KeywordList(String[] keywords, CommentFormat cf) {
-		super(keywords, cf);
+		super(keywords);
+		this.cf = null;
 	}
 	public KeywordList(KeywordList kl) {
 		super(kl);
+		this.cf = kl.cf;
 	}
 	public KeywordList(List<String> fileLines, CommentFormat cf) {
-		super(fileLines, cf);
+		super(fileLines);
+		this.cf = cf;
 	}
 	@Override
 	public boolean hasNArgs() {
@@ -54,6 +60,11 @@ public class KeywordList extends DataCollection<Comment> {
 			}
 		}
 		return retval;
+	}
+	@Override
+	protected Comment parseValue(String s) {
+		JsonReadable jr = JsonReadable.fromString(s);
+		return cf.getComment(jr);
 	}
 
 

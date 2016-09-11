@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import util.data.Comment;
-import util.data.CommentFormat;
 import util.sys.DataType;
 
 public class UserList extends DataCollection<String> {
@@ -18,17 +17,17 @@ public class UserList extends DataCollection<String> {
 	public UserList() { // dummy constructor
 		super();
 	}
-	public UserList(String[] keywords, CommentFormat cf) {
-		super(keywords, cf);
+	public UserList(String[] keywords) {
+		super(keywords);
 	}
-	public UserList(CommentFormat cf) {
-		super(cf);
-	}
+//	public UserList(CommentFormat cf) {
+//		super(cf);
+//	}
 	public UserList(UserList kl) {
 		super(kl);
 	}
-	public UserList(List<String> fileLines, CommentFormat cf) {
-		super(fileLines, cf);
+	public UserList(List<String> fileLines) {
+		super(fileLines);
 	}
 	public static UserList createFromFile(File f) {
 		List<String> lines = null;;
@@ -43,7 +42,7 @@ public class UserList extends DataCollection<String> {
 			System.err.println("These lists have still not been 'fixed', please run ReorderListProcessor");
 			System.exit(1);
 		}
-		return new UserList(lines, null);
+		return new UserList(lines);
 	}
 	
 	@Override
@@ -58,6 +57,10 @@ public class UserList extends DataCollection<String> {
 	@Override
 	protected Collection<String> getEmptyCollection() {
 		return new HashSet<String>();
+	}
+	@Override
+	protected String parseValue(String s) {
+		return s;
 	}
 
 }

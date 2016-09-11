@@ -8,36 +8,32 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import util.data.Comment;
-import util.data.CommentFormat;
-import util.json.JsonReadable;
 import util.sys.DataType;
 
 public abstract class DataCollection<E> extends HashMap<String, Collection<E>> implements DataType {
 
 	private static final long serialVersionUID = 1046358937480295913L;
-	private final CommentFormat cf;
+	
 	public DataCollection() { // dummy constructor
 		super();
-		this.cf = null;
 	}
-	public DataCollection(String[] keywords, CommentFormat cf) {
+	public DataCollection(String[] keywords) {
 		super();
-		this.cf = cf;
 		for (String key : keywords) {
 			super.put(key, getEmptyCollection());
 		}
 	}
-	public DataCollection(CommentFormat cf) {
-		super();
-		this.cf = cf;
-	}
+//	public DataCollection(CommentFormat cf) {
+//		super();
+//		this.cf = cf;
+//	}
 	public DataCollection(DataCollection<E> kl) {
 		super(kl);
-		this.cf = kl.cf;
+		//this.cf = kl.cf;
 	}
-	protected DataCollection(List<String> fileLines, CommentFormat cf) {
+	protected DataCollection(List<String> fileLines) {
 		super();
-		this.cf = cf;
+		//this.cf = cf;
 		if (fileLines.size() == 0 || !isKeyLine(fileLines.get(0))) {
 			throw new IllegalArgumentException("There needs to be at least one key line starting the file.");
 		}
@@ -112,13 +108,12 @@ public abstract class DataCollection<E> extends HashMap<String, Collection<E>> i
 			currentKeyLine = returnFromMarker(s);
 		}
 		else {
-			JsonReadable jr = JsonReadable.fromString(s);
-			Comment c = cf.getComment(jr);
-			super.get(currentKeyLine).add(getValue(c));
+			super.get(currentKeyLine).add(parseValue(s));
 		}
 		return currentKeyLine;
 	}
 	protected abstract E getValue(Comment c);
+	protected abstract E parseValue(String s);
 
 	@Override
 	public ArrayList<String> getDataWriteLines() {

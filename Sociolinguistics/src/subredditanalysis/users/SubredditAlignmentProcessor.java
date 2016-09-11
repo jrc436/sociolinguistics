@@ -1,4 +1,4 @@
-package subredditusers;
+package subredditanalysis.users;
 
 import java.io.File;
 
@@ -8,6 +8,9 @@ import util.sys.FileProcessor;
 
 public class SubredditAlignmentProcessor extends FileProcessor<UserList, SConfusionCSV>{
 
+	public SubredditAlignmentProcessor() {
+		super();
+	}
 	@Override
 	public int getNumFixedArgs() {
 		return 0;

@@ -1,4 +1,4 @@
-package subredditusers;
+package subredditanalysis.users;
 
 import util.csv.SConfusionCSV;
 import util.listdata.UserList;

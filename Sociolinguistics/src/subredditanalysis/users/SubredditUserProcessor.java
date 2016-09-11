@@ -1,7 +1,6 @@
-package subredditusers;
+package subredditanalysis.users;
 
 import util.data.Comment;
-import util.data.CommentFormat;
 import util.json.JsonLayer;
 import util.json.JsonList;
 import util.json.JsonReadable;
@@ -9,7 +8,7 @@ import util.listdata.UserList;
 
 public class SubredditUserProcessor extends JsonLayer<UserList> {
 	public SubredditUserProcessor(String inpDir, String outDir, String[] cf) {
-		super(inpDir, outDir, new UserList(CommentFormat.fromString(cf[0])), cf[0]);
+		super(inpDir, outDir, new UserList(), cf[0]);
 	}
 	public SubredditUserProcessor() {
 		super();
@@ -31,11 +30,11 @@ public class SubredditUserProcessor extends JsonLayer<UserList> {
 	//needs the comment format
 	@Override
 	public int getNumFixedArgs() {
-		return 1;
+		return 0;
 	}
 	@Override
 	public String getConstructionErrorMsg() {
-		return super.getConstructionErrorMsg()+"; The comment format should be specified.";
+		return super.getConstructionErrorMsg()+"; the comment format should be specified";
 	}
 	@Override
 	public void reduce(UserList threadAggregate) {
