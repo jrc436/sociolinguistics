@@ -14,9 +14,6 @@ public class SubredditAlignmentProcessor extends FileProcessor<UserList, SConfus
 		super();
 	}
 
-	public SubredditAlignmentProcessor() {
-		super();
-	}
 	@Override
 	public int getNumFixedArgs() {
 		return 0;
