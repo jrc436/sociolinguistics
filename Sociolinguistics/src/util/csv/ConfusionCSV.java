@@ -71,6 +71,11 @@ public class ConfusionCSV<K> extends DoubleKeyMap<K, K, Integer> implements Data
 
 	@Override
 	public String getHeaderLine() {
+//		String line = "";
+//		for (K key : super.getKeysetOne()) {
+//			line += key.toString() + ",";
+//		}
+//		return line.substring(0, line.length()-1);
 		String line = "";
 		Set<K> keyset = super.getKeysetOne();
 		for (K key : keyset) {

@@ -45,7 +45,7 @@ public class SubredditAlignmentProcessor extends FileProcessor<UserList, SConfus
 				for (String user : newData.get(subreddit)) {
 					if (newData.get(othersubreddit).contains(user)) {
 						//append to their confusion
-						int updateValue = threadAggregate.get(subreddit, othersubreddit)+1;
+						int updateValue = threadAggregate.containsKey(subreddit, othersubreddit) ? threadAggregate.get(subreddit, othersubreddit)+1 : 1;
 						threadAggregate.put(subreddit, othersubreddit, updateValue);
 					}
 				}

@@ -1,5 +1,7 @@
 package util.csv;
 
+import util.sys.DataType;
+
 public class SConfusionCSV extends ConfusionCSV<String> {
 
 	/**
@@ -16,5 +18,8 @@ public class SConfusionCSV extends ConfusionCSV<String> {
 	public SConfusionCSV(ConfusionCSV<String> csv) {
 		super(csv);
 	}
-	
+	@Override
+	public DataType deepCopy() {
+		return new SConfusionCSV(this);
+	}	
 }
