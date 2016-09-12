@@ -45,12 +45,12 @@ public class OriginDestinationProcessor extends FileProcessor<KeywordList, WordM
 	public void map(KeywordList newData, WordMap threadAggregate) {
 		for (String subreddit : newData.keySet()) {
 			for (String othersubreddit : newData.keySet()) {
-				for (String user : newData.get(subreddit)) {
-					if (newData.get(othersubreddit).contains(user)) {
-						//append to their confusion
-						threadAggregate.put(subreddit, othersubreddit, threadAggregate.get(subreddit, othersubreddit)+1);
-					}
-				}
+//				for (String user : newData.get(subreddit)) {
+//					if (newData.get(othersubreddit).contains(user)) {
+//						//append to their confusion
+//						threadAggregate.put(subreddit, othersubreddit, threadAggregate.get(subreddit, othersubreddit)+1);
+//					}
+//				}
 			}
 		}
 	}

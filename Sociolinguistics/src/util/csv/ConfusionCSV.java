@@ -2,6 +2,7 @@ package util.csv;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
 
 import util.collections.DoubleKeyMap;
 import util.collections.Pair;
@@ -37,6 +38,11 @@ public class ConfusionCSV<K> extends DoubleKeyMap<K, K, Integer> implements Data
 				p.setValue(p.getValue()+other.get(p.getKey()));
 			}
 		}
+		for (Entry<Pair<K, K>, Integer> p : other.entrySet()) {
+			if (!this.containsKey(p.getKey())) {
+				this.put(p.getKey(), p.getValue());
+			}
+		}
 	}
 
 	@Override
@@ -65,9 +71,19 @@ public class ConfusionCSV<K> extends DoubleKeyMap<K, K, Integer> implements Data
 
 	@Override
 	public String getHeaderLine() {
+//		String line = "";
+//		for (K key : super.getKeysetOne()) {
+//			line += key.toString() + ",";
+//		}
+//		return line.substring(0, line.length()-1);
 		String line = "";
-		for (K key : super.getKeysetOne()) {
+		Set<K> keyset = super.getKeysetOne();
+		for (K key : keyset) {
 			line += key.toString() + ",";
+		}
+		if (keyset.size() == 0) {
+			System.err.println("Error: no elements found.");
+			System.err.println("Collection should have: "+super.size()+" elements.");
 		}
 		return line.substring(0, line.length()-1);
 	}
