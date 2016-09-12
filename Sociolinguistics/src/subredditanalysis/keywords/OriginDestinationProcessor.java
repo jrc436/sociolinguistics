@@ -1,25 +1,23 @@
 package subredditanalysis.keywords;
 
 import java.io.File;
+import java.util.List;
 
-import util.data.CommentFormat;
-import util.listdata.KeywordList;
+import util.csv.SConfusionCSV;
 import util.sys.FileProcessor;
+import util.wordmap.SubredditListCombine;
 import util.wordmap.WordMap;
 
-public class OriginDestinationProcessor extends FileProcessor<KeywordList, WordMap> {
-	private final CommentFormat cf;
+public class OriginDestinationProcessor extends FileProcessor<WordMap, SConfusionCSV> {
 	public OriginDestinationProcessor() {
 		super();
-		this.cf = null;
 	}
-	public OriginDestinationProcessor(String[] cf) {
-		super();
-		this.cf = CommentFormat.fromString(cf[0]);
+	public OriginDestinationProcessor(String inpDir, String outDir, String[] symm) {
+		super(inpDir, outDir, new SConfusionCSV(symm));
 	}
 	@Override
 	public int getNumFixedArgs() {
-		return 1;
+		return 0;
 	}
 
 	@Override
@@ -29,34 +27,29 @@ public class OriginDestinationProcessor extends FileProcessor<KeywordList, WordM
 
 	@Override
 	public String getConstructionErrorMsg() {
-		return "OriginDestionationProcessor needs the CommentFormat.";
+		return "OriginDestionationProcessor needs no arguments.";
 	}
 
 	@Override
-	public KeywordList getNextData() {
+	public WordMap getNextData() {
 		File f = super.getNextFile();
 		if ( f == null) {
 			return null;
 		}
-		return KeywordList.createFromFile(f, cf);
+		return WordMap.createFromFile(f);
 	}
 
 	@Override
-	public void map(KeywordList newData, WordMap threadAggregate) {
-		for (String subreddit : newData.keySet()) {
-			for (String othersubreddit : newData.keySet()) {
-				for (String user : newData.get(subreddit)) {
-					if (newData.get(othersubreddit).contains(user)) {
-						//append to their confusion
-						threadAggregate.put(subreddit, othersubreddit, threadAggregate.get(subreddit, othersubreddit)+1);
-					}
-				}
-			}
+	public void map(WordMap newData, SConfusionCSV threadAggregate) {
+		for (String key : newData.keySet()) {
+			SubredditListCombine slc = (SubredditListCombine) newData.getBy(key, SubredditListCombine.class);
+			List<String> subreddits = slc.produceOrdering();
+			
 		}
 	}
 
 	@Override
-	public void reduce(WordMap threadAggregate) {
+	public void reduce(SConfusionCSV threadAggregate) {
 	}
 
 }

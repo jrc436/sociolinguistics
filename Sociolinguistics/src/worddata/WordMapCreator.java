@@ -21,7 +21,7 @@ public class WordMapCreator extends JsonLayer<WordMap> {
 	@Override
 	public void map(JsonList dataIn, WordMap workerAgg) {
 		for (JsonReadable j : dataIn) {
-			workerAgg.addComment(getAsComment(j));
+			workerAgg.addCommentText(getAsComment(j));
 		}	
 	}
 }

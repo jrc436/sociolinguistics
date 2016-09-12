@@ -123,7 +123,21 @@ public class WordMap extends HashMap<String, Combinable> implements DataType {
 //	public Comment getAsComment(JsonReadable j) {
 //		return cmf.getComment(j);
 //	}
-	public synchronized void addComment(Comment s) {
+	public synchronized void putWord(String word, Comment data) {
+		Combinable initial = Combinable.populate(classes, data);
+		if (this.containsKey(word)) {
+			try {
+				this.put(word, this.get(word).combine(initial));
+			} catch (CombineException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
+		else {
+			this.put(word, initial);
+		}	
+	}
+	public synchronized void addCommentText(Comment s) {
 		String[] words = s.getText().split("\\s+");
 		for (String word : words) {
 			word = StringCleaner.cleanWord(word);
