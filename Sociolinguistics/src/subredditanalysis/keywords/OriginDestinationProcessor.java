@@ -44,7 +44,10 @@ public class OriginDestinationProcessor extends FileProcessor<WordMap, SConfusio
 		for (String key : newData.keySet()) {
 			SubredditListCombine slc = (SubredditListCombine) newData.getBy(key, SubredditListCombine.class);
 			List<String> subreddits = slc.produceOrdering();
-			
+			String origin = subreddits.remove(0);
+			for (String dest : subreddits) {
+				
+			}
 		}
 	}
 
