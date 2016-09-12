@@ -4,11 +4,12 @@ import util.sys.DataType;
 
 public class SConfusionCSV extends ConfusionCSV<String> {
 
-	/**
-	 * 
-	 */
+
 	public SConfusionCSV(String[] blargs) {
 		super(blargs);
+	}
+	public SConfusionCSV(boolean symm) {
+		super(symm);
 	}
 	public SConfusionCSV() {
 		super();

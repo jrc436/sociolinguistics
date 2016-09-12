@@ -103,4 +103,9 @@
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
+    <target name="SubredditAlignmentProcessor">
+        <java classname="subredditanalysis.users.SubredditAlignmentProcessor" failonerror="true" fork="yes">
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
 </project>

@@ -12,6 +12,9 @@ public class ConfusionCSV<K> extends DoubleKeyMap<K, K, Integer> implements Data
 	public ConfusionCSV() {
 		super();
 	}
+	public ConfusionCSV(boolean symm) {
+		super(symm);
+	}
 	public ConfusionCSV(String[] symm) {
 		super(Boolean.parseBoolean(symm[0]));
 	}

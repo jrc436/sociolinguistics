@@ -12,8 +12,8 @@ public class OriginDestinationProcessor extends FileProcessor<WordMap, SConfusio
 	public OriginDestinationProcessor() {
 		super();
 	}
-	public OriginDestinationProcessor(String inpDir, String outDir, String[] symm) {
-		super(inpDir, outDir, new SConfusionCSV(symm));
+	public OriginDestinationProcessor(String inpDir, String outDir) {
+		super(inpDir, outDir, new SConfusionCSV(false));
 	}
 	@Override
 	public int getNumFixedArgs() {
@@ -46,13 +46,18 @@ public class OriginDestinationProcessor extends FileProcessor<WordMap, SConfusio
 			List<String> subreddits = slc.produceOrdering();
 			String origin = subreddits.remove(0);
 			for (String dest : subreddits) {
-
+				if (threadAggregate.containsKey(origin, dest)) {
+					threadAggregate.put(origin, dest, threadAggregate.get(origin, dest)+1);
+				}
 			}
 		}
 	}
 
 	@Override
 	public void reduce(SConfusionCSV threadAggregate) {
+		synchronized(processAggregate) {
+			processAggregate.absorb(threadAggregate);
+		}
 	}
 
 }
