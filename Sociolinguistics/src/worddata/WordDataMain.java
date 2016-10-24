@@ -2,7 +2,7 @@ package worddata;
 
 import util.json.JsonList;
 import util.sys.Executor;
-import util.wordmap.WordMap;
+import wordmap.WordMap;
 
 public class WordDataMain extends Executor<WordMapCreator, JsonList, WordMap> {
 	private static final String name = "worddata";

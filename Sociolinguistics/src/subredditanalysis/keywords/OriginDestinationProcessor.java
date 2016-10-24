@@ -5,8 +5,8 @@ import java.util.List;
 
 import util.csv.SConfusionCSV;
 import util.sys.FileProcessor;
-import util.wordmap.SubredditListCombine;
-import util.wordmap.WordMap;
+import wordmap.SubredditListCombine;
+import wordmap.WordMap;
 
 public class OriginDestinationProcessor extends FileProcessor<WordMap, SConfusionCSV> {
 	public OriginDestinationProcessor() {

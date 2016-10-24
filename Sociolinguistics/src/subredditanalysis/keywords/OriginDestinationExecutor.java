@@ -2,7 +2,7 @@ package subredditanalysis.keywords;
 
 import util.csv.SConfusionCSV;
 import util.sys.Executor;
-import util.wordmap.WordMap;
+import wordmap.WordMap;
 
 public class OriginDestinationExecutor extends Executor<OriginDestinationProcessor, WordMap, SConfusionCSV> {
 

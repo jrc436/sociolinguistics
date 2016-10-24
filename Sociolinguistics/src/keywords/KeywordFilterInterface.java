@@ -1,6 +1,6 @@
 package keywords;
 
-import util.wordmap.WordMap;
+import wordmap.WordMap;
 
 public class KeywordFilterInterface extends KeywordMatchProcessor {
 	public KeywordFilterInterface(String inpDir, String outDir, String[] cf, String[] fp) {

@@ -2,7 +2,7 @@ package subredditanalysis.keywords;
 
 import util.listdata.KeywordList;
 import util.sys.Executor;
-import util.wordmap.WordMap;
+import wordmap.WordMap;
 
 public class SubredditOrderExecutor extends Executor<SubredditOrderProcessor, KeywordList, WordMap> {
 

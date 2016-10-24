@@ -3,7 +3,7 @@ package worddata;
 import util.json.JsonLayer;
 import util.json.JsonList;
 import util.json.JsonReadable;
-import util.wordmap.WordMap;
+import wordmap.WordMap;
 
 public class WordMapCreator extends JsonLayer<WordMap> {
 	public WordMapCreator(String inpDir, String outDir, String[] funArgs, String[] clses) {

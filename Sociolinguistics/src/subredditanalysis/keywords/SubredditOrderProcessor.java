@@ -6,7 +6,7 @@ import util.data.Comment;
 import util.data.CommentFormat;
 import util.listdata.KeywordList;
 import util.sys.FileProcessor;
-import util.wordmap.WordMap;
+import wordmap.WordMap;
 
 public class SubredditOrderProcessor extends FileProcessor<KeywordList, WordMap> {
 	private final CommentFormat cf;

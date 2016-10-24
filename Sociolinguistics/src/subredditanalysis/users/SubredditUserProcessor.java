@@ -30,7 +30,7 @@ public class SubredditUserProcessor extends JsonLayer<UserList> {
 	//needs the comment format
 	@Override
 	public int getNumFixedArgs() {
-		return 0;
+		return 0 + super.getNumFixedArgs();
 	}
 	@Override
 	public String getConstructionErrorMsg() {
