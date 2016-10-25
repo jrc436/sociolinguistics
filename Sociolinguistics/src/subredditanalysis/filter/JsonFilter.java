@@ -1,5 +1,7 @@
 package subredditanalysis.filter;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +9,6 @@ import java.util.Set;
 import util.json.JsonLayer;
 import util.json.JsonList;
 import util.json.JsonReadable;
-import util.listdata.UserList;
 
 public class JsonFilter extends JsonLayer<JsonList> {
 	private final Set<String> acceptedSubreddits;
@@ -17,8 +18,15 @@ public class JsonFilter extends JsonLayer<JsonList> {
 	}
 	public JsonFilter(String inpDir, String outDir, String[] commentFormat) {
 		super(inpDir, outDir, new JsonList(), commentFormat[0]);
-		UserList ul = UserList.createFromFile(Paths.get(commentFormat[1]).toFile());
-		acceptedSubreddits = new HashSet<String>(ul.keySet());
+		Set<String> subs = null;
+		try {
+			subs = new HashSet<String>(Files.readAllLines(Paths.get(commentFormat[1])));
+		} catch (IOException e) {
+			System.err.println("Error reading subreddit list from file: "+commentFormat[1]);
+			e.printStackTrace();
+			System.exit(1);
+		}
+		acceptedSubreddits = subs;
 	}
 	//needs the comment format and a path to the userlist...
 	@Override
