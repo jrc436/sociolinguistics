@@ -1,12 +1,12 @@
 package keywords;
 
 import filter.StringCleaner;
-import util.data.Comment;
-import util.data.CommentFormat;
-import util.json.JsonLayer;
-import util.json.JsonList;
-import util.json.JsonReadable;
-import util.listdata.KeywordList;
+import util.data.corpus.Comment;
+import util.data.corpus.CommentFormat;
+import util.data.json.JsonLayer;
+import util.data.json.JsonList;
+import util.data.json.JsonReadable;
+import util.data.maps.KeywordList;
 
 public class KeywordMatchProcessor extends JsonLayer<KeywordList> {
 	public KeywordMatchProcessor(String inpDir, String outDir, String[] cf, String[] keywords) {

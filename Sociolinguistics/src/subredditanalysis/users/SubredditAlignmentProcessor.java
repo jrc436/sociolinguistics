@@ -2,8 +2,8 @@ package subredditanalysis.users;
 
 import java.io.File;
 
-import util.csv.SConfusionCSV;
-import util.listdata.UserList;
+import util.data.dsv.SConfusionCSV;
+import util.data.maps.UserList;
 import util.sys.FileProcessor;
 
 public class SubredditAlignmentProcessor extends FileProcessor<UserList, SConfusionCSV>{

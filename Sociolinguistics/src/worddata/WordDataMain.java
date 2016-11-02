@@ -1,6 +1,6 @@
 package worddata;
 
-import util.json.JsonList;
+import util.data.json.JsonList;
 import util.sys.Executor;
 import wordmap.WordMap;
 

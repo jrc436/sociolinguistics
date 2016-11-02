@@ -1,7 +1,7 @@
 package subredditanalysis.users;
 
-import util.json.JsonList;
-import util.listdata.UserList;
+import util.data.json.JsonList;
+import util.data.maps.UserList;
 import util.sys.Executor;
 
 public class SubredditUserExecutor extends Executor<SubredditUserProcessor, JsonList, UserList> {

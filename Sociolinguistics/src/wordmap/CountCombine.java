@@ -1,6 +1,6 @@
 package wordmap;
 
-import util.data.Comment;
+import util.data.corpus.Comment;
 
 public class CountCombine extends Combinable {
 	private final int count;

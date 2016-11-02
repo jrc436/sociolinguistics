@@ -1,7 +1,7 @@
 package subredditanalysis.users;
 
-import util.csv.SConfusionCSV;
-import util.listdata.UserList;
+import util.data.dsv.SConfusionCSV;
+import util.data.maps.UserList;
 import util.sys.Executor;
 
 public class SubredditAlignmentExecutor extends Executor<SubredditAlignmentProcessor, UserList, SConfusionCSV> {

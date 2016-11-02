@@ -1,10 +1,10 @@
 package subredditanalysis.users;
 
-import util.data.Comment;
-import util.json.JsonLayer;
-import util.json.JsonList;
-import util.json.JsonReadable;
-import util.listdata.UserList;
+import util.data.corpus.Comment;
+import util.data.json.JsonLayer;
+import util.data.json.JsonList;
+import util.data.json.JsonReadable;
+import util.data.maps.UserList;
 
 public class SubredditUserProcessor extends JsonLayer<UserList> {
 	public SubredditUserProcessor(String inpDir, String outDir, String[] cf) {

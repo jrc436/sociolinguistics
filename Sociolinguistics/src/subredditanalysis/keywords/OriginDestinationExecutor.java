@@ -1,6 +1,6 @@
 package subredditanalysis.keywords;
 
-import util.csv.SConfusionCSV;
+import util.data.dsv.SConfusionCSV;
 import util.sys.Executor;
 import wordmap.WordMap;
 

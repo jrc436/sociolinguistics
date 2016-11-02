@@ -1,7 +1,7 @@
 package keywords;
 
-import util.json.JsonList;
-import util.listdata.KeywordList;
+import util.data.json.JsonList;
+import util.data.maps.KeywordList;
 import util.sys.Executor;
 
 public class OrganizeFromFilterMain extends Executor<KeywordFilterInterface, JsonList, KeywordList> {

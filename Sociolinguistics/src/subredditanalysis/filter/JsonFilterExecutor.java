@@ -1,6 +1,6 @@
 package subredditanalysis.filter;
 
-import util.json.JsonList;
+import util.data.json.JsonList;
 import util.sys.Executor;
 
 public class JsonFilterExecutor extends Executor<JsonFilter, JsonList, JsonList> {

@@ -2,7 +2,7 @@ package wordmap;
 
 import java.time.Instant;
 
-import util.data.Comment;
+import util.data.corpus.Comment;
 
 public class LateDateCombine extends Combinable {
 	private final Instant time;

@@ -3,7 +3,7 @@ package subredditanalysis.keywords;
 import java.io.File;
 import java.util.List;
 
-import util.csv.SConfusionCSV;
+import util.data.dsv.SConfusionCSV;
 import util.sys.FileProcessor;
 import wordmap.SubredditListCombine;
 import wordmap.WordMap;

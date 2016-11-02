@@ -2,9 +2,9 @@ package subredditanalysis.keywords;
 
 import java.io.File;
 
-import util.data.Comment;
-import util.data.CommentFormat;
-import util.listdata.KeywordList;
+import util.data.corpus.Comment;
+import util.data.corpus.CommentFormat;
+import util.data.maps.KeywordList;
 import util.sys.FileProcessor;
 import wordmap.WordMap;
 

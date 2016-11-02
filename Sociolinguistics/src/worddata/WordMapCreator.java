@@ -1,8 +1,8 @@
 package worddata;
 
-import util.json.JsonLayer;
-import util.json.JsonList;
-import util.json.JsonReadable;
+import util.data.json.JsonLayer;
+import util.data.json.JsonList;
+import util.data.json.JsonReadable;
 import wordmap.WordMap;
 
 public class WordMapCreator extends JsonLayer<WordMap> {

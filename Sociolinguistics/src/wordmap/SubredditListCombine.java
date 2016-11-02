@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import util.data.Comment;
+import util.data.corpus.Comment;
 
 public class SubredditListCombine extends Combinable {
 	private final Map<String, Instant> subredditMap;

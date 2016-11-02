@@ -6,9 +6,9 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
-import util.json.JsonLayer;
-import util.json.JsonList;
-import util.json.JsonReadable;
+import util.data.json.JsonLayer;
+import util.data.json.JsonList;
+import util.data.json.JsonReadable;
 
 public class JsonFilter extends JsonLayer<JsonList> {
 	private final Set<String> acceptedSubreddits;

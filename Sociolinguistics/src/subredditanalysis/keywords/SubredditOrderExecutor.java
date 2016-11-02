@@ -1,6 +1,6 @@
 package subredditanalysis.keywords;
 
-import util.listdata.KeywordList;
+import util.data.maps.KeywordList;
 import util.sys.Executor;
 import wordmap.WordMap;
 

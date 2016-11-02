@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import util.data.Comment;
+import util.data.corpus.Comment;
 
 public abstract class Combinable {
 	public abstract Combinable combine(Combinable other) throws CombineException;

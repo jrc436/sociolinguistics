@@ -14,8 +14,8 @@ import java.util.Set;
 import filter.Filterable;
 import filter.StringCleaner;
 import util.collections.IterMap;
-import util.data.Comment;
-import util.data.CommentFormat;
+import util.data.corpus.Comment;
+import util.data.corpus.CommentFormat;
 import util.sys.DataType;
 import util.sys.FileWritable;
 
