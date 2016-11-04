@@ -6,7 +6,7 @@ import util.sys.Executor;
 
 public class SubredditAlignmentExecutor extends Executor<SubredditAlignmentProcessor, UserList, SConfusionCSV> {
 	private static final String name = "subalignment";
-	private static final int gbPerThread = 40;
+	private static final int gbPerThread = 15;
 	
 	public SubredditAlignmentExecutor() {
 		super(name, gbPerThread, SubredditAlignmentProcessor.class, UserList.class, SConfusionCSV.class);

@@ -7,7 +7,7 @@ import wordmap.WordMap;
 public class OriginDestinationExecutor extends Executor<OriginDestinationProcessor, WordMap, SConfusionCSV> {
 
 	public OriginDestinationExecutor() {
-		super("origdest", 40, OriginDestinationProcessor.class, WordMap.class, SConfusionCSV.class);
+		super("origdest", 15, OriginDestinationProcessor.class, WordMap.class, SConfusionCSV.class);
 	}
 	public static void main(String[] args) {
 		OriginDestinationExecutor ode = new OriginDestinationExecutor();

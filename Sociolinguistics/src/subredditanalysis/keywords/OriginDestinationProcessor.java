@@ -27,7 +27,7 @@ public class OriginDestinationProcessor extends FileProcessor<WordMap, SConfusio
 
 	@Override
 	public String getConstructionErrorMsg() {
-		return "OriginDestionationProcessor needs no arguments.";
+		return "OriginDestionationProcessor needs no arguments. Pass 'wordmap.SubredditListCombine' to the wordmap";
 	}
 
 	@Override

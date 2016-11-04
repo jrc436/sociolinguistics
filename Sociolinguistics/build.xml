@@ -55,6 +55,7 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
+                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -120,7 +121,8 @@
         </java>
     </target>
     <target name="SubredditAlignmentProcessor">
-        <java classname="subredditanalysis.users.SubredditAlignmentProcessor" failonerror="true" fork="yes">
+        <java classname="subredditanalysis.users.SubredditAlignmentExecutor" failonerror="true" fork="yes">
+            <arg line="/work/data/filteredusers-f/ /work/data/subalign/ true"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>

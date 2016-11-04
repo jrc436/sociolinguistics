@@ -6,7 +6,7 @@ import util.sys.Executor;
 
 public class OrganizeFromFilterMain extends Executor<KeywordFilterInterface, JsonList, KeywordList> {
 	private static final String name = "fkeywords";
-	private static final int gbPerThread = 40;
+	private static final int gbPerThread = 12;
 	public OrganizeFromFilterMain() {
 		super(name, gbPerThread, KeywordFilterInterface.class, JsonList.class, KeywordList.class);
 	}

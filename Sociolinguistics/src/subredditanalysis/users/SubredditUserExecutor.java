@@ -6,7 +6,7 @@ import util.sys.Executor;
 
 public class SubredditUserExecutor extends Executor<SubredditUserProcessor, JsonList, UserList> {
 	private static final String name = "useralignment";
-	private static final int gbPerThread = 40;
+	private static final int gbPerThread = 15;
 	
 	public SubredditUserExecutor() {
 		super(name, gbPerThread, SubredditUserProcessor.class, JsonList.class, UserList.class);

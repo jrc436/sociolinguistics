@@ -30,7 +30,7 @@ public class SubredditOrderProcessor extends FileProcessor<KeywordList, WordMap>
 
 	@Override
 	public String getConstructionErrorMsg() {
-		return null;
+		return "Please pass 'wordmap.SubredditListCombine' as an argument to the WordMap";
 	}
 
 	@Override
