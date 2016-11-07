@@ -49,7 +49,9 @@ public class KeywordMatchProcessor extends JsonLayer<KeywordList> {
 					processAggregate.get(key).addAll(threadAggregate.get(key));
 				}
 				else {
-					processAggregate.put(key, threadAggregate.getCopyCollection(key));
+					if (!threadAggregate.get(key).isEmpty()) {
+						processAggregate.put(key, threadAggregate.getCopyCollection(key));
+					}
 				}
 			}
 		}

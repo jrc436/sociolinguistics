@@ -1,5 +1,6 @@
 package subredditanalysis.filter;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,20 +10,21 @@ import java.util.Set;
 import util.data.json.JsonLayer;
 import util.data.json.JsonList;
 import util.data.json.JsonReadable;
+import util.sys.LineProcessor;
 
-public class JsonFilter extends JsonLayer<JsonList> {
+public class JsonFilter extends LineProcessor<JsonList, JsonList> {
 	private final Set<String> acceptedSubreddits;
 	public JsonFilter() {
 		super();
 		acceptedSubreddits = new HashSet<String>();
 	}
-	public JsonFilter(String inpDir, String outDir, String[] commentFormat) {
-		super(inpDir, outDir, new JsonList(), commentFormat[0]);
+	public JsonFilter(String inpDir, String outDir, String[] userlistPath) {
+		super(inpDir, outDir, new JsonList());
 		Set<String> subs = null;
 		try {
-			subs = new HashSet<String>(Files.readAllLines(Paths.get(commentFormat[1])));
+			subs = new HashSet<String>(Files.readAllLines(Paths.get(userlistPath[0])));
 		} catch (IOException e) {
-			System.err.println("Error reading subreddit list from file: "+commentFormat[1]);
+			System.err.println("Error reading subreddit list from file: "+userlistPath[0]);
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -31,7 +33,7 @@ public class JsonFilter extends JsonLayer<JsonList> {
 	//needs the comment format and a path to the userlist...
 	@Override
 	public int getNumFixedArgs() {
-		return 1 + super.getNumFixedArgs();
+		return 2;
 	}
 	@Override
 	public void map(JsonList newData, JsonList threadAggregate) {
@@ -41,12 +43,21 @@ public class JsonFilter extends JsonLayer<JsonList> {
 			}
 		}
 	}
-
 	@Override
-	public void reduce(JsonList threadAggregate) {
-		synchronized(processAggregate) {
-			processAggregate.addAll(threadAggregate);
+	public boolean hasNArgs() {
+		return false;
+	}
+	@Override
+	public String getConstructionErrorMsg() {
+		return "Please specify the path to the UserList";
+	}
+	@Override
+	public JsonList getNextData() {
+		File f = super.getNextFile();
+		if ( f == null) {
+			return null;
 		}
+		return JsonLayer.getReadable(f);	
 	}
 
 }

@@ -27,6 +27,9 @@ public class SubredditOrderProcessor extends FileProcessor<KeywordList, WordMap>
 	public boolean hasNArgs() {
 		return false;
 	}
+	public int overrideInputArgs() {
+		return 1;
+	}
 
 	@Override
 	public String getConstructionErrorMsg() {
