@@ -33,7 +33,7 @@ public class JsonFilter extends LineProcessor<JsonList, JsonList> {
 	//needs the comment format and a path to the userlist...
 	@Override
 	public int getNumFixedArgs() {
-		return 2;
+		return 1;
 	}
 	@Override
 	public void map(JsonList newData, JsonList threadAggregate) {
