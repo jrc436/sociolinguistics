@@ -3,17 +3,17 @@ package subredditanalysis.keywords;
 import java.io.File;
 import java.util.List;
 
-import util.data.dsv.SConfusionCSV;
+import util.data.dsv.UserConfusionCSV;
 import util.sys.FileProcessor;
 import wordmap.SubredditListCombine;
 import wordmap.WordMap;
 
-public class OriginDestinationProcessor extends FileProcessor<WordMap, SConfusionCSV> {
+public class OriginDestinationProcessor extends FileProcessor<WordMap, UserConfusionCSV> {
 	public OriginDestinationProcessor() {
 		super();
 	}
 	public OriginDestinationProcessor(String inpDir, String outDir) {
-		super(inpDir, outDir, new SConfusionCSV(false));
+		super(inpDir, outDir, new UserConfusionCSV(false));
 	}
 	@Override
 	public int getNumFixedArgs() {
@@ -49,7 +49,7 @@ public class OriginDestinationProcessor extends FileProcessor<WordMap, SConfusio
 	}
 
 	@Override
-	public void map(WordMap newData, SConfusionCSV threadAggregate) {
+	public void map(WordMap newData, UserConfusionCSV threadAggregate) {
 		for (String key : newData.keySet()) {
 			SubredditListCombine slc = (SubredditListCombine) newData.getBy(key, SubredditListCombine.class);
 			List<String> subreddits = slc.produceOrdering();
@@ -63,7 +63,7 @@ public class OriginDestinationProcessor extends FileProcessor<WordMap, SConfusio
 	}
 
 	@Override
-	public void reduce(SConfusionCSV threadAggregate) {
+	public void reduce(UserConfusionCSV threadAggregate) {
 		synchronized(processAggregate) {
 			processAggregate.absorb(threadAggregate);
 		}

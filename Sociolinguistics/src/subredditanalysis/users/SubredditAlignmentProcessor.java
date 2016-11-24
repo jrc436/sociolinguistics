@@ -2,13 +2,13 @@ package subredditanalysis.users;
 
 import java.io.File;
 
-import util.data.dsv.SConfusionCSV;
+import util.data.dsv.UserConfusionCSV;
 import util.data.maps.UserList;
 import util.sys.FileProcessor;
 
-public class SubredditAlignmentProcessor extends FileProcessor<UserList, SConfusionCSV>{
+public class SubredditAlignmentProcessor extends FileProcessor<UserList, UserConfusionCSV>{
 	public SubredditAlignmentProcessor(String inpDir, String outDir) {
-		super(inpDir, outDir, new SConfusionCSV(true));
+		super(inpDir, outDir, new UserConfusionCSV(true));
 	}
 	public SubredditAlignmentProcessor() {
 		super();
@@ -37,26 +37,20 @@ public class SubredditAlignmentProcessor extends FileProcessor<UserList, SConfus
 		}
 		return UserList.createFromFile(f);
 	}
+	
+	
 
 	@Override
-	public void map(UserList newData, SConfusionCSV threadAggregate) {
-		for (String subreddit : newData.keySet()) {
-			for (String othersubreddit : newData.keySet()) {
-				for (String user : newData.get(subreddit)) {
-					if (newData.get(othersubreddit).contains(user)) {
-						//append to their confusion
-						int updateValue = threadAggregate.containsKey(subreddit, othersubreddit) ? threadAggregate.get(subreddit, othersubreddit)+1 : 1;
-						threadAggregate.put(subreddit, othersubreddit, updateValue);
-					}
-				}
-			}
-		}
+	public void map(UserList newData, UserConfusionCSV threadAggregate) {
+		threadAggregate.uploadUserList(newData);
+		threadAggregate.computeConfusion();
 	}
 
 	@Override
-	public void reduce(SConfusionCSV threadAggregate) {
+	public void reduce(UserConfusionCSV threadAggregate) {
 		synchronized(processAggregate) {
 			processAggregate.absorb(threadAggregate);
+			processAggregate.computeConfusion();
 		}
 		
 	}

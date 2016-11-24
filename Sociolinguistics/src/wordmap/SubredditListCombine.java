@@ -39,6 +39,7 @@ public class SubredditListCombine extends Combinable {
 			for (int i = 0; i < ordered.size(); i++) {
 				if (compare(key, ordered.get(i)) < 0) {
 					ordered.add(i, key);
+					break;
 				}
 			}
 			if (!added) {

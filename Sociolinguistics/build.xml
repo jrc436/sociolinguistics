@@ -55,6 +55,7 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
+                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -121,7 +122,14 @@
     </target>
     <target name="SubredditAlignmentProcessor">
         <java classname="subredditanalysis.users.SubredditAlignmentExecutor" failonerror="true" fork="yes">
-            <arg line="/work/data/filteredusers-f/ /work/data/subalign/ true"/>
+            <arg line="/work/data/filteredusers-f/ /work/data/subalign/"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="SubredditOrderExecutor">
+        <java classname="subredditanalysis.keywords.SubredditOrderExecutor" failonerror="true" fork="yes">
+            <jvmarg line="-Xmx10g"/>
+            <arg line="/work/data/filtkeycomments-f/ /work/data/suborder/ reddit wordmap.SubredditListCombine END"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>

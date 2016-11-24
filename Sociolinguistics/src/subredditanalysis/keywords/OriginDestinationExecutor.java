@@ -1,13 +1,13 @@
 package subredditanalysis.keywords;
 
-import util.data.dsv.SConfusionCSV;
+import util.data.dsv.UserConfusionCSV;
 import util.sys.Executor;
 import wordmap.WordMap;
 
-public class OriginDestinationExecutor extends Executor<OriginDestinationProcessor, WordMap, SConfusionCSV> {
+public class OriginDestinationExecutor extends Executor<OriginDestinationProcessor, WordMap, UserConfusionCSV> {
 
 	public OriginDestinationExecutor() {
-		super("origdest", 15, OriginDestinationProcessor.class, WordMap.class, SConfusionCSV.class);
+		super("origdest", 15, OriginDestinationProcessor.class, WordMap.class, UserConfusionCSV.class);
 	}
 	public static void main(String[] args) {
 		OriginDestinationExecutor ode = new OriginDestinationExecutor();
