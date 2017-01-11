@@ -45,12 +45,12 @@ public class SubredditListCombine extends Combinable {
 			boolean added = false;
 			for (int i = 0; i < ordered.size(); i++) {
 				if (compare(key, ordered.get(i)) < 0) {
-					ordered.add(i, entryString(key));
+					ordered.add(i, key);
 					break;
 				}
 			}
 			if (!added) {
-				ordered.add(entryString(key));
+				ordered.add(key);
 			}
 		}
 		return ordered;
@@ -66,7 +66,7 @@ public class SubredditListCombine extends Combinable {
 		List<String> order = produceOrdering();
 		String toret = "";
 		for (String sub : order) {
-			toret += sub + ",";
+			toret += entryString(sub) + ",";
 		}
 		return toret.substring(0, toret.length()-1);
 	}
