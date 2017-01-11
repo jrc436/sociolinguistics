@@ -20,6 +20,13 @@ public class SubredditListCombine extends Combinable {
 		this();
 		addMin(c.getField("subreddit"), c.getTime());
 	}
+	public SubredditListCombine(String s) {
+		this();
+		String[] ordered = s.split(",");
+		for (String subinst : ordered) {
+			addEntry(subinst);
+		}
+	}
 	private void addMin(String sub, Instant time) {
 		if (!subredditMap.containsKey(sub)) {
 			subredditMap.put(sub, time);
@@ -38,15 +45,22 @@ public class SubredditListCombine extends Combinable {
 			boolean added = false;
 			for (int i = 0; i < ordered.size(); i++) {
 				if (compare(key, ordered.get(i)) < 0) {
-					ordered.add(i, key);
+					ordered.add(i, entryString(key));
 					break;
 				}
 			}
 			if (!added) {
-				ordered.add(key);
+				ordered.add(entryString(key));
 			}
 		}
 		return ordered;
+	}
+	private String entryString(String key) {
+		return key+"-"+subredditMap.get(key);
+	}
+	private void addEntry(String keyValue) {
+		String[] parts = keyValue.split("-");
+		subredditMap.put(parts[0], Instant.parse(parts[1]));
 	}
 	public String toString() {
 		List<String> order = produceOrdering();
