@@ -55,7 +55,6 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
-                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -130,6 +129,17 @@
         <java classname="subredditanalysis.keywords.SubredditOrderExecutor" failonerror="true" fork="yes">
             <jvmarg line="-Xmx10g"/>
             <arg line="/work/data/filtkeycomments-f/ /work/data/suborder/ reddit wordmap.SubredditListCombine END"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="OrganizeFromFilterMain">
+        <java classname="keywords.OrganizeFromFilterMain" failonerror="true" fork="yes">
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="SubsetExecutor">
+        <java classname="subsubreddit.SubsetExecutor" failonerror="true" fork="yes">
+            <arg line="/work/data/useralign/ /work/data/subsubs/"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
