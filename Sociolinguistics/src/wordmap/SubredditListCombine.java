@@ -20,9 +20,11 @@ public class SubredditListCombine extends Combinable {
 		this();
 		addMin(c.getField("subreddit"), c.getTime());
 	}
+	private static final String listdelim = ",,,";
+	private static final String entryDelim = "-,-";
 	public SubredditListCombine(String s) {
 		this();
-		String[] ordered = s.split(",");
+		String[] ordered = s.split(listdelim);
 		for (String subinst : ordered) {
 			addEntry(subinst);
 		}
@@ -56,17 +58,17 @@ public class SubredditListCombine extends Combinable {
 		return ordered;
 	}
 	private String entryString(String key) {
-		return key+"-"+subredditMap.get(key);
+		return key+entryDelim+subredditMap.get(key);
 	}
 	private void addEntry(String keyValue) {
-		String[] parts = keyValue.split("-");
+		String[] parts = keyValue.split(entryDelim);
 		subredditMap.put(parts[0], Instant.parse(parts[1]));
 	}
 	public String toString() {
 		List<String> order = produceOrdering();
 		String toret = "";
 		for (String sub : order) {
-			toret += entryString(sub) + ",";
+			toret += entryString(sub) + listdelim;
 		}
 		return toret.substring(0, toret.length()-1);
 	}
