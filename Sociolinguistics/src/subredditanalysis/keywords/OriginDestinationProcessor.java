@@ -55,9 +55,8 @@ public class OriginDestinationProcessor extends FileProcessor<WordMap, UserConfu
 			List<String> subreddits = slc.produceOrdering();
 			String origin = subreddits.remove(0);
 			for (String dest : subreddits) {
-				if (threadAggregate.containsKey(origin, dest)) {
-					threadAggregate.put(origin, dest, threadAggregate.get(origin, dest)+1);
-				}
+				int startVal = threadAggregate.containsKey(origin, dest) ? threadAggregate.get(origin, dest) : 0;
+				threadAggregate.put(origin, dest, startVal+1);
 			}
 		}
 	}
