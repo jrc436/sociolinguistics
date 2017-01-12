@@ -70,7 +70,7 @@ public class SubredditListCombine extends Combinable {
 		for (String sub : order) {
 			toret += entryString(sub) + listdelim;
 		}
-		return toret.substring(0, toret.length()-1);
+		return toret.substring(0, toret.length()-listdelim.length());
 	}
 	//return -1 if arg0 had occurred before, 0 if at the same time, 1 if after 
 	private int compare(String arg0, String arg1) {
