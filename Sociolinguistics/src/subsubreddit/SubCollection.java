@@ -3,6 +3,7 @@ package subsubreddit;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import util.data.maps.DataCollection;
@@ -19,6 +20,9 @@ public class SubCollection extends DataCollection<String> {
 	public SubCollection(SubCollection other) {
 		super(other);
 		totalUsersMap.putAll(other.totalUsersMap);
+	}
+	public SubCollection(List<String> lines) {
+		super(lines);
 	}
 	@Override
 	public DataType deepCopy() {

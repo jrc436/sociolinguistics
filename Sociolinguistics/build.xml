@@ -5,56 +5,60 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="Sociolinguistics">
     <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../../opt/eclipse/"/>
-    <property name="Executors.location" value="../../executors"/>
+    <property name="src.link" value="../src"/>
+    <property name="JRE_LIB" value="../../../../../Program Files/Java/jre1.8.0_121/lib/rt.jar"/>
+    <property name="Executors.location" value="../../../executors/Executors"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
+    <path id="C:cygwin64/home/drdea/executors/bin.libraryclasspath"/>
     <path id="Executors.classpath">
         <pathelement location="${Executors.location}/bin"/>
-        <pathelement location="${Executors.location}/lib/ejml.jar"/>
-        <pathelement location="${Executors.location}/lib/ejml.src.zip"/>
-        <pathelement location="${Executors.location}/lib/javax.json.jar"/>
-        <pathelement location="${Executors.location}/lib/javax.json.src.jar"/>
-        <pathelement location="${Executors.location}/lib/joda-time.jar"/>
-        <pathelement location="${Executors.location}/lib/joda-time.src.jar"/>
-        <pathelement location="${Executors.location}/lib/jollyday.jar"/>
-        <pathelement location="${Executors.location}/lib/jollyday.src.jar"/>
-        <pathelement location="${Executors.location}/lib/protobuf.jar"/>
-        <pathelement location="${Executors.location}/lib/slf4j-api.jar"/>
-        <pathelement location="${Executors.location}/lib/slf4j-simple.jar"/>
-        <pathelement location="${Executors.location}/lib/stanford.corenlp.jar"/>
-        <pathelement location="${Executors.location}/lib/stanford.corenlp.javadoc.jar"/>
-        <pathelement location="${Executors.location}/lib/stanford.corenlp.models.jar"/>
-        <pathelement location="${Executors.location}/lib/stanford.corenlp.src.jar"/>
-        <pathelement location="${Executors.location}/lib/xom.jar"/>
-        <pathelement location="${Executors.location}/lib/xom.src.jar"/>
+        <pathelement location="${JRE_LIB}"/>
+        <path refid="C:cygwin64/home/drdea/executors/bin.libraryclasspath"/>
+        <pathelement location="${Executors.location}/../lib/ejml.jar"/>
+        <pathelement location="${Executors.location}/../lib/ejml.src.zip"/>
+        <pathelement location="${Executors.location}/../lib/javax.json.jar"/>
+        <pathelement location="${Executors.location}/../lib/javax.json.src.jar"/>
+        <pathelement location="${Executors.location}/../lib/joda-time.jar"/>
+        <pathelement location="${Executors.location}/../lib/joda-time.src.jar"/>
+        <pathelement location="${Executors.location}/../lib/jollyday.jar"/>
+        <pathelement location="${Executors.location}/../lib/jollyday.src.jar"/>
+        <pathelement location="${Executors.location}/../lib/protobuf.jar"/>
+        <pathelement location="${Executors.location}/../lib/slf4j-api.jar"/>
+        <pathelement location="${Executors.location}/../lib/slf4j-simple.jar"/>
+        <pathelement location="${Executors.location}/../lib/stanford.corenlp.jar"/>
+        <pathelement location="${Executors.location}/../lib/stanford.corenlp.javadoc.jar"/>
+        <pathelement location="${Executors.location}/../lib/stanford.corenlp.models.jar"/>
+        <pathelement location="${Executors.location}/../lib/stanford.corenlp.src.jar"/>
+        <pathelement location="${Executors.location}/../lib/xom.jar"/>
+        <pathelement location="${Executors.location}/../lib/xom.src.jar"/>
     </path>
     <path id="Sociolinguistics.classpath">
         <pathelement location="bin"/>
-        <pathelement location="lib/ejml.jar"/>
-        <pathelement location="lib/ejml.src.zip"/>
-        <pathelement location="lib/javax.json.jar"/>
-        <pathelement location="lib/javax.json.src.jar"/>
-        <pathelement location="lib/joda-time.jar"/>
-        <pathelement location="lib/joda-time.src.jar"/>
-        <pathelement location="lib/jollyday.jar"/>
-        <pathelement location="lib/jollyday.src.jar"/>
-        <pathelement location="lib/protobuf.jar"/>
-        <pathelement location="lib/slf4j-api.jar"/>
-        <pathelement location="lib/slf4j-simple.jar"/>
-        <pathelement location="lib/stanford.corenlp.jar"/>
-        <pathelement location="lib/stanford.corenlp.javadoc.jar"/>
-        <pathelement location="lib/stanford.corenlp.models.jar"/>
-        <pathelement location="lib/stanford.corenlp.src.jar"/>
-        <pathelement location="lib/xom.jar"/>
-        <pathelement location="lib/xom.src.jar"/>
+        <pathelement location="../../../executors/lib/ejml.jar"/>
+        <pathelement location="../../../executors/lib/ejml.src.zip"/>
+        <pathelement location="../../../executors/lib/javax.json.jar"/>
+        <pathelement location="../../../executors/lib/javax.json.src.jar"/>
+        <pathelement location="../../../executors/lib/joda-time.jar"/>
+        <pathelement location="../../../executors/lib/joda-time.src.jar"/>
+        <pathelement location="../../../executors/lib/jollyday.jar"/>
+        <pathelement location="../../../executors/lib/jollyday.src.jar"/>
+        <pathelement location="../../../executors/lib/protobuf.jar"/>
+        <pathelement location="../../../executors/lib/slf4j-api.jar"/>
+        <pathelement location="../../../executors/lib/slf4j-simple.jar"/>
+        <pathelement location="../../../executors/lib/stanford.corenlp.jar"/>
+        <pathelement location="../../../executors/lib/stanford.corenlp.javadoc.jar"/>
+        <pathelement location="../../../executors/lib/stanford.corenlp.models.jar"/>
+        <pathelement location="../../../executors/lib/stanford.corenlp.src.jar"/>
+        <pathelement location="../../../executors/lib/xom.jar"/>
+        <pathelement location="../../../executors/lib/xom.src.jar"/>
         <path refid="Executors.classpath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src">
+            <fileset dir="${src.link}">
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -76,7 +80,7 @@
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src"/>
+            <src path="${src.link}"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </javac>
     </target>
@@ -93,54 +97,5 @@
     <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
-    </target>
-    <target name="WordDataMain">
-        <java classname="worddata.WordDataMain" failonerror="true" fork="yes">
-            <arg line="/work/data/test/data/ /work/data/test/wordmap.txt wordmap.EarlyDateCombine wordmap.CountCombine"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="KeywordOrganizerMain">
-        <java classname="keywords.KeywordOrganizerMain" failonerror="true" fork="yes">
-            <jvmarg line="-Xmx12g"/>
-            <arg line="/work/data/test/data /work/data/test/organized-comments2/ hi END reddit"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="WordMapCreator">
-        <java classname="worddata.WordDataMain" failonerror="true" fork="yes">
-            <arg line="/work/data/test/data/ /work/data/test/wordmapd99/ reddit util.wordmap.EarlyDateCombine util.wordmap.CountCombine END"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="ReorderListProcessor">
-        <java classname="util.listdata.ReorderListProcessor" failonerror="true" fork="yes">
-            <arg line="&quot;/work/data/test/test-org/in&quot; &quot;/work/data/test/test-org/out-alt&quot; test"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="SubredditAlignmentProcessor">
-        <java classname="subredditanalysis.users.SubredditAlignmentExecutor" failonerror="true" fork="yes">
-            <arg line="/work/data/filteredusers-f/ /work/data/subalign/"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="SubredditOrderExecutor">
-        <java classname="subredditanalysis.keywords.SubredditOrderExecutor" failonerror="true" fork="yes">
-            <jvmarg line="-Xmx10g"/>
-            <arg line="/work/data/filtkeycomments-f/ /work/data/suborder/ reddit wordmap.SubredditListCombine END"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="OrganizeFromFilterMain">
-        <java classname="keywords.OrganizeFromFilterMain" failonerror="true" fork="yes">
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="SubsetExecutor">
-        <java classname="subsubreddit.SubsetExecutor" failonerror="true" fork="yes">
-            <arg line="/work/data/useralign/ /work/data/subsubs/"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
     </target>
 </project>
