@@ -11,7 +11,7 @@ import subsubreddit.SubCollection;
 import util.data.dsv.UserConfusionCSV;
 import util.sys.FileProcessor;
 
-public class ConfusionFilter extends FileProcessor<UserConfusionCSV, UserConfusionCSV> {
+public class ConfusionFilter extends FileProcessor<UserConfusionCSV, FiltConfusionCSV> {
 
 	private final Set<String> subreddits;
 	public ConfusionFilter() {
@@ -19,7 +19,7 @@ public class ConfusionFilter extends FileProcessor<UserConfusionCSV, UserConfusi
 		subreddits = null;
 	}
 	public ConfusionFilter(String input, String output, String[] args) {
-		super(input, output, new UserConfusionCSV(false));
+		super(input, output, new FiltConfusionCSV(false));
 		Set<String> subreddits = new HashSet<String>();
 		try {
 			SubCollection sc = new SubCollection(Files.readAllLines(Paths.get(args[0])));
@@ -60,7 +60,7 @@ public class ConfusionFilter extends FileProcessor<UserConfusionCSV, UserConfusi
 	}
 	
 	@Override
-	public void map(UserConfusionCSV newData, UserConfusionCSV threadAggregate) {
+	public void map(UserConfusionCSV newData, FiltConfusionCSV threadAggregate) {
 		for (String key : newData.getKeysetOne()) {
 			if (!subreddits.contains(key)) {
 				continue;
@@ -75,10 +75,12 @@ public class ConfusionFilter extends FileProcessor<UserConfusionCSV, UserConfusi
 	}
 
 	@Override
-	public void reduce(UserConfusionCSV threadAggregate) {
+	public void reduce(FiltConfusionCSV threadAggregate) {
+		threadAggregate.purgeEmptyRows();
+		//threadAggregate.purgeEmptyColumns(); not a good idea for how we do things in the future.
 		synchronized(processAggregate) {
 			processAggregate.absorb(threadAggregate);
-		}	
+		}
 	}
 
 }
