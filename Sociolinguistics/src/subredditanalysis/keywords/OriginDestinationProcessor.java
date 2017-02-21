@@ -59,12 +59,14 @@ public class OriginDestinationProcessor extends FileProcessor<WordMap, UserConfu
 				threadAggregate.put(origin, dest, startVal+1);
 			}
 		}
+		//threadAggregate.computeConfusion();
 	}
 
 	@Override
 	public void reduce(UserConfusionCSV threadAggregate) {
 		synchronized(processAggregate) {
 			processAggregate.absorb(threadAggregate);
+			//processAggregate.computeConfusion();
 		}
 	}
 

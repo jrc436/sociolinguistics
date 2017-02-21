@@ -4,12 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import subredditanalysis.filter.FiltConfusionCSV;
 import util.sys.FileProcessor;
+import wordmap.SubredditListCombine;
 import wordmap.WordMap;
 
 public class SubOriginDestProcessor2 extends FileProcessor<WordMap, FlatKeyMap> {
@@ -64,49 +63,46 @@ public class SubOriginDestProcessor2 extends FileProcessor<WordMap, FlatKeyMap> 
 		if (f == null) {
 			return null;
 		}
+		return WordMap.createFromFile(f);
 		//ddreturn FiltConfusionCSV.fromFile(f);
 	}
 
 	@Override
 	public void map(WordMap newData, FlatKeyMap threadAggregate) {
-		for (String key : newData.getKeysetOne()) {
+		for (String word : newData.keySet()) {
 			//we only care about first key set at all, because those are our originators.. (i think...)
 			//the keys to our subsubs are the subsubs, and the values are the supersubs, so the keys will be our new key1s
-			if (relations.containsKey(key)) {
-				Collection<String> supers = relations.get(key);
-				for (String supe : supers) {
-					int val = newData.containsKey(key, supe) ? newData.get(key, supe) : 0;
-					if (val != 0) {
-						threadAggregate.put(key, supe, val);
-					}
-				}
-				continue; //avoid an else statement indentation?
-			}
-			//now it's either a value or a nothing. it should be a value since we've hopefully filtered well enough that all rows are meaningful
-			//wow what a pain, nwo we need to get all the keys with this value? well ok fine, let's just bruteforce it and get it over with
+			boolean first = true;
 			Set<String> matchingKeys = new HashSet<String>();
-			for (String potentialMatch : relations.keySet()) {
-				if (relations.get(potentialMatch).contains(key)) {
-					matchingKeys.add(potentialMatch);
+			String origin = null;
+			for (String subreddit : ((SubredditListCombine)newData.getBy(word, SubredditListCombine.class)).produceOrdering()) {
+				if (first && !relations.containsKey(subreddit)) {
+					break;
+				}
+				else if (first) {
+					first = false;
+					origin = subreddit;
+					continue;
+				}
+				if (relations.get(origin).contains(subreddit)) {
+					matchingKeys.add(subreddit);
 				}
 			}
-			if (matchingKeys.isEmpty()) {
-				System.err.println("Check to make sure row with key: "+key+" is actually useful...");
-			}
-			for (String sub : matchingKeys) {
-				int val = newData.containsKey(key, sub) ? newData.get(key, sub) : 0; //only care about origins, so keep data same here.
-				if (val != 0) {
-					threadAggregate.put(sub, key, val); //flip the order, since in this case, key is the supe and we only care about origins
+			for (String destination : matchingKeys) {
+				if (threadAggregate.containsKey(origin, destination)) {
+					threadAggregate.put(origin,  destination, threadAggregate.get(origin, destination)+1);
+				}
+				else {
+					threadAggregate.put(origin, destination, 1);
 				}
 			}
-			
 		}
 	}
 
 	@Override
 	public void reduce(FlatKeyMap threadAggregate) {
 		synchronized(processAggregate) {
-			processAggregate.putAll(threadAggregate); ///ehh, should work. since we're adding by row, anyway
+			processAggregate.absorb(threadAggregate);
 		}
 	}
 }

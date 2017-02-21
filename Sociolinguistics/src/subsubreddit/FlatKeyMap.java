@@ -29,6 +29,16 @@ public class FlatKeyMap extends DoubleKeyMap<String, String, Integer> implements
 	public boolean hasNArgs() {
 		return false;
 	}
+	public void absorb(DoubleKeyMap<String, String, Integer> other) {
+		for (Pair<String, String> p : other.keySet()) {
+			if (this.containsKey(p)) {
+				this.put(p, this.get(p)+other.get(p));
+			}
+			else {
+				this.put(p, other.get(p));
+			}
+		}
+	}
 
 	@Override
 	public String getConstructionErrorMsg() {

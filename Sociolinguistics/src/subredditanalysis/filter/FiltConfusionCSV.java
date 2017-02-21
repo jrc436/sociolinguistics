@@ -65,9 +65,9 @@ public class FiltConfusionCSV extends UserConfusionCSV {
 				toPurge.add(s);
 			}
 		}
-		for (String purge : toPurge) {
-			this.purgeKey(purge);
-		}
+//		for (String purge : toPurge) {
+//			this.purgeKey(purge);
+//		}
 	}
 	public void purgeEmptyColumns() {
 		Set<String> toPurge = new HashSet<String>();
@@ -82,9 +82,9 @@ public class FiltConfusionCSV extends UserConfusionCSV {
 				toPurge.add(s);
 			}
 		}
-		for (String purge : toPurge) {
-			this.purgeKey2(purge);
-		}
+//		for (String purge : toPurge) {
+//			this.purgeKey2(purge);
+//		}
 	}
 //	@Override
 //	public String getHeaderLine() {
