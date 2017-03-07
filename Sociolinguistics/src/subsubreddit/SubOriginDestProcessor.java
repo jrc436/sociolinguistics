@@ -68,38 +68,69 @@ public class SubOriginDestProcessor extends FileProcessor<FiltConfusionCSV, Flat
 
 	@Override
 	public void map(FiltConfusionCSV newData, FlatKeyMap threadAggregate) {
-		for (String key : newData.getKeysetOne()) {
-			//we only care about first key set at all, because those are our originators.. (i think...)
-			//the keys to our subsubs are the subsubs, and the values are the supersubs, so the keys will be our new key1s
-			if (relations.containsKey(key)) {
-				Collection<String> supers = relations.get(key);
-				for (String supe : supers) {
-					int val = newData.containsKey(key, supe) ? newData.get(key, supe) : 0;
-					if (val != 0) {
-						threadAggregate.put(key, supe, val);
-					}
-				}
-				continue; //avoid an else statement indentation?
-			}
-			//now it's either a value or a nothing. it should be a value since we've hopefully filtered well enough that all rows are meaningful
-			//wow what a pain, nwo we need to get all the keys with this value? well ok fine, let's just bruteforce it and get it over with
-			Set<String> matchingKeys = new HashSet<String>();
-			for (String potentialMatch : relations.keySet()) {
-				if (relations.get(potentialMatch).contains(key)) {
-					matchingKeys.add(potentialMatch);
-				}
-			}
-			if (matchingKeys.isEmpty()) {
-				System.err.println("Check to make sure row with key: "+key+" is actually useful...");
-			}
-			for (String sub : matchingKeys) {
-				int val = newData.containsKey(key, sub) ? newData.get(key, sub) : 0; //only care about origins, so keep data same here.
-				if (val != 0) {
-					threadAggregate.put(sub, key, val); //flip the order, since in this case, key is the supe and we only care about origins
-				}
-			}
-			
-		}
+//		for (String key : newData.getKeysetOne()) {
+//			//we only care about first key set at all, because those are our originators.. (i think...)
+//			//the keys to our subsubs are the subsubs, and the values are the supersubs, so the keys will be our new key1s
+//			if (relations.containsKey(key)) {
+//				Collection<String> supers =//		for (String key : newData.getKeysetOne()) {
+//			//we only care about first key set at all, because those are our originators.. (i think...)
+//			//the keys to our subsubs are the subsubs, and the values are the supersubs, so the keys will be our new key1s
+//			if (relations.containsKey(key)) {
+//				Collection<String> supers = relations.get(key);
+//				for (String supe : supers) {
+//					int val = newData.containsKey(key, supe) ? newData.get(key, supe) : 0;
+//					if (val != 0) {
+//						threadAggregate.put(key, supe, val);
+//					}
+//				}
+//				continue; //avoid an else statement indentation?
+//			}
+//			//now it's either a value or a nothing. it should be a value since we've hopefully filtered well enough that all rows are meaningful
+//			//wow what a pain, nwo we need to get all the keys with this value? well ok fine, let's just bruteforce it and get it over with
+//			Set<String> matchingKeys = new HashSet<String>();
+//			for (String potentialMatch : relations.keySet()) {
+//				if (relations.get(potentialMatch).contains(key)) {
+//					matchingKeys.add(potentialMatch);
+//				}
+//			}
+//			if (matchingKeys.isEmpty()) {
+//				System.err.println("Check to make sure row with key: "+key+" is actually useful...");
+//			}
+//			for (String sub : matchingKeys) {
+//				int val = newData.containsKey(key, sub) ? newData.get(key, sub) : 0; //only care about origins, so keep data same here.
+//				if (val != 0) {
+//					threadAggregate.put(sub, key, val); //flip the order, since in this case, key is the supe and we only care about origins
+//				}
+//			}
+//			
+//		} relations.get(key);
+//				for (String supe : supers) {
+//					int val = newData.containsKey(key, supe) ? newData.get(key, supe) : 0;
+//					if (val != 0) {
+//						threadAggregate.put(key, supe, val);
+//					}
+//				}
+//				continue; //avoid an else statement indentation?
+//			}
+//			//now it's either a value or a nothing. it should be a value since we've hopefully filtered well enough that all rows are meaningful
+//			//wow what a pain, nwo we need to get all the keys with this value? well ok fine, let's just bruteforce it and get it over with
+//			Set<String> matchingKeys = new HashSet<String>();
+//			for (String potentialMatch : relations.keySet()) {
+//				if (relations.get(potentialMatch).contains(key)) {
+//					matchingKeys.add(potentialMatch);
+//				}
+//			}
+//			if (matchingKeys.isEmpty()) {
+//				System.err.println("Check to make sure row with key: "+key+" is actually useful...");
+//			}
+//			for (String sub : matchingKeys) {
+//				int val = newData.containsKey(key, sub) ? newData.get(key, sub) : 0; //only care about origins, so keep data same here.
+//				if (val != 0) {
+//					threadAggregate.put(sub, key, val); //flip the order, since in this case, key is the supe and we only care about origins
+//				}
+//			}
+//			
+//		}
 	}
 
 	@Override

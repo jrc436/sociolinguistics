@@ -11,11 +11,11 @@
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
-    <path id="C:cygwin64/home/drdea/executors/bin.libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/drdea/executors/bin for project [Executors]].libraryclasspath"/>
     <path id="Executors.classpath">
         <pathelement location="${Executors.location}/bin"/>
         <pathelement location="${JRE_LIB}"/>
-        <path refid="C:cygwin64/home/drdea/executors/bin.libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/drdea/executors/bin for project [Executors]].libraryclasspath"/>
         <pathelement location="${Executors.location}/../lib/ejml.jar"/>
         <pathelement location="${Executors.location}/../lib/ejml.src.zip"/>
         <pathelement location="${Executors.location}/../lib/javax.json.jar"/>
@@ -59,6 +59,7 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="${src.link}">
+                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -97,5 +98,36 @@
     <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
+    </target>
+    <target name="ConfusionFilterExecutor">
+        <java classname="subredditanalysis.filter.ConfusionFilterExecutor" failonerror="true" fork="yes">
+            <jvmarg line="-Xmx13g"/>
+            <arg line="C:\cygwin64\home\drdea\sociolinguistics\dat\submatrix C:\cygwin64\home\drdea\sociolinguistics\dat\filtmatrix5 C:\cygwin64\home\drdea\sociolinguistics\dat\subsubs-0.list"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="SODExecutor">
+        <java classname="subsubreddit.SODExecutor" failonerror="true" fork="yes">
+            <arg line="C:\cygwin64\home\drdea\sociolinguistics\dat\suborigindest-fix\ C:\cygwin64\home\drdea\sociolinguistics\dat\totaldest-fix\ C:\cygwin64\home\drdea\sociolinguistics\dat\subsubs-0.list"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="WordCSVExec">
+        <java classname="worddata.WordCSVExec" failonerror="true" fork="yes">
+            <arg line="-n 10 C:\cygwin64\home\drdea\sociolinguistics\dat\suborderinst C:\cygwin64\home\drdea\sociolinguistics\dat\wordcsv-fix\ C:\cygwin64\home\drdea\sociolinguistics\dat\subsubs-0.list subredditOriginListCombine.class END subreddit origin firstUseAbsolute firstUseHere word subSupN adopterNumber END"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="CountExecutor">
+        <java classname="subredditanalysis.users.CountExecutor" failonerror="true" fork="yes">
+            <arg line="-n 1000 C:\cygwin64\home\drdea\sociolinguistics\dat\filtusers\ C:\cygwin64\home\drea\sociolinguistics\dat\countusers\"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="RelativizeExecutor">
+        <java classname="subsubreddit.RelativizeExecutor" failonerror="true" fork="yes">
+            <arg line="C:\cygwin64\home\drdea\sociolinguistics\dat\totalorigins-fix\ C:\cygwin64\home\drdea\sociolinguistics\dat\relorigins-fix\ C:\cygwin64\home\drdea\sociolinguistics\dat\countusers\countusers-0.txt"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
     </target>
 </project>

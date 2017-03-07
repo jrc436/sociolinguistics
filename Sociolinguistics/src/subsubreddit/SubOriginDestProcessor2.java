@@ -12,7 +12,7 @@ import wordmap.SubredditListCombine;
 import wordmap.WordMap;
 
 public class SubOriginDestProcessor2 extends FileProcessor<WordMap, FlatKeyMap> {
-	private final SubCollection relations;
+	private final SubsubMap relations;
 	public SubOriginDestProcessor2() {
 		super();
 		this.relations = null;
@@ -27,7 +27,7 @@ public class SubOriginDestProcessor2 extends FileProcessor<WordMap, FlatKeyMap> 
 			e.printStackTrace();
 			System.exit(1);
 		}
-		this.relations = sc;
+		this.relations = new SubsubMap(sc);
 	}
 	public SubOriginDestProcessor2(String input, String output, String[] args) {
 		super(input, output, new FlatKeyMap());
@@ -39,7 +39,7 @@ public class SubOriginDestProcessor2 extends FileProcessor<WordMap, FlatKeyMap> 
 			e.printStackTrace();
 			System.exit(1);
 		}
-		this.relations = sc;
+		this.relations = new SubsubMap(sc);
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class SubOriginDestProcessor2 extends FileProcessor<WordMap, FlatKeyMap> 
 			Set<String> matchingKeys = new HashSet<String>();
 			String origin = null;
 			for (String subreddit : ((SubredditListCombine)newData.getBy(word, SubredditListCombine.class)).produceOrdering()) {
-				if (first && !relations.containsKey(subreddit)) {
+				if (first && !relations.getKeysetOne().contains(subreddit) && !relations.getKeysetTwo().contains(subreddit)) {
 					break;
 				}
 				else if (first) {
@@ -84,17 +84,32 @@ public class SubOriginDestProcessor2 extends FileProcessor<WordMap, FlatKeyMap> 
 					origin = subreddit;
 					continue;
 				}
-				if (relations.get(origin).contains(subreddit)) {
-					matchingKeys.add(subreddit);
-				}
+				matchingKeys.add(subreddit);
 			}
 			for (String destination : matchingKeys) {
-				if (threadAggregate.containsKey(origin, destination)) {
-					threadAggregate.put(origin,  destination, threadAggregate.get(origin, destination)+1);
+				//we need to know if origin is sub or super!... keysetone contains subs, keysettwo contains supers... of course, it
+				//could contain both... but not for the same key.
+				StringState originss = null;
+				StringState destss = null;
+				if (relations.containsKey(origin, destination)) {
+					originss = new StringState(origin, true);
+					destss = new StringState(destination, false);
+				}
+				else if (relations.containsKey(destination, origin)) {
+					originss = new StringState(origin, false);
+					destss = new StringState(destination, true);
 				}
 				else {
-					threadAggregate.put(origin, destination, 1);
+					continue;
 				}
+				if (threadAggregate.containsKey(originss, destss)) {
+					threadAggregate.put(originss,  destss, threadAggregate.get(originss, destss)+1);
+				}
+				else {
+					threadAggregate.put(originss, destss, 1);
+				}
+				
+				//otherwise, there is no match with this subreddit pair...
 			}
 		}
 	}

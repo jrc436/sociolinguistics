@@ -29,6 +29,9 @@ public class SubredditListCombine extends Combinable {
 			addEntry(subinst);
 		}
 	}
+	public Instant getTime(String subreddit) {
+		return subredditMap.get(subreddit);
+	}
 	private void addMin(String sub, Instant time) {
 		if (!subredditMap.containsKey(sub)) {
 			subredditMap.put(sub, time);
