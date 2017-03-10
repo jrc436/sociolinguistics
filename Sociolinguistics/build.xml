@@ -59,7 +59,6 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="${src.link}">
-                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -99,10 +98,28 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+    <target name="CommentCountExecutor">
+        <java classname="subredditanalysis.comments.CommentCountExecutor" failonerror="true" fork="yes">
+            <arg line="&quot;/hi&quot; &quot;/hihi&quot;"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
     <target name="ConfusionFilterExecutor">
         <java classname="subredditanalysis.filter.ConfusionFilterExecutor" failonerror="true" fork="yes">
             <jvmarg line="-Xmx13g"/>
             <arg line="C:\cygwin64\home\drdea\sociolinguistics\dat\submatrix C:\cygwin64\home\drdea\sociolinguistics\dat\filtmatrix5 C:\cygwin64\home\drdea\sociolinguistics\dat\subsubs-0.list"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="CountExecutor">
+        <java classname="subredditanalysis.users.CountExecutor" failonerror="true" fork="yes">
+            <arg line="-n 1000 C:\cygwin64\home\drdea\sociolinguistics\dat\filtusers\ C:\cygwin64\home\drea\sociolinguistics\dat\countusers\"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="RelativizeExecutor">
+        <java classname="subsubreddit.RelativizeExecutor" failonerror="true" fork="yes">
+            <arg line="C:\cygwin64\home\drdea\sociolinguistics\dat\totaldest\ C:\cygwin64\home\drdea\sociolinguistics\dat\relcomdest\ C:\cygwin64\home\drdea\sociolinguistics\dat\commentcounts-0.txt"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
@@ -115,18 +132,6 @@
     <target name="WordCSVExec">
         <java classname="worddata.WordCSVExec" failonerror="true" fork="yes">
             <arg line="-n 10 C:\cygwin64\home\drdea\sociolinguistics\dat\suborderinst C:\cygwin64\home\drdea\sociolinguistics\dat\wordcsv-fix\ C:\cygwin64\home\drdea\sociolinguistics\dat\subsubs-0.list subredditOriginListCombine.class END subreddit origin firstUseAbsolute firstUseHere word subSupN adopterNumber END"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="CountExecutor">
-        <java classname="subredditanalysis.users.CountExecutor" failonerror="true" fork="yes">
-            <arg line="-n 1000 C:\cygwin64\home\drdea\sociolinguistics\dat\filtusers\ C:\cygwin64\home\drea\sociolinguistics\dat\countusers\"/>
-            <classpath refid="Sociolinguistics.classpath"/>
-        </java>
-    </target>
-    <target name="RelativizeExecutor">
-        <java classname="subsubreddit.RelativizeExecutor" failonerror="true" fork="yes">
-            <arg line="C:\cygwin64\home\drdea\sociolinguistics\dat\totalorigins-fix\ C:\cygwin64\home\drdea\sociolinguistics\dat\relorigins-fix\ C:\cygwin64\home\drdea\sociolinguistics\dat\countusers\countusers-0.txt"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
