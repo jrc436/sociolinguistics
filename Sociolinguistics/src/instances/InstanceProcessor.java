@@ -10,7 +10,10 @@ import util.sys.FileProcessor;
 public class InstanceProcessor extends FileProcessor<KeywordList, WordInstanceInfo> {
 
 	private final CommentFormat cf;
-	
+	public InstanceProcessor() {
+		super();
+		this.cf = null;
+	}
 	public InstanceProcessor(String input, String output, String[] cf) {
 		super(input, output, new WordInstanceInfo());
 		this.cf = CommentFormat.fromString(cf[0]);
