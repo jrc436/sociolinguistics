@@ -47,7 +47,7 @@ public class InstanceProcessor extends FileProcessor<KeywordList, WordInstanceIn
 	public void map(KeywordList newData, WordInstanceInfo threadAggregate) {
 		for (String word : newData.keySet()) {
 			for (Comment c : newData.get(word)) {
-				threadAggregate.add(word, new InstanceInfo(c.getTime(), c.getAuthor(), c.getField("subreddit")));
+				threadAggregate.addComment(word, c);
 			}
 		}
 	}

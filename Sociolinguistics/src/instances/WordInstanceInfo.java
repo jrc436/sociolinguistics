@@ -1,9 +1,11 @@
 package instances;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import util.data.corpus.Comment;
 import util.data.maps.DataCollection;
 import util.sys.DataType;
 
@@ -44,5 +46,15 @@ public class WordInstanceInfo extends DataCollection<InstanceInfo> {
 			}
 		}
 	}
+	@Override
+	public InstanceInfo getValue(Comment c) {
+		return new InstanceInfo(c.getTime(), c.getField("subreddit"), c.getAuthor());
+	}
+	@Override
+	public InstanceInfo parseValue(String s) {
+		String[] parts = s.split(",");
+		return new InstanceInfo(Instant.parse(parts[0]), parts[1], parts[2]);
+	}
+	
 
 }
