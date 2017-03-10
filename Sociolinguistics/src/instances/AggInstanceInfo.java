@@ -56,25 +56,27 @@ public class AggInstanceInfo implements DataType {
 	
 	@Override
 	public String getHeaderLine() {
-		return "origination_time,origination_subreddit,origination_user,adoption_time,adoption_subreddit,adoption_user,adoption_number,usage_time,usage_subreddit,usage_user,usage_number";
+		return "word,origination_time,origination_subreddit,origination_user,adoption_time,adoption_subreddit,adoption_user,adoption_number,usage_time,usage_subreddit,usage_user,usage_number";
 	}
 	
 	//assume sorted
 	public List<String> oneWordToString(String word) {
 		List<InstanceInfo> allInstances = allEvents.get(word);
 		List<String> retval = new ArrayList<String>();
+		String wordPart = word+",";
 		String originationPart = wordOriginationEvents.get(word).toString()+",";
 		String subredditPart = "";
 		Set<String> touchedSubs = new HashSet<String>();
 		int adopterNumber = -1;
 		int eventNumber = 0;
 		for (InstanceInfo ii : allInstances) {
+			//allInstances is sorted, so the subreddits will come in order!?
 			if (!touchedSubs.contains(ii.getSubreddit())) {
 				adopterNumber++;
 				touchedSubs.add(ii.getSubreddit());
 			}
 			subredditPart = subAdoptionEvents.get(word, ii.getSubreddit()).toString() + "," + adopterNumber + ",";
-			retval.add(originationPart+subredditPart+ii.toString()+","+eventNumber);
+			retval.add(wordPart+originationPart+subredditPart+ii.toString()+","+eventNumber);
 			eventNumber++;
 		}
 		return retval;
