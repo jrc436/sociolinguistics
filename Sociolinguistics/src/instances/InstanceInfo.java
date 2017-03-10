@@ -2,7 +2,7 @@ package instances;
 
 import java.time.Instant;
 
-public class InstanceInfo  {
+public class InstanceInfo implements Comparable<InstanceInfo> {
 
 	private final Instant time;
 	private final String subreddit;
@@ -15,31 +15,12 @@ public class InstanceInfo  {
 	public String toString() {
 		return time.toString()+","+subreddit+","+user;
 	}
-//	@Override
-//	public int getNumFixedArgs() {
-//		return 0;
-//	}
-//
-//	@Override
-//	public boolean hasNArgs() {
-//		return false;
-//	}
-//
-//	@Override
-//	public String getConstructionErrorMsg() {
-//		return "needs no args";
-//	}
-//
-//	@Override
-//	public Iterator<String> getStringIter() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public DataType deepCopy() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	public String getSubreddit() {
+		return subreddit;
+	}
+	@Override
+	public int compareTo(InstanceInfo arg0) {
+		return this.time.compareTo(arg0.time);
+	}
 
 }

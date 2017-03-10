@@ -2,6 +2,7 @@ package instances;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import util.data.maps.DataCollection;
 import util.sys.DataType;
@@ -19,6 +20,10 @@ public class WordInstanceInfo extends DataCollection<InstanceInfo> {
 	public WordInstanceInfo() {
 		super();
 	}
+	public WordInstanceInfo(List<String> fileLines) {
+		super(fileLines);
+	}
+	
 	@Override
 	public DataType deepCopy() {
 		return new WordInstanceInfo(this);
