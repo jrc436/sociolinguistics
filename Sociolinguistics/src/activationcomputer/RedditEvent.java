@@ -64,7 +64,7 @@ public class RedditEvent {
 		InstanceInfo[] events = new InstanceInfo[3];
 		int start = 1;
 		int adopt = -1;
-		for (int i = start; i < events.length; i+=3) {
+		for (int i = start; i < start+(events.length*3); i+=3) {
 			if (i == 7) { //getting fukin hacky
 				adopt = Integer.parseInt(parts[7]);
 				i++; //then 8,9,10
