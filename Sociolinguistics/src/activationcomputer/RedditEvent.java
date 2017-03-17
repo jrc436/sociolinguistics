@@ -57,13 +57,15 @@ public class RedditEvent {
 		if (parts.length != 12 && parts.length != 13) {
 			throw new IllegalArgumentException("String: "+s+" doesn't encode a revent, has: "+parts.length+" parts");
 		}
-		InstanceInfo event1 = InstanceInfo.fromString(parts[0] + "," + parts[1] + "," + parts[2]);
-		InstanceInfo event2 = InstanceInfo.fromString(parts[3] + "," + parts[4] + "," + parts[5]);
-		InstanceInfo event3 = InstanceInfo.fromString(parts[6] + "," + parts[7] + "," + parts[8]);
-		String word = parts[9];
+		String word = parts[0];
+		InstanceInfo[] events = new InstanceInfo[3];
+		int start = 1;
+		for (int i = start; i < start+(events.length*3); i+=3) {
+			events[i] = InstanceInfo.fromString(parts[i] + "," + parts[i+1] + "," + parts[i+2]);
+		}
 		int use = Integer.parseInt(parts[10]);
 		int adopt = Integer.parseInt(parts[11]);
 		long delay = parts.length == 13 ? Long.parseLong(parts[12]) : 0;
-		return new RedditEvent(word, event1, event2, event3, use, adopt, delay);
+		return new RedditEvent(word, events[0], events[1], events[2], use, adopt, delay);
 	}
 }
