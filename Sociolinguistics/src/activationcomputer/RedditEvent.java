@@ -60,7 +60,7 @@ public class RedditEvent {
 		String word = parts[0];
 		InstanceInfo[] events = new InstanceInfo[3];
 		int start = 1;
-		for (int i = start; i < start+(events.length*3); i+=3) {
+		for (int i = start; i < events.length; i+=3) {
 			events[i] = InstanceInfo.fromString(parts[i] + "," + parts[i+1] + "," + parts[i+2]);
 		}
 		int use = Integer.parseInt(parts[10]);
