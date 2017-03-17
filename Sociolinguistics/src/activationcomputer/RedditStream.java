@@ -65,7 +65,7 @@ public class RedditStream extends GenericList<RedditEvent> {
 	}
 	public void absorb(RedditStream other) {
 		for (String key : other.events.keySet()) {
-			if (this.events.containsKey(key)) {
+			if (other.events.get(key).size() > 0 && this.events.containsKey(key) && this.events.get(key).size() > 0) {
 				throw new RuntimeException("Both streams claim to contain the zero of a word...");
 			}
 			else {
