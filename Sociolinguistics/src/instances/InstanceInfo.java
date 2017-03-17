@@ -22,5 +22,16 @@ public class InstanceInfo implements Comparable<InstanceInfo> {
 	public int compareTo(InstanceInfo arg0) {
 		return this.time.compareTo(arg0.time);
 	}
+	public long computeDifference(InstanceInfo other) {
+		return this.time.getEpochSecond() - other.time.getEpochSecond();
+	}
+	public static InstanceInfo fromString(String s) {
+		String[] parts = s.split(",");
+		if (parts.length != 3) {
+			throw new IllegalArgumentException("String: "+s+" does not encode an InstanceInfo");
+		}
+		Instant t = Instant.parse(parts[0]);
+		return new InstanceInfo(t, parts[1], parts[2]);
+	}
 
 }

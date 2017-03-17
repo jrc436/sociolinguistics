@@ -5,60 +5,86 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="Sociolinguistics">
     <property environment="env"/>
-    <property name="src.link" value="../src"/>
-    <property name="JRE_LIB" value="../../../../../Program Files/Java/jre1.8.0_121/lib/rt.jar"/>
-    <property name="Executors.location" value="../../../executors/Executors"/>
+    <property name="src.link" value="src"/>
+    <property name="Executors.location" value="../../executors/Executors"/>
+    <property name="ACTR.location" value="../../lex-actr/ACTR"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
-    <path id="Persisted container [C:/cygwin64/home/drdea/executors/bin for project [Executors]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/drdea/sociolinguistics/Sociolinguistics/bin for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/ejml.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/ejml.src.zip for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/javax.json.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/javax.json.src.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/joda-time.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/joda-time.src.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/jollyday.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/jollyday.src.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/protobuf.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/slf4j-api.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/slf4j-simple.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/stanford.corenlp.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/stanford.corenlp.javadoc.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/stanford.corenlp.models.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/stanford.corenlp.src.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/xom.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/lib/xom.src.jar for project [Sociolinguistics]].libraryclasspath"/>
+    <path id="Persisted container [C:/cygwin64/home/executors/Executors/bin for project [Sociolinguistics]].libraryclasspath"/>
     <path id="Executors.classpath">
         <pathelement location="${Executors.location}/bin"/>
-        <pathelement location="${JRE_LIB}"/>
-        <path refid="Persisted container [C:/cygwin64/home/drdea/executors/bin for project [Executors]].libraryclasspath"/>
-        <pathelement location="${Executors.location}/../lib/ejml.jar"/>
-        <pathelement location="${Executors.location}/../lib/ejml.src.zip"/>
-        <pathelement location="${Executors.location}/../lib/javax.json.jar"/>
-        <pathelement location="${Executors.location}/../lib/javax.json.src.jar"/>
-        <pathelement location="${Executors.location}/../lib/joda-time.jar"/>
-        <pathelement location="${Executors.location}/../lib/joda-time.src.jar"/>
-        <pathelement location="${Executors.location}/../lib/jollyday.jar"/>
-        <pathelement location="${Executors.location}/../lib/jollyday.src.jar"/>
-        <pathelement location="${Executors.location}/../lib/protobuf.jar"/>
-        <pathelement location="${Executors.location}/../lib/slf4j-api.jar"/>
-        <pathelement location="${Executors.location}/../lib/slf4j-simple.jar"/>
-        <pathelement location="${Executors.location}/../lib/stanford.corenlp.jar"/>
-        <pathelement location="${Executors.location}/../lib/stanford.corenlp.javadoc.jar"/>
-        <pathelement location="${Executors.location}/../lib/stanford.corenlp.models.jar"/>
-        <pathelement location="${Executors.location}/../lib/stanford.corenlp.src.jar"/>
-        <pathelement location="${Executors.location}/../lib/xom.jar"/>
-        <pathelement location="${Executors.location}/../lib/xom.src.jar"/>
+        <pathelement location="${Executors.location}/lib/ejml.jar"/>
+        <pathelement location="${Executors.location}/lib/ejml.src.zip"/>
+        <pathelement location="${Executors.location}/lib/javax.json.jar"/>
+        <pathelement location="${Executors.location}/lib/javax.json.src.jar"/>
+        <pathelement location="${Executors.location}/lib/joda-time.jar"/>
+        <pathelement location="${Executors.location}/lib/joda-time.src.jar"/>
+        <pathelement location="${Executors.location}/lib/jollyday.jar"/>
+        <pathelement location="${Executors.location}/lib/jollyday.src.jar"/>
+        <pathelement location="${Executors.location}/lib/protobuf.jar"/>
+        <pathelement location="${Executors.location}/lib/slf4j-api.jar"/>
+        <pathelement location="${Executors.location}/lib/slf4j-simple.jar"/>
+        <pathelement location="${Executors.location}/lib/stanford.corenlp.jar"/>
+        <pathelement location="${Executors.location}/lib/stanford.corenlp.javadoc.jar"/>
+        <pathelement location="${Executors.location}/lib/stanford.corenlp.models.jar"/>
+        <pathelement location="${Executors.location}/lib/stanford.corenlp.src.jar"/>
+        <pathelement location="${Executors.location}/lib/xom.jar"/>
+        <pathelement location="${Executors.location}/lib/xom.src.jar"/>
+    </path>
+    <path id="ACTR.classpath">
+        <pathelement location="${ACTR.location}/bin"/>
+        <path refid="Executors.classpath"/>
     </path>
     <path id="Sociolinguistics.classpath">
         <pathelement location="bin"/>
-        <pathelement location="../../../executors/lib/ejml.jar"/>
-        <pathelement location="../../../executors/lib/ejml.src.zip"/>
-        <pathelement location="../../../executors/lib/javax.json.jar"/>
-        <pathelement location="../../../executors/lib/javax.json.src.jar"/>
-        <pathelement location="../../../executors/lib/joda-time.jar"/>
-        <pathelement location="../../../executors/lib/joda-time.src.jar"/>
-        <pathelement location="../../../executors/lib/jollyday.jar"/>
-        <pathelement location="../../../executors/lib/jollyday.src.jar"/>
-        <pathelement location="../../../executors/lib/protobuf.jar"/>
-        <pathelement location="../../../executors/lib/slf4j-api.jar"/>
-        <pathelement location="../../../executors/lib/slf4j-simple.jar"/>
-        <pathelement location="../../../executors/lib/stanford.corenlp.jar"/>
-        <pathelement location="../../../executors/lib/stanford.corenlp.javadoc.jar"/>
-        <pathelement location="../../../executors/lib/stanford.corenlp.models.jar"/>
-        <pathelement location="../../../executors/lib/stanford.corenlp.src.jar"/>
-        <pathelement location="../../../executors/lib/xom.jar"/>
-        <pathelement location="../../../executors/lib/xom.src.jar"/>
+        <path refid="Persisted container [C:/cygwin64/home/drdea/sociolinguistics/Sociolinguistics/bin for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/ejml.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/ejml.src.zip for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/javax.json.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/javax.json.src.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/joda-time.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/joda-time.src.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/jollyday.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/jollyday.src.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/protobuf.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/slf4j-api.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/slf4j-simple.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/stanford.corenlp.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/stanford.corenlp.javadoc.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/stanford.corenlp.models.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/stanford.corenlp.src.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/xom.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/lib/xom.src.jar for project [Sociolinguistics]].libraryclasspath"/>
+        <path refid="Persisted container [C:/cygwin64/home/executors/Executors/bin for project [Sociolinguistics]].libraryclasspath"/>
+        <pathelement location="../../../../../Program Files/Java/jre1.8.0_121/lib/rt.jar"/>
+        <pathelement location="lib/javax.json.jar"/>
+        <pathelement location="lib/javax.json.src.jar"/>
+        <path refid="ACTR.classpath"/>
         <path refid="Executors.classpath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
-            <fileset dir="${src.link}">
+            <fileset dir="src">
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -68,6 +94,7 @@
     </target>
     <target depends="clean" name="cleanall">
         <ant antfile="build.xml" dir="${Executors.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${ACTR.location}" inheritAll="false" target="clean"/>
     </target>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects">
@@ -76,11 +103,16 @@
                 <propertyref name="build.compiler"/>
             </propertyset>
         </ant>
+        <ant antfile="build.xml" dir="${ACTR.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
     </target>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-            <src path="${src.link}"/>
+            <src path="src"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </javac>
     </target>
@@ -97,6 +129,12 @@
     <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
+    </target>
+    <target name="AggInstanceExecutor">
+        <java classname="instances.AggInstanceExecutor" failonerror="true" fork="yes">
+            <arg line="C:\cygwin64\home\drdea\sociolinguistics\dat\instances-f\ C:\cygwin64\home\drdea\sociolinguistics\dat\agginstances\"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
     </target>
     <target name="CommentCountExecutor">
         <java classname="subredditanalysis.comments.CommentCountExecutor" failonerror="true" fork="yes">
