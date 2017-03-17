@@ -50,7 +50,7 @@ public class RedditEvent {
 	}
 	public String toString() {
 		String longString = delay == -99 ? "" : ","+delay;
-		return word + "," + originationEvent + "," + subredditAdoptionEvent+","+thisEvent+","+usageNumber+","+adopterNumber+longString;
+		return word + "," + originationEvent + "," + subredditAdoptionEvent+","+adopterNumber+","+thisEvent+","+usageNumber+longString;
 	}
 	public static RedditEvent fromString(String s) {
 		String[] parts = s.split(",");
@@ -60,11 +60,15 @@ public class RedditEvent {
 		String word = parts[0];
 		InstanceInfo[] events = new InstanceInfo[3];
 		int start = 1;
+		int adopt = -1;
 		for (int i = start; i < events.length; i+=3) {
+			if (i == 7) { //getting fukin hacky
+				adopt = Integer.parseInt(parts[7]);
+				i++; //then 8,9,10
+			}
 			events[i] = InstanceInfo.fromString(parts[i] + "," + parts[i+1] + "," + parts[i+2]);
 		}
-		int use = Integer.parseInt(parts[10]);
-		int adopt = Integer.parseInt(parts[11]);
+		int use = Integer.parseInt(parts[11]);
 		long delay = parts.length == 13 ? Long.parseLong(parts[12]) : 0;
 		return new RedditEvent(word, events[0], events[1], events[2], use, adopt, delay);
 	}
