@@ -21,7 +21,7 @@ public class ActivationProcessor extends LineProcessor<RedditStream, ActivationE
 	
 	@Override
 	public int getNumFixedArgs() {
-		return 0;
+		return 1;
 	}
 
 	@Override
