@@ -17,9 +17,6 @@ public class RedditEvent {
 		this.originationEvent = origination;
 		this.subredditAdoptionEvent = adoption;
 		this.thisEvent = ev;
-		if (ev == null) {
-			throw new RuntimeException("What the flying fuck though.");
-		}
 		this.word = word;
 		this.usageNumber = use;
 		this.adopterNumber = adopt;
@@ -62,15 +59,13 @@ public class RedditEvent {
 		}
 		String word = parts[0];
 		InstanceInfo[] events = new InstanceInfo[3];
-		int start = 1;
-		int adopt = -1;
-		for (int i = start; i < start+(events.length*3); i+=3) {
-			if (i == 7) { //getting fukin hacky
-				adopt = Integer.parseInt(parts[7]);
-				i++; //then 8,9,10
-			}
-			events[i] = InstanceInfo.fromString(parts[i] + "," + parts[i+1] + "," + parts[i+2]);
-		}
+		int adopt = Integer.parseInt(parts[7]);
+		int i = 1;
+		events[0] = InstanceInfo.fromString(parts[i] + "," + parts[i+1] + "," + parts[i+2]);
+		i = 4;
+		events[1] = InstanceInfo.fromString(parts[i] + "," + parts[i+1] + "," + parts[i+2]);
+		i = 8;
+		events[2] = InstanceInfo.fromString(parts[i] + "," + parts[i+1] + "," + parts[i+2]);
 		int use = Integer.parseInt(parts[11]);
 		long delay = parts.length == 13 ? Long.parseLong(parts[12]) : -99;
 		return new RedditEvent(word, events[0], events[1], events[2], use, adopt, delay);
