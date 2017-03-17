@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +12,6 @@ import util.collections.DoubleKeyMap;
 import util.collections.Pair;
 import util.generic.data.GenericList;
 import util.sys.DataType;
-import util.sys.FileWritable;
 
 public class RedditStream extends GenericList<RedditEvent> {
 	
@@ -55,6 +53,7 @@ public class RedditStream extends GenericList<RedditEvent> {
 				continue;
 			}
 			RedditEvent rev = RedditEvent.fromString(line);
+			retval.add(rev);
 			if (!retval.events.containsKey(rev.getWord())) {
 				retval.events.put(rev.getWord(), new ArrayList<RedditEvent>());
 			}
@@ -77,6 +76,9 @@ public class RedditStream extends GenericList<RedditEvent> {
 				throw new RuntimeException("Both streams claim to contain the same event of a word...");
 			}
 			this.delays.put(key, other.delays.get(key));
+		}
+		for (RedditEvent all : other) {
+			this.add(all);
 		}
 		mergeAll();
 	}
@@ -119,12 +121,7 @@ public class RedditStream extends GenericList<RedditEvent> {
 	}
 	@Override
 	public String getHeaderLine() {
-		return "word,origination_time,origination_subreddit,origination_user,adoption_time,adoption_subreddit,adoption_user,adoption_number,usage_time,usage_subreddit,usage_user,usage_number";
-	}
-
-	@Override
-	public Iterator<String> getStringIter() {
-		return FileWritable.iterBuilder(delays.values());
+		return "word,origination_time,origination_subreddit,origination_user,adoption_time,adoption_subreddit,adoption_user,adoption_number,usage_time,usage_subreddit,usage_user,usage_number,delay";
 	}
 
 }

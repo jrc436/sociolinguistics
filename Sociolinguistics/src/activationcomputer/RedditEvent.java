@@ -36,10 +36,10 @@ public class RedditEvent {
 		return usageNumber;
 	}
 	private long computeDelay(RedditEvent previous) {
-		return previous.thisEvent.computeDifference(this.thisEvent);
+		return this.thisEvent.computeDifference(previous.thisEvent);
 	}
 	public long timeSinceOrigination() {
-		return this.originationEvent.computeDifference(this.thisEvent);
+		return this.thisEvent.computeDifference(this.originationEvent);
 	}
 
 	public long getElapsedTime() {
