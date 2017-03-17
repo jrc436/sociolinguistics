@@ -50,12 +50,12 @@ public class RedditEvent {
 	}
 	public String toString() {
 		String longString = delay == -99 ? "" : ","+delay;
-		return originationEvent+","+subredditAdoptionEvent+","+thisEvent+","+word+","+usageNumber+","+adopterNumber+longString;
+		return word + "," + originationEvent + "," + subredditAdoptionEvent+","+thisEvent+","+usageNumber+","+adopterNumber+longString;
 	}
 	public static RedditEvent fromString(String s) {
 		String[] parts = s.split(",");
 		if (parts.length != 12 && parts.length != 13) {
-			throw new IllegalArgumentException("String doesn't encode a revent");
+			throw new IllegalArgumentException("String: "+s+" doesn't encode a revent, has: "+parts.length+" parts");
 		}
 		InstanceInfo event1 = InstanceInfo.fromString(parts[0] + "," + parts[1] + "," + parts[2]);
 		InstanceInfo event2 = InstanceInfo.fromString(parts[3] + "," + parts[4] + "," + parts[5]);

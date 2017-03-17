@@ -52,9 +52,9 @@ public class ActivationProcessor extends LineProcessor<RedditStream, ActivationE
 		//time since origination = t_d
 		//totalP = presentationNumber-1
 		for (RedditEvent rev : newData) {
-			int totalP = rev.getAdopterNumber() - 1; 
-			double t_k = rev.getElapsedTime();
-			double t_n = rev.timeSinceOrigination();
+			int totalP = rev.getAdopterNumber(); 
+			double t_k = rev.getElapsedTime() + 0.05;
+			double t_n = rev.timeSinceOrigination() + 0.1;
 			double activation = DeclarativeMemory.getNaiveBaseActivation(negD, t_n, t_k, totalP);
 			ActivationEvent actev = new ActivationEvent(activation, rev);
 			threadAggregate.add(actev);

@@ -48,7 +48,12 @@ public class RedditStream extends GenericList<RedditEvent> {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		boolean first = true;
 		for (String line : lines) {
+			if (first) {
+				first = false;
+				continue;
+			}
 			RedditEvent rev = RedditEvent.fromString(line);
 			if (!retval.events.containsKey(rev.getWord())) {
 				retval.events.put(rev.getWord(), new ArrayList<RedditEvent>());
