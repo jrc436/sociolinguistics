@@ -26,7 +26,7 @@ public class RedditEvent {
 		this(other.word, other.originationEvent, other.subredditAdoptionEvent, other.thisEvent, other.usageNumber, other.adopterNumber, other.delay);
 	}
 	protected void setDelay(RedditEvent previous) {
-		this.delay = computeDelay(previous);
+		this.delay = previous == null ? 0 : computeDelay(previous);
 	}
 	
 	public String getWord() {
