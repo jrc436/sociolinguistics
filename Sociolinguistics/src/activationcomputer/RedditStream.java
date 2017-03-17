@@ -58,7 +58,7 @@ public class RedditStream extends GenericList<RedditEvent> {
 			if (!retval.events.containsKey(rev.getWord())) {
 				retval.events.put(rev.getWord(), new ArrayList<RedditEvent>());
 			}
-			retval.delays.put(rev.getWord(), rev.getAdopterNumber(), rev);
+			retval.delays.put(rev.getWord(), rev.getUsageNumber(), rev);
 		}
 		retval.mergeAll();
 		return retval;
@@ -66,10 +66,11 @@ public class RedditStream extends GenericList<RedditEvent> {
 	public void absorb(RedditStream other) {
 		for (String key : other.events.keySet()) {
 			if (this.events.containsKey(key)) {
-				//this is a double zero problem....
 				throw new RuntimeException("Both streams claim to contain the zero of a word...");
 			}
-			this.events.put(key, other.events.get(key));
+			else {
+				this.events.put(key, other.events.get(key));
+			}
 		}
 		for (Pair<String, Integer> key : other.delays.keySet()) {
 			if (this.delays.containsKey(key)) {

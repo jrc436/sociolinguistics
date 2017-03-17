@@ -32,8 +32,8 @@ public class RedditEvent {
 	public String getWord() {
 		return word;
 	}
-	public int getAdopterNumber() {
-		return adopterNumber;
+	public int getUsageNumber() {
+		return usageNumber;
 	}
 	private long computeDelay(RedditEvent previous) {
 		return previous.thisEvent.computeDifference(this.thisEvent);
