@@ -16,11 +16,11 @@ public class AggInstanceInfo implements DataType {
 	
 	private final Map<String, InstanceInfo> wordOriginationEvents;
 	private final DoubleKeyMap<String, String, InstanceInfo> subAdoptionEvents;
-	private final Map<String, List<InstanceInfo>> allEvents;
+	private final Map<String, Set<InstanceInfo>> allEvents;
 	public AggInstanceInfo() {
 		this.wordOriginationEvents = new HashMap<String, InstanceInfo>();
 		this.subAdoptionEvents = new DoubleKeyMap<String, String, InstanceInfo>();
-		this.allEvents = new HashMap<String, List<InstanceInfo>>();
+		this.allEvents = new HashMap<String, Set<InstanceInfo>>();
 	}
 	public AggInstanceInfo(AggInstanceInfo other) {
 		this();
@@ -35,7 +35,7 @@ public class AggInstanceInfo implements DataType {
 			subAdoptionEvents.put(word, instance.getSubreddit(), instance);
 		}
 		if (!allEvents.containsKey(word)) {
-			allEvents.put(word, new ArrayList<InstanceInfo>());
+			allEvents.put(word, new HashSet<InstanceInfo>());
 		}
 		allEvents.get(word).add(instance);
 	}
@@ -44,15 +44,15 @@ public class AggInstanceInfo implements DataType {
 			for (InstanceInfo i : other.allEvents.get(word)) {
 				this.addEvent(word, i);
 			}
-			Collections.sort(allEvents.get(word));
+			//Collections.sort(allEvents.get(word));
 		}
 	}
-	//after running this, we know the useNumber, and the InstanceInfo already provide sthe userID and the useInstant
-	public void sortAll() {
-		for (String key : allEvents.keySet()) {
-			Collections.sort(allEvents.get(key));
-		}
-	}
+//	//after running this, we know the useNumber, and the InstanceInfo already provide sthe userID and the useInstant
+//	public void sortAll() {
+//		for (String key : allEvents.keySet()) {
+//			Collections.sort(allEvents.get(key));
+//		}
+//	}
 	
 	@Override
 	public String getHeaderLine() {
@@ -61,7 +61,8 @@ public class AggInstanceInfo implements DataType {
 	
 	//assume sorted
 	public List<String> oneWordToString(String word) {
-		List<InstanceInfo> allInstances = allEvents.get(word);
+		List<InstanceInfo> allInstances = new ArrayList<InstanceInfo>(allEvents.get(word));
+		Collections.sort(allInstances);;
 		List<String> retval = new ArrayList<String>();
 		String wordPart = word+",";
 		String originationPart = wordOriginationEvents.get(word).toString()+",";

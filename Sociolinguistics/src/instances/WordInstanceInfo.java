@@ -46,15 +46,15 @@ public class WordInstanceInfo extends DataCollection<InstanceInfo> {
 			}
 		}
 	}
+
 	@Override
 	public InstanceInfo getValue(Comment c) {
-		return new InstanceInfo(c.getTime(), c.getField("subreddit"), c.getAuthor());
+		return new InstanceInfo(c.getTime(), c.getAuthor(), c.getField("subreddit"));
 	}
 	@Override
 	public InstanceInfo parseValue(String s) {
 		String[] parts = s.split(",");
 		return new InstanceInfo(Instant.parse(parts[0]), parts[1], parts[2]);
 	}
-	
 
 }

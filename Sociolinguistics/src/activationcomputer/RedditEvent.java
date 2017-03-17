@@ -54,7 +54,7 @@ public class RedditEvent {
 	}
 	public static RedditEvent fromString(String s) {
 		String[] parts = s.split(",");
-		if (parts.length != 12 || parts.length != 13) {
+		if (parts.length != 12 && parts.length != 13) {
 			throw new IllegalArgumentException("String doesn't encode a revent");
 		}
 		InstanceInfo event1 = InstanceInfo.fromString(parts[0] + "," + parts[1] + "," + parts[2]);
