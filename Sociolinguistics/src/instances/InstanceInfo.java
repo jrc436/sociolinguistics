@@ -41,7 +41,8 @@ public class InstanceInfo implements Comparable<InstanceInfo> {
 			t = Instant.parse(parts[0]);
 		}
 		catch (DateTimeParseException de) {
-			LocalDate ld = LocalDate.parse(parts[0], DateTimeFormatter.ISO_LOCAL_DATE);
+			//long shot guess into moojan formatting?
+			LocalDate ld = LocalDate.parse(parts[0].substring(0, parts[0].length()-1), DateTimeFormatter.ISO_LOCAL_DATE);
 			t = Instant.from(ld);
 		}
 		return new InstanceInfo(t, parts[1], parts[2]);
