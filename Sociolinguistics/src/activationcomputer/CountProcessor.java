@@ -6,6 +6,13 @@ import util.sys.FileProcessor;
 
 public class CountProcessor extends FileProcessor<ActivationEventList, CountEventList> {
 
+	public CountProcessor() {
+		super();
+	}
+	public CountProcessor(String input, String output) {
+		super(input, output, new CountEventList());
+	}
+	
 	@Override
 	public int getNumFixedArgs() {
 		return 0;
