@@ -2,6 +2,7 @@ package instances;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -43,7 +44,7 @@ public class InstanceInfo implements Comparable<InstanceInfo> {
 		catch (DateTimeParseException de) {
 			//long shot guess into moojan formatting?
 			LocalDate ld = LocalDate.parse(parts[0].substring(1, parts[0].length()-1), DateTimeFormatter.ISO_LOCAL_DATE);
-			t = Instant.from(ld.atStartOfDay());
+			t = ld.atStartOfDay().toInstant(ZoneOffset.UTC);
 		}
 		return new InstanceInfo(t, parts[1], parts[2]);
 	}
