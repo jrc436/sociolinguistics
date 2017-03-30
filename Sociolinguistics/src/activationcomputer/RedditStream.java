@@ -60,6 +60,9 @@ public class RedditStream extends GenericList<RedditEvent> {
 			retval.delays.put(rev.getWord(), rev.getUsageNumber(), rev);
 		}
 		retval.mergeAll();
+		if (retval.isEmpty()) {
+			throw new IllegalArgumentException("File: "+f+" is empty?");
+		}
 		return retval;
 	}
 	public void absorb(RedditStream other) {

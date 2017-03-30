@@ -1,5 +1,7 @@
 package activationcomputer;
 
+import java.time.Instant;
+
 import instances.InstanceInfo;
 
 public class RedditEvent {
@@ -40,6 +42,9 @@ public class RedditEvent {
 	}
 	public long timeSinceOrigination() {
 		return this.thisEvent.computeDifference(this.originationEvent);
+	}
+	public Instant getUsageTime() {
+		return this.thisEvent.getTime();
 	}
 
 	public long getElapsedTime() {

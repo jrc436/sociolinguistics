@@ -3,9 +3,9 @@ package activationcomputer;
 import java.io.File;
 
 import actr.DeclarativeMemory;
-import util.sys.LineProcessor;
+import util.sys.FileProcessor;
 
-public class ActivationProcessor extends LineProcessor<RedditStream, ActivationEventList> {
+public class ActivationProcessor extends FileProcessor<RedditStream, ActivationEventList> {
 	
 	private final double negD;
 	
@@ -59,5 +59,12 @@ public class ActivationProcessor extends LineProcessor<RedditStream, ActivationE
 			ActivationEvent actev = new ActivationEvent(activation, rev);
 			threadAggregate.add(actev);
 		}
+	}
+	@Override
+	public void reduce(ActivationEventList threadAggregate) {
+		synchronized(processAggregate) {
+			processAggregate.addAll(threadAggregate);
+		}
+		
 	}
 }

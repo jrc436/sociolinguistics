@@ -18,6 +18,9 @@ public class InstanceInfo implements Comparable<InstanceInfo> {
 	public String getSubreddit() {
 		return subreddit;
 	}
+	public Instant getTime() {
+		return time;
+	}
 	@Override
 	public int compareTo(InstanceInfo arg0) {
 		return this.time.compareTo(arg0.time);
