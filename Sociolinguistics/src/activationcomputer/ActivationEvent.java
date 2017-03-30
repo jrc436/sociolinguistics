@@ -9,14 +9,16 @@ public class ActivationEvent extends RedditEvent {
 		this.extra = "";
 	}
 	public ActivationEvent(ActivationEvent e) {
-		this(e, "");
+		this(e, e.extra);
 	}
 	public ActivationEvent(ActivationEvent e, String extra) {
 		super(e);
 		this.activation = e.activation;
 		this.extra = extra;
 	}
-	
+	public double getActivation() {
+		return activation;
+	}
 	public String toString() {
 		return super.toString()+","+activation+extra;
 	}

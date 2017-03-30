@@ -85,6 +85,7 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
+                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -170,6 +171,12 @@
     <target name="WordCSVExec">
         <java classname="worddata.WordCSVExec" failonerror="true" fork="yes">
             <arg line="-n 10 C:\cygwin64\home\drdea\sociolinguistics\dat\suborderinst C:\cygwin64\home\drdea\sociolinguistics\dat\wordcsv-fix\ C:\cygwin64\home\drdea\sociolinguistics\dat\subsubs-0.list subredditOriginListCombine.class END subreddit origin firstUseAbsolute firstUseHere word subSupN adopterNumber END"/>
+            <classpath refid="Sociolinguistics.classpath"/>
+        </java>
+    </target>
+    <target name="CountExecutor (1)">
+        <java classname="activationcomputer.CountExecutor" failonerror="true" fork="yes">
+            <arg line="C:\cygwin64\home\drdea\sociolinguistics\dat\acteventadd\ C:\cygwin64\home\drdea\sociolinguistics\dat\allevents-counts\"/>
             <classpath refid="Sociolinguistics.classpath"/>
         </java>
     </target>
