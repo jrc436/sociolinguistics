@@ -1,6 +1,8 @@
 package instances;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class InstanceInfo implements Comparable<InstanceInfo> {
 
@@ -33,7 +35,14 @@ public class InstanceInfo implements Comparable<InstanceInfo> {
 		if (parts.length != 3) {
 			throw new IllegalArgumentException("String: "+s+" does not encode an InstanceInfo");
 		}
-		Instant t = Instant.parse(parts[0]);
+		Instant t = null;
+		try {
+			t = Instant.parse(parts[0]);
+		}
+		catch (DateTimeParseException de) {
+			LocalDate ld = LocalDate.parse(parts[0]);
+			t = Instant.from(ld);
+		}
 		return new InstanceInfo(t, parts[1], parts[2]);
 	}
 	@Override
