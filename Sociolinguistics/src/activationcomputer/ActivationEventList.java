@@ -49,7 +49,12 @@ public class ActivationEventList extends GenericList<ActivationEvent> {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		boolean first = true;
 		for (String line : lines) {
+			if (first) {
+				first = false;
+				continue;
+			}
 			ael.add(ActivationEvent.fromString(line));
 		}
 		return ael;
